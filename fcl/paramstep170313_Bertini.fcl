@@ -1,0 +1,4421 @@
+BEGIN_PROLOG
+
+# config for default Bertini universe
+
+BertiniDefault : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: true
+        ModelParameters: {
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniDefault
+
+# parameters for block of Bertini universes
+#     Bertini           RadiusScale            1          3.5       flat
+#     Bertini             XSecScale          0.1            3       flat
+#     Bertini            FermiScale          0.5            1       flat
+#     Bertini        TrailingRadius            0            5       flat
+
+BertiniRadiusScaleStepUniv0000 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0000
+
+BertiniRadiusScaleStepUniv0001 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.02525
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0001
+
+BertiniRadiusScaleStepUniv0002 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.05051
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0002
+
+BertiniRadiusScaleStepUniv0003 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.07576
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0003
+
+BertiniRadiusScaleStepUniv0004 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.10101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0004
+
+BertiniRadiusScaleStepUniv0005 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.12626
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0005
+
+BertiniRadiusScaleStepUniv0006 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.15152
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0006
+
+BertiniRadiusScaleStepUniv0007 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.17677
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0007
+
+BertiniRadiusScaleStepUniv0008 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.20202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0008
+
+BertiniRadiusScaleStepUniv0009 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.22727
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0009
+
+BertiniRadiusScaleStepUniv0010 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.25253
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0010
+
+BertiniRadiusScaleStepUniv0011 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.27778
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0011
+
+BertiniRadiusScaleStepUniv0012 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.30303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0012
+
+BertiniRadiusScaleStepUniv0013 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.32828
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0013
+
+BertiniRadiusScaleStepUniv0014 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.35354
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0014
+
+BertiniRadiusScaleStepUniv0015 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.37879
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0015
+
+BertiniRadiusScaleStepUniv0016 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.40404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0016
+
+BertiniRadiusScaleStepUniv0017 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.42929
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0017
+
+BertiniRadiusScaleStepUniv0018 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.45455
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0018
+
+BertiniRadiusScaleStepUniv0019 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.4798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0019
+
+BertiniRadiusScaleStepUniv0020 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.50505
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0020
+
+BertiniRadiusScaleStepUniv0021 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.5303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0021
+
+BertiniRadiusScaleStepUniv0022 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.55556
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0022
+
+BertiniRadiusScaleStepUniv0023 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.58081
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0023
+
+BertiniRadiusScaleStepUniv0024 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.60606
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0024
+
+BertiniRadiusScaleStepUniv0025 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.63131
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0025
+
+BertiniRadiusScaleStepUniv0026 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.65657
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0026
+
+BertiniRadiusScaleStepUniv0027 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.68182
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0027
+
+BertiniRadiusScaleStepUniv0028 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.70707
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0028
+
+BertiniRadiusScaleStepUniv0029 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.73232
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0029
+
+BertiniRadiusScaleStepUniv0030 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.75758
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0030
+
+BertiniRadiusScaleStepUniv0031 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.78283
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0031
+
+BertiniRadiusScaleStepUniv0032 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.80808
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0032
+
+BertiniRadiusScaleStepUniv0033 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.83333
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0033
+
+BertiniRadiusScaleStepUniv0034 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.85859
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0034
+
+BertiniRadiusScaleStepUniv0035 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.88384
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0035
+
+BertiniRadiusScaleStepUniv0036 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.90909
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0036
+
+BertiniRadiusScaleStepUniv0037 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.93434
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0037
+
+BertiniRadiusScaleStepUniv0038 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.9596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0038
+
+BertiniRadiusScaleStepUniv0039 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 1.98485
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0039
+
+BertiniRadiusScaleStepUniv0040 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.0101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0040
+
+BertiniRadiusScaleStepUniv0041 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.03535
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0041
+
+BertiniRadiusScaleStepUniv0042 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.06061
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0042
+
+BertiniRadiusScaleStepUniv0043 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.08586
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0043
+
+BertiniRadiusScaleStepUniv0044 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.11111
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0044
+
+BertiniRadiusScaleStepUniv0045 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.13636
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0045
+
+BertiniRadiusScaleStepUniv0046 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.16162
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0046
+
+BertiniRadiusScaleStepUniv0047 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.18687
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0047
+
+BertiniRadiusScaleStepUniv0048 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.21212
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0048
+
+BertiniRadiusScaleStepUniv0049 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.23737
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0049
+
+BertiniRadiusScaleStepUniv0050 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.26263
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0050
+
+BertiniRadiusScaleStepUniv0051 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.28788
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0051
+
+BertiniRadiusScaleStepUniv0052 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.31313
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0052
+
+BertiniRadiusScaleStepUniv0053 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.33838
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0053
+
+BertiniRadiusScaleStepUniv0054 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.36364
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0054
+
+BertiniRadiusScaleStepUniv0055 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.38889
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0055
+
+BertiniRadiusScaleStepUniv0056 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.41414
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0056
+
+BertiniRadiusScaleStepUniv0057 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.43939
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0057
+
+BertiniRadiusScaleStepUniv0058 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.46465
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0058
+
+BertiniRadiusScaleStepUniv0059 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.4899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0059
+
+BertiniRadiusScaleStepUniv0060 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.51515
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0060
+
+BertiniRadiusScaleStepUniv0061 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.5404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0061
+
+BertiniRadiusScaleStepUniv0062 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.56566
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0062
+
+BertiniRadiusScaleStepUniv0063 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.59091
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0063
+
+BertiniRadiusScaleStepUniv0064 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.61616
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0064
+
+BertiniRadiusScaleStepUniv0065 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.64141
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0065
+
+BertiniRadiusScaleStepUniv0066 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.66667
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0066
+
+BertiniRadiusScaleStepUniv0067 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.69192
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0067
+
+BertiniRadiusScaleStepUniv0068 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.71717
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0068
+
+BertiniRadiusScaleStepUniv0069 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.74242
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0069
+
+BertiniRadiusScaleStepUniv0070 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.76768
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0070
+
+BertiniRadiusScaleStepUniv0071 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.79293
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0071
+
+BertiniRadiusScaleStepUniv0072 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.81818
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0072
+
+BertiniRadiusScaleStepUniv0073 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.84343
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0073
+
+BertiniRadiusScaleStepUniv0074 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.86869
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0074
+
+BertiniRadiusScaleStepUniv0075 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.89394
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0075
+
+BertiniRadiusScaleStepUniv0076 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.91919
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0076
+
+BertiniRadiusScaleStepUniv0077 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.94444
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0077
+
+BertiniRadiusScaleStepUniv0078 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.9697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0078
+
+BertiniRadiusScaleStepUniv0079 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 2.99495
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0079
+
+BertiniRadiusScaleStepUniv0080 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.0202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0080
+
+BertiniRadiusScaleStepUniv0081 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.04545
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0081
+
+BertiniRadiusScaleStepUniv0082 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.07071
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0082
+
+BertiniRadiusScaleStepUniv0083 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.09596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0083
+
+BertiniRadiusScaleStepUniv0084 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.12121
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0084
+
+BertiniRadiusScaleStepUniv0085 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.14646
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0085
+
+BertiniRadiusScaleStepUniv0086 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.17172
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0086
+
+BertiniRadiusScaleStepUniv0087 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.19697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0087
+
+BertiniRadiusScaleStepUniv0088 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.22222
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0088
+
+BertiniRadiusScaleStepUniv0089 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.24747
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0089
+
+BertiniRadiusScaleStepUniv0090 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.27273
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0090
+
+BertiniRadiusScaleStepUniv0091 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.29798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0091
+
+BertiniRadiusScaleStepUniv0092 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.32323
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0092
+
+BertiniRadiusScaleStepUniv0093 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.34848
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0093
+
+BertiniRadiusScaleStepUniv0094 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.37374
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0094
+
+BertiniRadiusScaleStepUniv0095 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.39899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0095
+
+BertiniRadiusScaleStepUniv0096 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.42424
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0096
+
+BertiniRadiusScaleStepUniv0097 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.44949
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0097
+
+BertiniRadiusScaleStepUniv0098 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.47475
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0098
+
+BertiniRadiusScaleStepUniv0099 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            RadiusScale          : 3.5
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniRadiusScaleStepUniv0099
+
+BertiniXSecScaleStepUniv0000 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.1
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0000
+
+BertiniXSecScaleStepUniv0001 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.129293
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0001
+
+BertiniXSecScaleStepUniv0002 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.158586
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0002
+
+BertiniXSecScaleStepUniv0003 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.187879
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0003
+
+BertiniXSecScaleStepUniv0004 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.217172
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0004
+
+BertiniXSecScaleStepUniv0005 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.246465
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0005
+
+BertiniXSecScaleStepUniv0006 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.275758
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0006
+
+BertiniXSecScaleStepUniv0007 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.305051
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0007
+
+BertiniXSecScaleStepUniv0008 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.334343
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0008
+
+BertiniXSecScaleStepUniv0009 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.363636
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0009
+
+BertiniXSecScaleStepUniv0010 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.392929
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0010
+
+BertiniXSecScaleStepUniv0011 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.422222
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0011
+
+BertiniXSecScaleStepUniv0012 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.451515
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0012
+
+BertiniXSecScaleStepUniv0013 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.480808
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0013
+
+BertiniXSecScaleStepUniv0014 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.510101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0014
+
+BertiniXSecScaleStepUniv0015 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.539394
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0015
+
+BertiniXSecScaleStepUniv0016 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.568687
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0016
+
+BertiniXSecScaleStepUniv0017 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.59798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0017
+
+BertiniXSecScaleStepUniv0018 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.627273
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0018
+
+BertiniXSecScaleStepUniv0019 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.656566
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0019
+
+BertiniXSecScaleStepUniv0020 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.685859
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0020
+
+BertiniXSecScaleStepUniv0021 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.715152
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0021
+
+BertiniXSecScaleStepUniv0022 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.744444
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0022
+
+BertiniXSecScaleStepUniv0023 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.773737
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0023
+
+BertiniXSecScaleStepUniv0024 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.80303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0024
+
+BertiniXSecScaleStepUniv0025 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.832323
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0025
+
+BertiniXSecScaleStepUniv0026 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.861616
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0026
+
+BertiniXSecScaleStepUniv0027 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.890909
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0027
+
+BertiniXSecScaleStepUniv0028 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.920202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0028
+
+BertiniXSecScaleStepUniv0029 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.949495
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0029
+
+BertiniXSecScaleStepUniv0030 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 0.978788
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0030
+
+BertiniXSecScaleStepUniv0031 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.00808
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0031
+
+BertiniXSecScaleStepUniv0032 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.03737
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0032
+
+BertiniXSecScaleStepUniv0033 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.06667
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0033
+
+BertiniXSecScaleStepUniv0034 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.09596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0034
+
+BertiniXSecScaleStepUniv0035 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.12525
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0035
+
+BertiniXSecScaleStepUniv0036 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.15455
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0036
+
+BertiniXSecScaleStepUniv0037 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.18384
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0037
+
+BertiniXSecScaleStepUniv0038 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.21313
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0038
+
+BertiniXSecScaleStepUniv0039 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.24242
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0039
+
+BertiniXSecScaleStepUniv0040 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.27172
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0040
+
+BertiniXSecScaleStepUniv0041 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.30101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0041
+
+BertiniXSecScaleStepUniv0042 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.3303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0042
+
+BertiniXSecScaleStepUniv0043 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.3596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0043
+
+BertiniXSecScaleStepUniv0044 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.38889
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0044
+
+BertiniXSecScaleStepUniv0045 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.41818
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0045
+
+BertiniXSecScaleStepUniv0046 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.44747
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0046
+
+BertiniXSecScaleStepUniv0047 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.47677
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0047
+
+BertiniXSecScaleStepUniv0048 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.50606
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0048
+
+BertiniXSecScaleStepUniv0049 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.53535
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0049
+
+BertiniXSecScaleStepUniv0050 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.56465
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0050
+
+BertiniXSecScaleStepUniv0051 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.59394
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0051
+
+BertiniXSecScaleStepUniv0052 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.62323
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0052
+
+BertiniXSecScaleStepUniv0053 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.65253
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0053
+
+BertiniXSecScaleStepUniv0054 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.68182
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0054
+
+BertiniXSecScaleStepUniv0055 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.71111
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0055
+
+BertiniXSecScaleStepUniv0056 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.7404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0056
+
+BertiniXSecScaleStepUniv0057 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.7697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0057
+
+BertiniXSecScaleStepUniv0058 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.79899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0058
+
+BertiniXSecScaleStepUniv0059 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.82828
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0059
+
+BertiniXSecScaleStepUniv0060 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.85758
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0060
+
+BertiniXSecScaleStepUniv0061 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.88687
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0061
+
+BertiniXSecScaleStepUniv0062 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.91616
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0062
+
+BertiniXSecScaleStepUniv0063 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.94545
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0063
+
+BertiniXSecScaleStepUniv0064 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 1.97475
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0064
+
+BertiniXSecScaleStepUniv0065 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.00404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0065
+
+BertiniXSecScaleStepUniv0066 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.03333
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0066
+
+BertiniXSecScaleStepUniv0067 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.06263
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0067
+
+BertiniXSecScaleStepUniv0068 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.09192
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0068
+
+BertiniXSecScaleStepUniv0069 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.12121
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0069
+
+BertiniXSecScaleStepUniv0070 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.15051
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0070
+
+BertiniXSecScaleStepUniv0071 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.1798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0071
+
+BertiniXSecScaleStepUniv0072 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.20909
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0072
+
+BertiniXSecScaleStepUniv0073 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.23838
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0073
+
+BertiniXSecScaleStepUniv0074 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.26768
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0074
+
+BertiniXSecScaleStepUniv0075 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.29697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0075
+
+BertiniXSecScaleStepUniv0076 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.32626
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0076
+
+BertiniXSecScaleStepUniv0077 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.35556
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0077
+
+BertiniXSecScaleStepUniv0078 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.38485
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0078
+
+BertiniXSecScaleStepUniv0079 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.41414
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0079
+
+BertiniXSecScaleStepUniv0080 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.44343
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0080
+
+BertiniXSecScaleStepUniv0081 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.47273
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0081
+
+BertiniXSecScaleStepUniv0082 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.50202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0082
+
+BertiniXSecScaleStepUniv0083 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.53131
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0083
+
+BertiniXSecScaleStepUniv0084 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.56061
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0084
+
+BertiniXSecScaleStepUniv0085 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.5899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0085
+
+BertiniXSecScaleStepUniv0086 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.61919
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0086
+
+BertiniXSecScaleStepUniv0087 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.64848
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0087
+
+BertiniXSecScaleStepUniv0088 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.67778
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0088
+
+BertiniXSecScaleStepUniv0089 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.70707
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0089
+
+BertiniXSecScaleStepUniv0090 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.73636
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0090
+
+BertiniXSecScaleStepUniv0091 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.76566
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0091
+
+BertiniXSecScaleStepUniv0092 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.79495
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0092
+
+BertiniXSecScaleStepUniv0093 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.82424
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0093
+
+BertiniXSecScaleStepUniv0094 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.85354
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0094
+
+BertiniXSecScaleStepUniv0095 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.88283
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0095
+
+BertiniXSecScaleStepUniv0096 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.91212
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0096
+
+BertiniXSecScaleStepUniv0097 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.94141
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0097
+
+BertiniXSecScaleStepUniv0098 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 2.97071
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0098
+
+BertiniXSecScaleStepUniv0099 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            XSecScale            : 3
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniXSecScaleStepUniv0099
+
+BertiniFermiScaleStepUniv0000 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.5
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0000
+
+BertiniFermiScaleStepUniv0001 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.505051
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0001
+
+BertiniFermiScaleStepUniv0002 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.510101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0002
+
+BertiniFermiScaleStepUniv0003 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.515152
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0003
+
+BertiniFermiScaleStepUniv0004 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.520202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0004
+
+BertiniFermiScaleStepUniv0005 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.525253
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0005
+
+BertiniFermiScaleStepUniv0006 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.530303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0006
+
+BertiniFermiScaleStepUniv0007 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.535354
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0007
+
+BertiniFermiScaleStepUniv0008 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.540404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0008
+
+BertiniFermiScaleStepUniv0009 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.545455
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0009
+
+BertiniFermiScaleStepUniv0010 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.550505
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0010
+
+BertiniFermiScaleStepUniv0011 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.555556
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0011
+
+BertiniFermiScaleStepUniv0012 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.560606
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0012
+
+BertiniFermiScaleStepUniv0013 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.565657
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0013
+
+BertiniFermiScaleStepUniv0014 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.570707
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0014
+
+BertiniFermiScaleStepUniv0015 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.575758
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0015
+
+BertiniFermiScaleStepUniv0016 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.580808
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0016
+
+BertiniFermiScaleStepUniv0017 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.585859
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0017
+
+BertiniFermiScaleStepUniv0018 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.590909
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0018
+
+BertiniFermiScaleStepUniv0019 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.59596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0019
+
+BertiniFermiScaleStepUniv0020 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.60101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0020
+
+BertiniFermiScaleStepUniv0021 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.606061
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0021
+
+BertiniFermiScaleStepUniv0022 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.611111
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0022
+
+BertiniFermiScaleStepUniv0023 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.616162
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0023
+
+BertiniFermiScaleStepUniv0024 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.621212
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0024
+
+BertiniFermiScaleStepUniv0025 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.626263
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0025
+
+BertiniFermiScaleStepUniv0026 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.631313
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0026
+
+BertiniFermiScaleStepUniv0027 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.636364
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0027
+
+BertiniFermiScaleStepUniv0028 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.641414
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0028
+
+BertiniFermiScaleStepUniv0029 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.646465
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0029
+
+BertiniFermiScaleStepUniv0030 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.651515
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0030
+
+BertiniFermiScaleStepUniv0031 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.656566
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0031
+
+BertiniFermiScaleStepUniv0032 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.661616
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0032
+
+BertiniFermiScaleStepUniv0033 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.666667
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0033
+
+BertiniFermiScaleStepUniv0034 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.671717
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0034
+
+BertiniFermiScaleStepUniv0035 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.676768
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0035
+
+BertiniFermiScaleStepUniv0036 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.681818
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0036
+
+BertiniFermiScaleStepUniv0037 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.686869
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0037
+
+BertiniFermiScaleStepUniv0038 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.691919
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0038
+
+BertiniFermiScaleStepUniv0039 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.69697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0039
+
+BertiniFermiScaleStepUniv0040 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.70202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0040
+
+BertiniFermiScaleStepUniv0041 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.707071
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0041
+
+BertiniFermiScaleStepUniv0042 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.712121
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0042
+
+BertiniFermiScaleStepUniv0043 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.717172
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0043
+
+BertiniFermiScaleStepUniv0044 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.722222
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0044
+
+BertiniFermiScaleStepUniv0045 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.727273
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0045
+
+BertiniFermiScaleStepUniv0046 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.732323
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0046
+
+BertiniFermiScaleStepUniv0047 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.737374
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0047
+
+BertiniFermiScaleStepUniv0048 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.742424
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0048
+
+BertiniFermiScaleStepUniv0049 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.747475
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0049
+
+BertiniFermiScaleStepUniv0050 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.752525
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0050
+
+BertiniFermiScaleStepUniv0051 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.757576
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0051
+
+BertiniFermiScaleStepUniv0052 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.762626
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0052
+
+BertiniFermiScaleStepUniv0053 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.767677
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0053
+
+BertiniFermiScaleStepUniv0054 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.772727
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0054
+
+BertiniFermiScaleStepUniv0055 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.777778
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0055
+
+BertiniFermiScaleStepUniv0056 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.782828
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0056
+
+BertiniFermiScaleStepUniv0057 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.787879
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0057
+
+BertiniFermiScaleStepUniv0058 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.792929
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0058
+
+BertiniFermiScaleStepUniv0059 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.79798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0059
+
+BertiniFermiScaleStepUniv0060 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.80303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0060
+
+BertiniFermiScaleStepUniv0061 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.808081
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0061
+
+BertiniFermiScaleStepUniv0062 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.813131
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0062
+
+BertiniFermiScaleStepUniv0063 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.818182
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0063
+
+BertiniFermiScaleStepUniv0064 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.823232
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0064
+
+BertiniFermiScaleStepUniv0065 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.828283
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0065
+
+BertiniFermiScaleStepUniv0066 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.833333
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0066
+
+BertiniFermiScaleStepUniv0067 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.838384
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0067
+
+BertiniFermiScaleStepUniv0068 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.843434
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0068
+
+BertiniFermiScaleStepUniv0069 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.848485
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0069
+
+BertiniFermiScaleStepUniv0070 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.853535
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0070
+
+BertiniFermiScaleStepUniv0071 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.858586
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0071
+
+BertiniFermiScaleStepUniv0072 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.863636
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0072
+
+BertiniFermiScaleStepUniv0073 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.868687
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0073
+
+BertiniFermiScaleStepUniv0074 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.873737
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0074
+
+BertiniFermiScaleStepUniv0075 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.878788
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0075
+
+BertiniFermiScaleStepUniv0076 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.883838
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0076
+
+BertiniFermiScaleStepUniv0077 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.888889
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0077
+
+BertiniFermiScaleStepUniv0078 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.893939
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0078
+
+BertiniFermiScaleStepUniv0079 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.89899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0079
+
+BertiniFermiScaleStepUniv0080 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.90404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0080
+
+BertiniFermiScaleStepUniv0081 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.909091
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0081
+
+BertiniFermiScaleStepUniv0082 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.914141
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0082
+
+BertiniFermiScaleStepUniv0083 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.919192
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0083
+
+BertiniFermiScaleStepUniv0084 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.924242
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0084
+
+BertiniFermiScaleStepUniv0085 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.929293
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0085
+
+BertiniFermiScaleStepUniv0086 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.934343
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0086
+
+BertiniFermiScaleStepUniv0087 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.939394
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0087
+
+BertiniFermiScaleStepUniv0088 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.944444
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0088
+
+BertiniFermiScaleStepUniv0089 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.949495
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0089
+
+BertiniFermiScaleStepUniv0090 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.954545
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0090
+
+BertiniFermiScaleStepUniv0091 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.959596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0091
+
+BertiniFermiScaleStepUniv0092 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.964646
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0092
+
+BertiniFermiScaleStepUniv0093 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.969697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0093
+
+BertiniFermiScaleStepUniv0094 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.974747
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0094
+
+BertiniFermiScaleStepUniv0095 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.979798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0095
+
+BertiniFermiScaleStepUniv0096 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.984848
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0096
+
+BertiniFermiScaleStepUniv0097 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.989899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0097
+
+BertiniFermiScaleStepUniv0098 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 0.994949
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0098
+
+BertiniFermiScaleStepUniv0099 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            FermiScale           : 1
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniFermiScaleStepUniv0099
+
+BertiniTrailingRadiusStepUniv0000 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0000
+
+BertiniTrailingRadiusStepUniv0001 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.0505051
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0001
+
+BertiniTrailingRadiusStepUniv0002 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.10101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0002
+
+BertiniTrailingRadiusStepUniv0003 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.151515
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0003
+
+BertiniTrailingRadiusStepUniv0004 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.20202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0004
+
+BertiniTrailingRadiusStepUniv0005 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.252525
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0005
+
+BertiniTrailingRadiusStepUniv0006 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.30303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0006
+
+BertiniTrailingRadiusStepUniv0007 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.353535
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0007
+
+BertiniTrailingRadiusStepUniv0008 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.40404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0008
+
+BertiniTrailingRadiusStepUniv0009 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.454545
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0009
+
+BertiniTrailingRadiusStepUniv0010 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.505051
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0010
+
+BertiniTrailingRadiusStepUniv0011 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.555556
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0011
+
+BertiniTrailingRadiusStepUniv0012 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.606061
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0012
+
+BertiniTrailingRadiusStepUniv0013 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.656566
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0013
+
+BertiniTrailingRadiusStepUniv0014 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.707071
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0014
+
+BertiniTrailingRadiusStepUniv0015 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.757576
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0015
+
+BertiniTrailingRadiusStepUniv0016 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.808081
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0016
+
+BertiniTrailingRadiusStepUniv0017 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.858586
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0017
+
+BertiniTrailingRadiusStepUniv0018 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.909091
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0018
+
+BertiniTrailingRadiusStepUniv0019 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 0.959596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0019
+
+BertiniTrailingRadiusStepUniv0020 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.0101
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0020
+
+BertiniTrailingRadiusStepUniv0021 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.06061
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0021
+
+BertiniTrailingRadiusStepUniv0022 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.11111
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0022
+
+BertiniTrailingRadiusStepUniv0023 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.16162
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0023
+
+BertiniTrailingRadiusStepUniv0024 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.21212
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0024
+
+BertiniTrailingRadiusStepUniv0025 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.26263
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0025
+
+BertiniTrailingRadiusStepUniv0026 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.31313
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0026
+
+BertiniTrailingRadiusStepUniv0027 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.36364
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0027
+
+BertiniTrailingRadiusStepUniv0028 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.41414
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0028
+
+BertiniTrailingRadiusStepUniv0029 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.46465
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0029
+
+BertiniTrailingRadiusStepUniv0030 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.51515
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0030
+
+BertiniTrailingRadiusStepUniv0031 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.56566
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0031
+
+BertiniTrailingRadiusStepUniv0032 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.61616
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0032
+
+BertiniTrailingRadiusStepUniv0033 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.66667
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0033
+
+BertiniTrailingRadiusStepUniv0034 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.71717
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0034
+
+BertiniTrailingRadiusStepUniv0035 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.76768
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0035
+
+BertiniTrailingRadiusStepUniv0036 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.81818
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0036
+
+BertiniTrailingRadiusStepUniv0037 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.86869
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0037
+
+BertiniTrailingRadiusStepUniv0038 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.91919
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0038
+
+BertiniTrailingRadiusStepUniv0039 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 1.9697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0039
+
+BertiniTrailingRadiusStepUniv0040 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.0202
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0040
+
+BertiniTrailingRadiusStepUniv0041 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.07071
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0041
+
+BertiniTrailingRadiusStepUniv0042 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.12121
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0042
+
+BertiniTrailingRadiusStepUniv0043 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.17172
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0043
+
+BertiniTrailingRadiusStepUniv0044 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.22222
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0044
+
+BertiniTrailingRadiusStepUniv0045 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.27273
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0045
+
+BertiniTrailingRadiusStepUniv0046 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.32323
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0046
+
+BertiniTrailingRadiusStepUniv0047 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.37374
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0047
+
+BertiniTrailingRadiusStepUniv0048 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.42424
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0048
+
+BertiniTrailingRadiusStepUniv0049 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.47475
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0049
+
+BertiniTrailingRadiusStepUniv0050 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.52525
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0050
+
+BertiniTrailingRadiusStepUniv0051 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.57576
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0051
+
+BertiniTrailingRadiusStepUniv0052 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.62626
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0052
+
+BertiniTrailingRadiusStepUniv0053 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.67677
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0053
+
+BertiniTrailingRadiusStepUniv0054 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.72727
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0054
+
+BertiniTrailingRadiusStepUniv0055 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.77778
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0055
+
+BertiniTrailingRadiusStepUniv0056 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.82828
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0056
+
+BertiniTrailingRadiusStepUniv0057 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.87879
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0057
+
+BertiniTrailingRadiusStepUniv0058 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.92929
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0058
+
+BertiniTrailingRadiusStepUniv0059 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 2.9798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0059
+
+BertiniTrailingRadiusStepUniv0060 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.0303
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0060
+
+BertiniTrailingRadiusStepUniv0061 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.08081
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0061
+
+BertiniTrailingRadiusStepUniv0062 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.13131
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0062
+
+BertiniTrailingRadiusStepUniv0063 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.18182
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0063
+
+BertiniTrailingRadiusStepUniv0064 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.23232
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0064
+
+BertiniTrailingRadiusStepUniv0065 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.28283
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0065
+
+BertiniTrailingRadiusStepUniv0066 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.33333
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0066
+
+BertiniTrailingRadiusStepUniv0067 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.38384
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0067
+
+BertiniTrailingRadiusStepUniv0068 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.43434
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0068
+
+BertiniTrailingRadiusStepUniv0069 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.48485
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0069
+
+BertiniTrailingRadiusStepUniv0070 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.53535
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0070
+
+BertiniTrailingRadiusStepUniv0071 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.58586
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0071
+
+BertiniTrailingRadiusStepUniv0072 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.63636
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0072
+
+BertiniTrailingRadiusStepUniv0073 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.68687
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0073
+
+BertiniTrailingRadiusStepUniv0074 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.73737
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0074
+
+BertiniTrailingRadiusStepUniv0075 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.78788
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0075
+
+BertiniTrailingRadiusStepUniv0076 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.83838
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0076
+
+BertiniTrailingRadiusStepUniv0077 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.88889
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0077
+
+BertiniTrailingRadiusStepUniv0078 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.93939
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0078
+
+BertiniTrailingRadiusStepUniv0079 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 3.9899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0079
+
+BertiniTrailingRadiusStepUniv0080 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.0404
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0080
+
+BertiniTrailingRadiusStepUniv0081 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.09091
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0081
+
+BertiniTrailingRadiusStepUniv0082 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.14141
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0082
+
+BertiniTrailingRadiusStepUniv0083 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.19192
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0083
+
+BertiniTrailingRadiusStepUniv0084 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.24242
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0084
+
+BertiniTrailingRadiusStepUniv0085 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.29293
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0085
+
+BertiniTrailingRadiusStepUniv0086 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.34343
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0086
+
+BertiniTrailingRadiusStepUniv0087 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.39394
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0087
+
+BertiniTrailingRadiusStepUniv0088 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.44444
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0088
+
+BertiniTrailingRadiusStepUniv0089 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.49495
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0089
+
+BertiniTrailingRadiusStepUniv0090 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.54545
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0090
+
+BertiniTrailingRadiusStepUniv0091 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.59596
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0091
+
+BertiniTrailingRadiusStepUniv0092 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.64646
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0092
+
+BertiniTrailingRadiusStepUniv0093 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.69697
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0093
+
+BertiniTrailingRadiusStepUniv0094 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.74747
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0094
+
+BertiniTrailingRadiusStepUniv0095 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.79798
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0095
+
+BertiniTrailingRadiusStepUniv0096 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.84848
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0096
+
+BertiniTrailingRadiusStepUniv0097 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.89899
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0097
+
+BertiniTrailingRadiusStepUniv0098 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 4.94949
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0098
+
+BertiniTrailingRadiusStepUniv0099 : { 
+    module_type:  ProcLevelMPVaryProducer 
+    Verbosity: 0
+    HadronicModel: {
+        DefaultPhysics: false
+        ModelParameters: {
+            TrailingRadius       : 5
+        } # end-of-ModelParameters
+    } # end-of-HadronicModel
+} # end-of-BertiniTrailingRadiusStepUniv0099
+
+END_PROLOG

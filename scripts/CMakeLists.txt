@@ -2,7 +2,8 @@
 
 # install all *.mac files in this directory
 file(GLOB script_files *.sh)
-install( FILES ${script_files}  ${xsd_files}
+file(GLOB root_c_files *.C)
+install( FILES ${script_files}  ${root_c_files}
          DESTINATION ${product}/${version}/scripts )
 
 # Also install in the build area

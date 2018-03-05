@@ -55,6 +55,7 @@ find_ups_product(cetbuildtools v7_00_03)
 
 # Build these directories
 add_subdirectory( scripts )
+add_subdirectory( fcl )
 
 # ups - table and config files
 
