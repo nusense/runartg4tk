@@ -6,9 +6,20 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2017-10-27
+export SCRIPT_VERSION=2018-03-19
 #
-### default for variables
+###
+export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-12.tar.bz2
+#  unrolls to  localProducts_runartg4tk_v0_03_00_e15_prof/...
+export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
+
+# these need process_args opts
+export BOOTSTRAP_SCRIPT="bootstrap_ups.sh"
+# semicolon separated things to setup after unrolling tarball
+#   BASE=from tarball name
+#   product%version%qualifiers
+export SETUP_PRODUCTS="BASE;ifdhc%%"
+# not necessary:   export SETUP_PRODUCTS="artg4tk%v5_00_00%e15:prof;BASE;ifdhc%%"
 
 # how verbose this script should be
 export VERBOSE=0
@@ -31,143 +42,73 @@ export REDIRECT_ART=1
 
 export UPS_OVERRIDE="-H Linux64bit+2.6-2.12"
 
+#### a particular choice for defaults
 
-# [/path/]filename[,minu[,maxu]]  minu,maxu 1-based
-
-#### a particular choice
-export MULTIVERSE=multiverse170208_Bertini # e.g. (fcl base)
+export MULTIVERSE=multiverse170208_Bertini        # e.g. (fcl base)
+export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,10"   # each job (process) in cluster does 10 universes, start 0
 export G4HADRONICMODEL=Bertini  #  e.g. Bertini
+export UBASE=0                  #  0=Default, others are RandomUniv[xxxx]
+export USTRIDE=10               #  how many to do in this $PROCESS unit
 export PROBE=piminus            #  allow either name or pdg
-export EPROBE=5.0               #  e.g. 5.0 6.5  # (GeV)
+export P3=0,0,5.0               #  GeV
+#export PROBEP=5.0               #   e.g. 5.0 6.5  # (GeV)
 export TARGETSYMBOL=Cu          #  e.g. Cu
-export NEVENTS=5000             #  e.g. 5000
+export NEVENTS=500000           #  e.g. 500,000
+export PASS=0                   #  allow for multiple passes (more events) of same config
+                                #  though this requires summming _art_ files, and doing analysis again
 
-export PROBENAME=XYZZY          #  e.g. piplus, piminus, proton
-export PROBEPDG=XYZZY           #  e.g. 211,    -211,    2212
-
-case ${PROBE} in
-    11 | eminus    ) export PROBEPDG=11   ; export PROBENAME=eminus    ;;
-   -11 | eplus     ) export PROBEPDG=-11  ; export PROBENAME=eplus     ;;
-    13 | muminus   ) export PROBEPDG=13   ; export PROBENAME=muminus   ;;
-   -13 | muplus    ) export PROBEPDG=-13  ; export PROBENAME=muplus    ;;
-   111 | pizero    ) export PROBEPDG=111  ; export PROBENAME=pizero    ;;
-   211 | piplus    ) export PROBEPDG=211  ; export PROBENAME=piplus    ;;
-  -211 | piminus   ) export PROBEPDG=-211 ; export PROBENAME=piminus   ;;
-   130 | kzerolong ) export PROBEPDG=130  ; export PROBENAME=kzerolong ;;
-   311 | kzero     ) export PROBEPDG=311  ; export PROBENAME=kzero     ;;
-   321 | kplus     ) export PROBEPDG=321  ; export PROBENAME=kplus     ;;
-  -321 | kminus    ) export PROBEPDG=-321 ; export PROBENAME=kminus    ;;
-  2212 | proton    ) export PROBEPDG=2212 ; export PROBENAME=proton    ;;
-  2112 | neutron   ) export PROBEPDG=2112 ; export PROBENAME=neutron   ;;
-  *                )
-     echo -e "{$OUTRED} bad PROBE=${PROBE}${OUTNOCOL}" ; exit 42 ;;
-esac
-
-# EPROBENODOT e.g. 5   6p5
-# used in dossier PROLOGs, no trailing 'p0's
-EPROBENODOT=`echo ${EPROBE} | sed -e 's/\./p/' -e 's/p0//' `
-export PRIMARY_PX="0.0"
-export PRIMARY_PY="0.0"
-export PRIMARY_PZ="${EPROBE}"   # in GeV
-
-
-export MULTI_UNIVERSE_SPEC="${OUTPUTTOP}/${MULTIVERSE}/${MULTIVERSE}.fcl"
-export DOSSIER_LIST="HARP ITEP"
+export DOSSIER_LIST="HARP,ITEP"
 
 export G4VERBOSITY=0
-
-
-# artg4tk build area
-## export ARTG4TK_MRB=/geant4/app/rhatcher/mrb_work_area
-export ARTG4TK_MRB=/pnfs/geant4/persistent/rhatcher/genana_g4vmp/${MULTIVERSE}/mrb_work_area.tar.gz
-export ARTG4TK_VERSION="v0_02_00"
-export ARTG4TK_QUAL="e10:debug"
-
-#export MRB_VERSION="v1_05_01"  # not in cvmfs (geant4,common,larsoft)
-export MRB_VERSION="v1_09_00"
-export GIT_VERSION="v2_3_0"
-export GITFLOW_VERSION="v1_8_0"
-
-# where other products are located
-# export EXTERNALS=/geant4/app/rhatcher/externals
-export EXTERNALS=/cvmfs/oasis.opensciencegrid.org/geant4/externals
-
-
-function old_stuff() {
-export G4HADRONICMODEL="Bertini"
-
-export TARGETNUCLEUS="Cu"
-export PRIMARY_PDG=-211
-export PRIMARY_PX="0.0"
-export PRIMARY_PY="0.0"
-export PRIMARY_PZ="5.0"   # in GeV
-
 
 export RNDMSEED_SPECIAL=123456789
 export RNDMSEED=${RNDMSEED_SPECIAL} # will override w/ JOBID number or command line flag
 export JOBIDOFFSET=0
 
-
-# above are what should be the real defaults
-# these settings are for script development testing purposes
-#export VERBOSE=1
-#export KEEPSCRATCH=1
-#export RUNART=0
-
-# param setting should be set "consistently" for different beam + target
-# so a "parameter set" should be independent of these
-}
 #
 ##############################################################################
-function old_usage() {
+function usage() {
 cat >&2 <<EOF
 Purpose:  Run 'artg4tk' w/ the Geant4 Varied Model Parameter setup
           version ${SCRIPT_VERSION}
 
   ${b0} --output <output-path> [other options]
 
-     -h | --help                this helpful blurb
-     -v | --verbose             increase script verbosity
+     -h | --help                  this helpful blurb
+     -v | --verbose               increase script verbosity
 
-     -o | --output <path>       path to top of output area
-                                (creates subdir for the results)
-                                [${OUTPUTTOP}]
+     -o | --output <path>         path to top of output area
+                                  (creates subdir for the results)
+                                  [${OUTPUTTOP}]
 
-     -n | --nevents <nevents>   # of events to generate (single job) [${NEVENTS}]
+     -n | --nevents <nevents>     # of events to generate (single job) [${NEVENTS}]
 
-     -u | --universes <fname>   ART PROLOG file with multiple universes
-                                [/path/]filename[,minu[,maxu]]  minu,maxu 1-based
-                                [${MULTI_UNIVERSE_SPEC}]
+     -u | --universes <fname>,[ubase=0],[ustride=10]
+                                  ART PROLOG file with multiple universes
+                                  [/path/]filename[,ubase[,ustride]]
+                                  umin = ubase + \${PROCESS}*ustride
+                                  umax = umin  + ustride - 1
+                                  [${MULTI_UNIVERSE_SPEC}]
+                                  ( so for 1000 universes, use cluster -N 100 and 0,10 here )
 
-     -p | --physics <model>     G4 Hadronic Model name [${G4HADRONICMODEL}]
+     -p | --physics <model>       G4 Hadronic Model name [${G4HADRONICMODEL}]
 
-     -t | --target <nucleus>    target nucleus element (e.g. "Pb") [${TARGETNUCLEUS}]
-     -c | --pdg <code>          incident particle pdg code [${PRIMARY_PDG}]
-          --p3 <px,py,pz>       incident particle 3-vector
-          --pz <pz>             incident particle p_z (p_x=p_y=0)
-                                  [ ${PRIMARY_PX}, ${PRIMARY_PY}, ${PRIMARY_PZ} ] // in GeV/c
+     -t | --target <nucleus>      target nucleus element (e.g. "Pb") [${TARGETNUCLEUS}]
+     -c | --pdg | --probe <code>  incident particle pdg code [${PROBE}]
+          --p3 <px,py,pz>         incident particle 3-vector
+     -z | --pz <pz>               incident particle p_z (p_x=p_y=0)
+                                  [ ${PROBE_PX}, ${PROBE_PY}, ${PROBE_PZ} ] // in GeV/c
 
-          --g4verbose <int>     set G4 verbosity [${G4VERBOSITY}]
+          --g4verbose <int>       set G4 verbosity [${G4VERBOSITY}]
 
-          --seed <int-val>      explicitly set random seed
-                                (otherwise based on JOBID)
+          --seed <int-val>        explicitly set random seed
+                                  (otherwise based on PASS)
 
-     -x | --jobid-offset <int>  add <int> to \${PROCESS} to get \${JOBID}
-                                condor job clusters get \${PROCESS} [0:<N-1>]
-                                [${JOBIDOFFSET}]
+     -x | --pass <int>            set pass (default 0)
 
-     -T | --top <top>           artg4tk mrb area ( should have srcs,
-                                build_slf6.x86_64 and localProducts_artg4tk_*
-                                subdirectories -- a reachable directory
-                                or a tarball that can be fetched)
-                                [${ARTG4TK_MRB}]
-     -V | --version <version>   e.g. v0_01_00 [${ARTG4TK_VERSION}]
-     -Q | --qualifier <quals>   e.g. e7:prof  [${ARTG4TK_QUAL}]
+     -T | --tarball <tball>       name of tarball to fetch
 
-     -E | --externals <path>    where to find necessary UPS products
-                                [${EXTERNALS}]
-
-     -P | --pname <pname>       ART process name [${ARTPNAME}]
+     -P | --pname <pname>         ART process name [${ARTPNAME}]
 
  Experts:
 
@@ -178,15 +119,11 @@ Purpose:  Run 'artg4tk' w/ the Geant4 Varied Model Parameter setup
      --keep-scratch             don't delete the contents of the scratch
                                 area when using the above [${KEEPSCRATCH}]
 
-     --mrb-version <vstring>    [${MRB_VERSION}]
-     --git-version <vstring>    [${GIT_VERSION}]
-     --gitflow-version <vstr>   [${GITFLOW_VERSION}]
-
      --no-redirect-output       default is to redirect ART output to .out/.err
                                 if set then leave them to stdout/stderr
      --no-art-run               skip the actual running of ART executable
 
-     --trace                    set -o xtrace
+
      --debug                    set verbose=999
 
 EOF
@@ -194,7 +131,7 @@ EOF
 
 #
 ##############################################################################
-function old_process_args() {
+function process_args() {
 
   PRINTUSAGE=0
 
@@ -210,13 +147,12 @@ function old_process_args() {
      --longoptions="help verbose output: \
                     nevts: nevents: \
                     universe: universes: physics: model: hadronic: \
-                    target: pdg:  p3: pz: g4verbose: seed: jobid-offset: \
-                    top: version: qualifier: externals: pname: \
+                    target: pdg: probe: p3: pz: g4verbose: seed: pass: \
+                    tarball: pname: \
                     scratchbase: keep-scratch \
-                    mrb-version: git-version: gitflow-version: \
                     no-redirect-output no-art-run no-run-art skip-art \
                     debug trace" \
-     -o hvo:n:u:p:m:t:c:x:T:V:Q:E:P:-: -- "$@" `
+     -o hvo:n:u:p:m:t:c:z:x:T:P:-: -- "$@" `
   eval set -- "${TEMP}"
   if [ $ISDEBUG -gt 0 ]; then echo "post-getopt \$#=$#  \$@=\"$@\"" ; fi
   unset TEMP
@@ -228,78 +164,67 @@ function old_process_args() {
       printf "arg[%2d] processing \$1=\"%s\" (\$2=\"%s\")\n" "$iarg" "$1" "$2"
     fi
     case "$1" in
-      "--"                ) shift;                           break  ;;
-      -h | --help         ) PRINTUSAGE=1                            ;;
-      -v | --verbose      ) let VERBOSE=${VERBOSE}+1                ;;
+      "--"                 ) shift;                           break  ;;
+      -h | --help          ) PRINTUSAGE=1                            ;;
+      -v | --verbose       ) let VERBOSE=${VERBOSE}+1                ;;
 #
-      -o | --out*         ) export OUTPUTTOP="$2";           shift  ;;
-      -n | --nev*         ) export NEVENTS="$2";             shift  ;;
-      -u | --univ*        ) export MULTI_UNIVERSE_SPEC="$2"; shift  ;;
+      -o | --out*          ) export OUTPUTTOP="$2";           shift  ;;
+      -n | --nev*          ) export NEVENTS="$2";             shift  ;;
+      -u | --univ*         ) export MULTI_UNIVERSE_SPEC="$2"; shift  ;;
       -p | --physics | \
       -m | --model   | \
-           --hadronic     ) export G4HADRONICMODEL="$2";     shift  ;;
-      -t | --target       ) export TARGETNUCLEUS="$2";       shift  ;;
-      -c | --pdg          ) export PRIMARY_PDG="$2";         shift  ;;
-           --p3           ) export P3="$2";                  shift  ;;
-           --pz           ) export P3="0,0,$2";              shift  ;;
-           --g4verbose    ) export G4VERBOSE="$2";           shift  ;;
-           --seed         ) export RNDMSEED="$2";            shift  ;;
-      -x | --jobid-offset ) export JOBIDOFFSET="$2";         shift  ;;
+           --hadronic      ) export G4HADRONICMODEL="$2";     shift  ;;
+      -t | --target        ) export TARGETNUCLEUS="$2";       shift  ;;
+      -c | --pdg | --probe ) export PROBE="$2";               shift  ;;
+           --p3            ) export P3="$2";                  shift  ;;
+      -z | --pz            ) export P3="0,0,$2";              shift  ;;
+           --g4verbose     ) export G4VERBOSE="$2";           shift  ;;
+           --seed          ) export RNDMSEED="$2";            shift  ;;
+      -x | --pass          ) export PASS="$2";                shift  ;;
 #
-      -P | --pname        ) export ARTPNAME="$2";            shift  ;;
-      -T | --top          ) export ARTG4TK_MRB="$2";         shift  ;;
-      -V | --vers*        ) export ARTG4TK_VERSION="$2";     shift  ;;
-      -Q | --qual*        ) export ARTG4TK_QUAL="$2";        shift  ;;
-      -E | --extern*      ) export EXTERNALS="$2";           shift  ;;
+      -T | --tarball       ) export TARBALL="$2";             shift  ;;
+      -P | --pname         ) export ARTPNAME="$2";            shift  ;;
 #
-           --scratch*     ) export FAKESCRATCHBASE="$2";     shift  ;;
-           --keep-scratch ) export KEEPSCRATCH=1;                   ;;
-           --mrb-version  ) export MRB_VERSION="$2";         shift  ;;
-           --git-version  ) export GIT_VERSION="$2";         shift  ;;
-           --gitflow-v*   ) export GITFLOW_VERSION="$2";     shift  ;;
-           --no-redir*    ) export REDIRECT_ART=0;                  ;;
+           --scratch*      ) export FAKESCRATCHBASE="$2";     shift  ;;
+           --keep-scratch  ) export KEEPSCRATCH=1;                   ;;
+           --no-redir*     ) export REDIRECT_ART=0;                  ;;
            --no-art*    | \
            --no-run-art | \
-           --skip-art     ) export RUNART=0;                        ;;
-           --debug        ) export VERBOSE=999                      ;;
-           --trace        ) export DOTRACE=1                        ;;
-      -*                  ) echo "unknown flag $opt ($1)"
-                            usage
-                            ;;
+           --skip-art      ) export RUNART=0;                        ;;
+           --debug         ) export VERBOSE=999                      ;;
+           --trace         ) export DOTRACE=1                        ;;
+      -*                   ) echo "unknown flag $opt ($1)"
+                             usage
+                             ;;
      esac
      shift  # eat up the arg we just used
   done
   usage_exit=0
 
-  # must have ARTG4TK_MRB, ARTG4TK_VERSION, ARTG4TK_QUAL and OUTPUTTOP
+  # must have a tarball
   # but don't check if user asked for --help
   if [ ${PRINTUSAGE} == 0 ]; then
-  if [[ -z "${OUTPUTTOP}" || -z "${ARTG4TK_MRB}" || -z "${ARTG4TK_VERSION}" || -z "${ARTG4TK_QUAL}" ]]
-  then
-    echo -e "${OUTRED}You must supply values for:${OUTNOCOL}"
-    echo -e "${OUTRED}   --top       ${OUTNOCOL}[${OUTGREEN}${ARTG4TK_MRB}${OUTNOCOL}]"
-    echo -e "${OUTRED}   --version   ${OUTNOCOL}[${OUTGREEN}${ARTG4TK_VERSION}${OUTNOCOL}]"
-    echo -e "${OUTRED}   --qualifier ${OUTNOCOL}[${OUTGREEN}${ARTG4TK_QUAL}${OUTNOCOL}]"
-    echo -e "${OUTRED}   --output    ${OUTNOCOL}[${OUTGREEN}${OUTPUTTOP}${OUTNOCOL}]"
-    usage_exit=42
-  fi
+    if [[ -z "${TARBALL}" ]]
+    then
+      echo -e "${OUTRED}You must supply values for:${OUTNOCOL}"
+      echo -e "${OUTRED}   --tarball   ${OUTNOCOL}[${OUTGREEN}${TARBALL}${OUTNOCOL}]"
+      usage_exit=42
+    fi
   fi
 
-  # running under condor with -N <N> ... $PROCESS is [0...<N-1>]
-  # (implicit -N 1 if unspecified; unset if running interactively ... )
-  # we'll use this to give a JOBID
-  # can be overridden using --jobid-offset flag
-  if [ -z "$PROCESS" ]; then
-    if [ ${JOBIDOFFSET} -eq 0 ]; then
-      JOBID=9999  # make up some number we probably won't otherwise reach
-    else
-      JOBID=${JOBIDOFFSET}
-    fi
-  else
-    # don't want JOBID=0 cause that's not a stable RNDMSeed
-    let JOBID=1+${PROCESS}+${JOBIDOFFSET}
-  fi
-  # TODO: should find out if there's a way to know <N> as well
+  # figure out which universes
+  if [ -z "${PROCESS}" ]; then PROCESS=0; fi  # not on the grid as a job
+  # convert spaces, tabs, [semi]colons to commas
+  MULTI_UNIVERSE_SPEC=`echo ${MULTI_UNIVERSE_SPEC} | tr " \t:;" ","`
+  MULTI_UNIVERSE_SPEC="${MULTI_UNIVERSE_SPEC},,,"
+  MULTIVERSE_FILE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f1 `   #
+  MULTIVERSE_FILE=`basename ${MULTIVERSE_FILE} .fcl`               # to be found in tarball w/ .fcl extension
+  UBASE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f2`
+  if [ -z "${UBASE}" ]; then UBASE=0; fi
+  USTRIDE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f3`
+  if [ -z "${USTRIDE}" ]; then USTRIDE=10; fi
+  let UNIV_FIRST=${PROCESS}*${USTRIDE}+${UBASE}
+  let UNIV_LAST=${UNIV_FIRST}+${USTRIDE}-1
 
   # normalize momentum is user set
   # turn most punctuation (except ".") into space
@@ -308,40 +233,60 @@ function old_process_args() {
     #echo "initial P3 ${P3}"
     P3=`echo "${P3},0.0,0.0,0.0" | tr "\[\],:;\"\t" " " | sed -e 's/^ *//' `
     #echo "final ${P3}"
-    export PRIMARY_PX=`echo ${P3} | cut -d' ' -f1`
-    export PRIMARY_PY=`echo ${P3} | cut -d' ' -f2`
-    export PRIMARY_PZ=`echo ${P3} | cut -d' ' -f3`
+    export PROBE_PX=`echo ${P3} | cut -d' ' -f1`
+    export PROBE_PY=`echo ${P3} | cut -d' ' -f2`
+    export PROBE_PZ=`echo ${P3} | cut -d' ' -f3`
     if [ ${VERBOSE} -gt 0 ]; then
-      echo -e "${OUTGREEN}using px py pz: ${PRIMARY_PX} ${PRIMARY_PY} ${PRIMARY_PZ} ${OUTNOCOL}"
+      echo -e "${OUTGREEN}using px py pz: ${PROBE_PX} ${PROBE_PY} ${PROBE_PZ} ${OUTNOCOL}"
+    fi
+  else
+    if [ -n "${PROBEP}" ]; then
+      export PROBE_PX=0
+      export PROBE_PY=0
+      export PROBE_PZ=${PROBEP}
+    else
+      echo -e "${OUTRED}no \${P3} or \${PROBEP} given ${OUTNOCOL}"
+      usage_exit=42
     fi
   fi
-  # calculate projectile total momentum
-  px=${PRIMARY_PX}
-  py=${PRIMARY_PY}
-  pz=${PRIMARY_PZ}
-  # calculate momentum ... 1 digit after decimal point
-  export PROBEP=`echo "sqrt(($px*$px)+($py*$py)+($pz*$pz));scale=1" | bc`
-  unset px py pz
+  if [ ${usage_exit} -eq 0 ]; then
+    # calculate projectile total momentum
+    px=${PROBE_PX}
+    py=${PROBE_PY}
+    pz=${PROBE_PZ}
+    # calculate momentum ... 1 digit after decimal point
+           echo "sqrt(($px*$px)+($py*$py)+($pz*$pz));scale=1"
+    export PROBEP=`echo "sqrt(($px*$px)+($py*$py)+($pz*$pz));scale=1" | bc`
+    echo -e "${OUTGREEN}calculated \${PROBEP}=${PROBEP} GeV${OUTNOCOL}"
+    unset px py pz
+  fi
 
-  # turn primary pdg into a name
-  export PROBENAME=${PRIMARY_PDG}
-  case ${PRIMARY_PDG} in
-     11 ) export PROBENAME="eminus"   ;;
-    -11 ) export PROBENAME="eplus"    ;;
-     13 ) export PROBENAME="muminus"  ;;
-    -13 ) export PROBENAME="muplus"   ;;
-    111 ) export PROBENAME="pi0"      ;;
-    211 ) export PROBENAME="piplus"   ;;
-   -211 ) export PROBENAME="piminus"  ;;
-    130 ) export PROBENAME="k0long"   ;;
-    311 ) export PROBENAME="k0"       ;;
-    321 ) export PROBENAME="kplus"    ;;
-   -321 ) export PROBENAME="kminus"   ;;
-   2212 ) export PROBENAME="proton"   ;;
-   2112 ) export PROBENAME="neutron"  ;;
+  export PROBENAME=XYZZY          #  e.g. piplus, piminus, proton
+  export PROBEPDG=XYZZY           #  e.g. 211,    -211,    2212
+
+  case ${PROBE} in
+      11 | eminus    ) export PROBEPDG=11   ; export PROBENAME=eminus    ;;
+     -11 | eplus     ) export PROBEPDG=-11  ; export PROBENAME=eplus     ;;
+      13 | muminus   ) export PROBEPDG=13   ; export PROBENAME=muminus   ;;
+     -13 | muplus    ) export PROBEPDG=-13  ; export PROBENAME=muplus    ;;
+     111 | pizero    ) export PROBEPDG=111  ; export PROBENAME=pizero    ;;
+     211 | piplus    ) export PROBEPDG=211  ; export PROBENAME=piplus    ;;
+    -211 | piminus   ) export PROBEPDG=-211 ; export PROBENAME=piminus   ;;
+     130 | kzerolong ) export PROBEPDG=130  ; export PROBENAME=kzerolong ;;
+     311 | kzero     ) export PROBEPDG=311  ; export PROBENAME=kzero     ;;
+     321 | kplus     ) export PROBEPDG=321  ; export PROBENAME=kplus     ;;
+    -321 | kminus    ) export PROBEPDG=-321 ; export PROBENAME=kminus    ;;
+    2212 | proton    ) export PROBEPDG=2212 ; export PROBENAME=proton    ;;
+    2112 | neutron   ) export PROBEPDG=2112 ; export PROBENAME=neutron   ;;
+    *                )
+       echo -e "{$OUTRED} bad PROBE=${PROBE}${OUTNOCOL}" ; exit 42 ;;
   esac
 
-  # echo "PROBENAME=${PROBENAME} PRIMARY_PDG=${PRIMARY_PDG}"
+  # EPROBENODOT e.g. 5   6p5
+  # used in dossier PROLOGs, no trailing 'p0's
+  EPROBENODOT=`echo ${PROBEP} | sed -e 's/\./p/' -e 's/p0//' `
+
+  # echo "PROBENAME=${PROBENAME} PROBE_PDG=${PROBE_PDG}"
 
   # show the defaults correctly now
   if [ $PRINTUSAGE -gt 0 -o ${usage_exit} -ne 0 ]; then
@@ -361,6 +306,81 @@ function old_process_args() {
 
 }
 
+##############################################################################
+function fetch_setup_tarball() {
+  # fetch the tarball, use it to setup environment including its own products
+
+  echo -e "${OUTGREEN}in as:    ${TARBALL}${OUTNOCOL}"
+  # full path given ??
+  c1=`echo ${TARBALL} | cut -c1`
+  if [ "$c1" != "/" ]; then TARBALL=${TARBALL_DEFAULT_DIR}/${TARBALL} ; fi
+  TARBALL_BASE=`basename ${TARBALL}`
+  echo -e "${OUTGREEN}tarball:  ${TARBALL}${OUTNOCOL}"
+  echo -e "${OUTGREEN}base:     ${TARBALL_BASE}${OUTNOCOL}"
+
+  # if we can see it then use cp, otherwise "ifdh cp"
+  if [ -f ${TARBALL} ]; then
+    CP_CMD="cp"
+  else
+    which_ifdh=`which ifdh 2>/dev/null`
+    if [ -z "${which_ifdh}" ]; then
+      source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup
+      setup ifdhc
+    fi
+    CP_CMD="ifdh cp"
+  fi
+  echo -e "${OUTGREEN}${CP_CMD} ${TARBALL} ${TARBALL_BASE}${OUTNOCOL}"
+  ${CP_CMD} ${TARBALL} ${TARBALL_BASE}
+
+  case ${TARBALL_BASE} in
+     *.gz | *.tgz ) TAR_OPT="z" ;;
+     *.bz2        ) TAR_OPT="j" ;;
+     *     ) echo -e "${OUTRED}neither .gz nor .bz2 file extension: ${TARBALL_BASE}${OUTNOCOL}"
+             TAR_OPT="z" ;;
+  esac
+
+  echo -e "${OUTGREEN}looking for ${BOOTSTRAP_SCRIPT}${OUTNOCOL}"
+  # expect to find script "${BOOTSTRAP_SCRIPT}"
+  bootscript=`tar t${TAR_OPT}f ${TARBALL} | grep ${BOOTSTRAP_SCRIPT} | tail -1`
+  localarea=`echo ${bootscript} | cut -d'/' -f1`
+  echo -e "${OUTGREEN}bootscript=${bootscript}${OUTNOCOL}"
+  echo -e "${OUTGREEN}localarea=${localarea}${OUTNOCOL}"
+
+  # unroll
+  tar x${TAR_OPT}f ${TARBALL}
+  if [ -z "${bootscript}" -o ! -f ${bootscript} ]; then
+     echo -e "${OUTRED}no file ${bootscript} (${BOOTSTRAP_SCRIPT}) in tarball ${TARBALL}${OUTNOCOL}"
+     exit 42
+  fi
+  source ${bootscript}
+  export PRODUCTS=`pwd`/${localarea}:${PRODUCTS}
+
+  for prd in `echo ${SETUP_PRODUCTS} | tr ';' ' '` ; do
+    if [ -z "$prd" ]; then continue; fi
+    if [ "$prd" == "BASE" ]; then
+      PROD=`echo ${localarea} | cut -d'_' -f2`
+      VERSIONS=`ls -1 ${localarea}/${PROD} | grep -v version `
+      for vtest in ${VERSIONS} ; do
+        if [[ ${localarea} =~ .*${PROD}_${vtest}_.* ]]; then
+          VERS=$vtest
+          break
+        fi
+      done
+      QUAL=`echo ${localarea} | sed -e "s/${PROD}_${VERS}/ /g" | cut -d' ' -f2 | tr '_' ':'`
+    else
+      PROD=`echo ${prd}%% | cut -d "%" -f1`
+      VERS=`echo ${prd}%% | cut -d "%" -f2`
+      QUAL=`echo ${prd}%% | cut -d "%" -f3`
+    fi
+    if [ -n "${QUAL}" ]; then
+      echo -e "${OUTGREEN}setup ${PROD} ${VERS} -q ${QUAL}${OUTNOCOL}"
+      setup ${PROD} ${VERS} -q ${QUAL}
+    else
+      echo -e "${OUTGREEN}setup ${PROD} ${VERS}${OUTNOCOL}"
+      setup ${PROD} ${VERS}
+    fi
+  done
+}
 #
 ##############################################################################
 function fetch_file() {
@@ -380,7 +400,12 @@ function fetch_file() {
   fi
 }
 
+##############################################################################
 function make_genana_fcl() {
+
+# make a list of configs
+
+[HARP|ITEP]_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
 
 # needs to loop over universes
 cat > ${CONFIG}.fcl <<EOF
@@ -436,7 +461,7 @@ services: {
 
    RandomNumberGenerator: {}
    TFileService: {
-      fileName: "genana_${MULTIVERSE}_${PROBENAME}_${TARGETSYMBOL}_${EPROBENODOT}_U0000-U0010.hist.root"
+      fileName: "${CONFIG}.hist.root"
    }
 
    ProcLevelSimSetup: {
@@ -453,7 +478,7 @@ outputs: {
 
    outroot: {
       module_type: RootOutput
-      fileName: "genana_${MULTIVERSE}_${PROBENAME}_${TARGETSYMBOL}_${EPROBENODOT}_U0000-U0010.artg4tk.root"
+      fileName: "${CONFIG}.artg4tk.root"
    }
 
 } # end of outputs:
@@ -469,6 +494,9 @@ physics: {
          momentum: [ 0.0, 0.0, ${EPROBE} ] // in GeV
       }
 
+EOF
+
+cat > ${CONFIG}.fcl <<EOF
       BertiniDefault            : @local::BertiniDefault
       BertiniRandom4Univ0001    : @local::BertiniRandom4Univ0001
       BertiniRandom4Univ0002    : @local::BertiniRandom4Univ0002
@@ -970,8 +998,8 @@ physics: {
       PrimaryGenerator: {
          module_type: EventGenerator
          nparticles : 1
-         pdgcode:  ${PRIMARY_PDG}
-         momentum: [ ${PRIMARY_PX}, ${PRIMARY_PY}, ${PRIMARY_PZ} ] // in GeV
+         pdgcode:  ${PROBEPDG}
+         momentum: [ ${PROBE_PX}, ${PROBE_PY}, ${PROBE_PZ} ] // in GeV
       }
 
 EOF
@@ -1043,6 +1071,9 @@ function setup_colors() {
 ##############################################################################
 
 function create_setup_everything() {
+
+return
+
 echo -e "${OUTGREEN}creating setup_everything.sh in `pwd`${OUTNOCOL}"
 echo -e "${OUTGREEN}  with ${ARTG4TK_MRB}${OUTNOCOL}"
 
@@ -1143,7 +1174,7 @@ cd \${ARTG4TK_MRB}
 
 echo -e "\${OUTGREEN}source ./localProducts_artg4tk_${ARTG4TK_VERSION}_${ARTG4TK_QUAL_UNDERSCORE}/setup \${OUTNOCOL}"
 ##### this file has hardcode ${MRB_TOP} & ${MRB_SOURCE} to where it was built
-## hopefully this was dealt with above when unpacking tarball
+## hopefully this was dealt with above when unpackingtar ball
 source ./localProducts_artg4tk_${ARTG4TK_VERSION}_${ARTG4TK_QUAL_UNDERSCORE}/setup
 
 if [ \${VERBOSE} -gt 1 ]; then
@@ -1301,8 +1332,6 @@ function report_setup()
   echo ${PRODUCTS} | tr ":" "\n" | sed -e 's/^/     /g'
   echo "   \${LD_LIBRARY_PATH}="
   echo ${LD_LIBRARY_PATH} | tr ":" "\n" | sed -e 's/^/     /g'
-  echo "   using \${MRB_DIR}=${MRB_DIR}"
-  echo "   using \${MRB_TOP}=${MRB_TOP}"
   echo " "
 }
 
@@ -1315,7 +1344,7 @@ function report_config_summary()
   echo "   nevents        ${NEVENTS}"
   echo "   hadronic model ${G4HADRONICMODEL}"
   echo "   target         \"${TARGETNUCLEUS}\""
-  echo "   probe:        ${PROBENAME} (${PROBEPDG}) [ ${PRIMARY_PX}, ${PRIMARY_PY}, ${PRIMARY_PZ} ] GeV/c"
+  echo "   probe:        ${PROBENAME} (${PROBEPDG}) [ ${PROBE_PX}, ${PROBE_PY}, ${PROBE_PZ} ] GeV/c"
   echo " "
 }
 ##############################################################################
@@ -1326,39 +1355,39 @@ function report_config_summary()
 
 setup_colors
 
-#RWH process_args "$@"
+echo -e "${OUTCYAN}process_args $@ ${OUTNOCOL}"
+process_args "$@"
 
 # find our own little place to do this job's processing
 # (easy on condor job worker nodes; interactive .. more difficult)
+echo -e "${OUTCYAN}check_scratch_area ${OUTNOCOL}"
 check_scratch_area
 
-create_setup_everything
+# fetch the tarball that has the work to do
+echo -e "${OUTCYAN}fetch_setup_tarball ${OUTNOCOL}"
+fetch_setup_tarball
 
-if [ ${VERBOSE} -gt 0 ]; then
-  echo -e "${OUTGREEN}source ./setup_everything.sh${OUTNOCOL}"
+echo -e "${OUTGREEN}currently `pwd`${OUTNOCOL}"
+cd ${_CONDOR_SCRATCH_DIR}
+echo -e "${OUTGREEN}woring in `pwd`${OUTNOCOL}"
+
+echo -e "${OUTORANGE}JOBID=${JOBID}${OUTNOCOL}"
+
+if [ ${RNDMSEED} -eq ${RNDMSEED_SPECIAL} ]; then
+  # user didn't set a seed, set it to the jobid
+  echo -e "${OUTORANGE}export RNDMSEED=${JOBID}${OUTNOCOL}"
+  export RNDMSEED=${JOBID}
 fi
-source ./setup_everything.sh
 
-if [ -z "${MRB_TOP}" ]; then
-  echo -e "${OUTRED}\${MRB_TOP} is unset ... unable to continue${OUTNOCOL}"
-  echo -e "${OUTRED}\${MRB_TOP} is unset ... unable to continue${OUTNOCOL}" >&2
+exit
+return
+###
+
   echo -e "${OUTRED}-------------------------------------${OUTNOCOL}"
   report_config_summary
   report_node_info
   report_setup
   echo -e "${OUTRED}-------------------------------------${OUTNOCOL}"
-  echo -e "${OUTRED}we've failed ... bailing${OUTNOCOL}"
-  echo -e "${OUTRED}we've failed ... bailing${OUTNOCOL}" >&2
-  echo " "
-  exit 2
-fi
-
-cd ${_CONDOR_SCRATCH_DIR}
-
-if [ ${RNDMSEED} -eq ${RNDMSEED_SPECIAL} ]; then
-  # user didn't set a seed, set it to the jobid
-  export RNDMSEED=${JOBID}
-fi
 
 export MYMKDIRCMD="ifdh mkdir_p"
 export MYCOPYCMD="ifdh cp"
@@ -1390,10 +1419,10 @@ fi
 #  fi
 #fi
 
-fetch_file ${MULTIVERSE}/${MULTIVERSE}.fcl
-for expt in ${DOSSIER_LIST} ; do
-  fetch_file ${expt}_dossier.fcl
-done
+#fetch_file ${MULTIVERSE}/${MULTIVERSE}.fcl
+#for expt in ${DOSSIER_LIST} ; do
+#  fetch_file ${expt}_dossier.fcl
+#done
 
 if [ -z "${MINU}" ]; then
   URANGE="UALL"
@@ -1419,12 +1448,12 @@ echo -e ""
 
 
 #create_fcl
-make_genana_fcl
+#make_genana_fcl
 
 if [ ${VERBOSE} -gt 1 ]; then
   echo -e "${OUTGREEN}contents of ${CONFIG} are:${OUTORANGE}"
   echo "--------------------------------------------------------------------"
-  cat ${CONFIG}.fcl
+  #cat ${CONFIG}.fcl
   echo "--------------------------------------------------------------------"
   echo -e "${OUTNOCOL}"
   echo " "
@@ -1447,11 +1476,11 @@ if [ ${RUNART} -ne 0 ]; then
   # HERE'S THE ACTUAL "ART" COMMAND
   if [ ${REDIRECT_ART} -ne 0 ]; then
     echo "art -c ${CONFIG}.fcl 1> ${CONFIG}.out 2> ${CONFIG}.err"
-          art -c ${CONFIG}.fcl 1> ${CONFIG}.out 2> ${CONFIG}.err
+   #       art -c ${CONFIG}.fcl 1> ${CONFIG}.out 2> ${CONFIG}.err
           ART_STATUS=$?
   else
     echo "art -c ${CONFIG}.fcl"
-          art -c ${CONFIG}.fcl
+    #      art -c ${CONFIG}.fcl
           ART_STATUS=$?
   fi
 else
@@ -1469,11 +1498,11 @@ echo -e "${OUTNOCOL}"
 if [[ ${VERBOSE} -gt 1 && ${REDIRECT_ART} -ne 0 ]] ; then
   echo -e "${OUTGREEN}contents of ${CONFIG}.out is:${OUTORANGE}"
   echo "--------------------------------------------------------------------"
-  cat ${CONFIG}.out
+  #cat ${CONFIG}.out
   echo "--------------------------------------------------------------------"
   echo -e "${OUTGREEN}contents of ${CONFIG}.err is:${OUTORANGE}"
   echo "--------------------------------------------------------------------"
-  cat ${CONFIG}.err
+  #cat ${CONFIG}.err
   echo "--------------------------------------------------------------------"
   echo -e "${OUTNOCOL}"
   echo " "
@@ -1487,7 +1516,7 @@ echo -e "${OUTGREEN}start copy back section${OUTNOCOL}" >&2
 ${MYMKDIRCMD} ${DESTDIR}
 MKDIR_STATUS=$?
 if [ ${MKDIR_STATUS} -ne 0 ]; then
-  echo -e "${OUTRED}${MYMKDIRCMD} ${DESTDIR} ${OUTNOCOL} returned ${MKDIR_STATUS}${OUTNOCOL}"
+  #echo -e "${OUTRED}${MYMKDIRCMD} ${DESTDIR} ${OUTNOCOL} returned ${MKDIR_STATUS}${OUTNOCOL}"
 fi
 # for ifdh mkdir is there some way to distinguish between
 # "couldn't create directory" (permissions, whatever) vs. "already exists"?
@@ -1505,7 +1534,7 @@ for inFile in ${localList} ; do
   if [ -f ${inFile} ]; then
     if [ -s ${inFile} ]; then
       echo -e "${OUTPURPLE}${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}${OUTNOCOL}"
-      ${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}
+ #     ${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}
     else
       echo -e "${OUTRED}zero length ${inFile} -- skip copy back${OUTNOCOL}"
     fi
@@ -1519,7 +1548,7 @@ echo " "
 if [ ${USINGFAKESCRATCH} -ne 0 ]; then
   if [ ${KEEPSCRATCH} -eq 0 ]; then
     echo -e "${OUTBLUE}${b0}: rm -r ${_CONDOR_SCRATCH_DIR} ${OUTNOCOL}"
-    rm -r ${_CONDOR_SCRATCH_DIR}
+  #  rm -r ${_CONDOR_SCRATCH_DIR}
   else
     echo -e "${OUTBLUE}${b0}: leaving ${_CONDOR_SCRATCH_DIR} ${OUTNOCOL}"
   fi
