@@ -6,10 +6,10 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-03-19
+export SCRIPT_VERSION=2018-03-20
 #
 ###
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-12.tar.bz2
+export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-20.tar.bz2
 #  unrolls to  localProducts_runartg4tk_v0_03_00_e15_prof/...
 export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
 
@@ -51,10 +51,13 @@ export UBASE=0                  #  0=Default, others are RandomUniv[xxxx]
 export USTRIDE=10               #  how many to do in this $PROCESS unit
 export PROBE=piminus            #  allow either name or pdg
 export P3=0,0,5.0               #  GeV
-#export PROBEP=5.0               #   e.g. 5.0 6.5  # (GeV)
-export TARGETSYMBOL=Cu          #  e.g. Cu
+#export PROBEP=5.0              #   e.g. 5.0 6.5  # (GeV)
+export TARGET=Cu                #  e.g. Cu
 export NEVENTS=500000           #  e.g. 500,000
-export PASS=0                   #  allow for multiple passes (more events) of same config
+export JOBOFFSET=0              #  offset PROCESS # by this
+
+# not yet supported ...
+export PASS=0                   # allow for multiple passes (more events) of same config
                                 #  though this requires summming _art_ files, and doing analysis again
 
 export DOSSIER_LIST="HARP,ITEP"
@@ -93,7 +96,7 @@ Purpose:  Run 'artg4tk' w/ the Geant4 Varied Model Parameter setup
 
      -p | --physics <model>       G4 Hadronic Model name [${G4HADRONICMODEL}]
 
-     -t | --target <nucleus>      target nucleus element (e.g. "Pb") [${TARGETNUCLEUS}]
+     -t | --target <nucleus>      target nucleus element (e.g. "Pb") [${TARGET}]
      -c | --pdg | --probe <code>  incident particle pdg code [${PROBE}]
           --p3 <px,py,pz>         incident particle 3-vector
      -z | --pz <pz>               incident particle p_z (p_x=p_y=0)
@@ -147,12 +150,12 @@ function process_args() {
      --longoptions="help verbose output: \
                     nevts: nevents: \
                     universe: universes: physics: model: hadronic: \
-                    target: pdg: probe: p3: pz: g4verbose: seed: pass: \
-                    tarball: pname: \
+                    target: pdg: probe: p3: pz: g4verbose: seed: joboffset: \
+                    tarball: pname: pass: \
                     scratchbase: keep-scratch \
                     no-redirect-output no-art-run no-run-art skip-art \
                     debug trace" \
-     -o hvo:n:u:p:m:t:c:z:x:T:P:-: -- "$@" `
+     -o hvo:n:u:p:m:t:c:z:j:x:T:P:-: -- "$@" `
   eval set -- "${TEMP}"
   if [ $ISDEBUG -gt 0 ]; then echo "post-getopt \$#=$#  \$@=\"$@\"" ; fi
   unset TEMP
@@ -174,12 +177,13 @@ function process_args() {
       -p | --physics | \
       -m | --model   | \
            --hadronic      ) export G4HADRONICMODEL="$2";     shift  ;;
-      -t | --target        ) export TARGETNUCLEUS="$2";       shift  ;;
+      -t | --target        ) export TARGET="$2";              shift  ;;
       -c | --pdg | --probe ) export PROBE="$2";               shift  ;;
            --p3            ) export P3="$2";                  shift  ;;
       -z | --pz            ) export P3="0,0,$2";              shift  ;;
            --g4verbose     ) export G4VERBOSE="$2";           shift  ;;
            --seed          ) export RNDMSEED="$2";            shift  ;;
+      -j | --joboffset     ) export JOBOFFSET="$2";           shift  ;;
       -x | --pass          ) export PASS="$2";                shift  ;;
 #
       -T | --tarball       ) export TARBALL="$2";             shift  ;;
@@ -214,17 +218,47 @@ function process_args() {
 
   # figure out which universes
   if [ -z "${PROCESS}" ]; then PROCESS=0; fi  # not on the grid as a job
+  let JOBID=${PROCESS}+${JOBOFFSET}
+  export JOBID
+
   # convert spaces, tabs, [semi]colons to commas
   MULTI_UNIVERSE_SPEC=`echo ${MULTI_UNIVERSE_SPEC} | tr " \t:;" ","`
   MULTI_UNIVERSE_SPEC="${MULTI_UNIVERSE_SPEC},,,"
-  MULTIVERSE_FILE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f1 `   #
-  MULTIVERSE_FILE=`basename ${MULTIVERSE_FILE} .fcl`               # to be found in tarball w/ .fcl extension
+  MULTIVERSE_BASE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f1 `   #
+  MULTIVERSE_BASE=`basename ${MULTIVERSE_BASE} .fcl`               # to be found in tarball w/ .fcl extension
+  MULTIVERSE_FILE=${MULTIVERSE_BASE}.fcl
   UBASE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f2`
+  # if uspecified UBASE=0
   if [ -z "${UBASE}" ]; then UBASE=0; fi
   USTRIDE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f3`
+  # if unspecified USTRIDE=10
   if [ -z "${USTRIDE}" ]; then USTRIDE=10; fi
-  let UNIV_FIRST=${PROCESS}*${USTRIDE}+${UBASE}
+
+  let UNIV_FIRST=${JOBID}*${USTRIDE}+${UBASE}   # 0 based counting
   let UNIV_LAST=${UNIV_FIRST}+${USTRIDE}-1
+  echo -e "${OUTCYAN}PROCESS=${PROCESS} (JOBOFFSET=${JOBOFFSET}) use UNIVERSES [${UNIV_FIRST}:${UNIV_LAST}]${OUTNOCOL}"
+
+  # noramlize probe specified by user ...
+  export PROBENAME=XYZZY          #  e.g. piplus, piminus, proton
+  export PROBEPDG=XYZZY           #  e.g. 211,    -211,    2212
+
+  case ${PROBE} in
+      11 | eminus    ) export PROBEPDG=11   ; export PROBENAME=eminus    ;;
+     -11 | eplus     ) export PROBEPDG=-11  ; export PROBENAME=eplus     ;;
+      13 | muminus   ) export PROBEPDG=13   ; export PROBENAME=muminus   ;;
+     -13 | muplus    ) export PROBEPDG=-13  ; export PROBENAME=muplus    ;;
+     111 | pizero    ) export PROBEPDG=111  ; export PROBENAME=pizero    ;;
+     211 | piplus    ) export PROBEPDG=211  ; export PROBENAME=piplus    ;;
+    -211 | piminus   ) export PROBEPDG=-211 ; export PROBENAME=piminus   ;;
+     130 | kzerolong ) export PROBEPDG=130  ; export PROBENAME=kzerolong ;;
+     311 | kzero     ) export PROBEPDG=311  ; export PROBENAME=kzero     ;;
+     321 | kplus     ) export PROBEPDG=321  ; export PROBENAME=kplus     ;;
+    -321 | kminus    ) export PROBEPDG=-321 ; export PROBENAME=kminus    ;;
+    2212 | proton    ) export PROBEPDG=2212 ; export PROBENAME=proton    ;;
+    2112 | neutron   ) export PROBEPDG=2112 ; export PROBENAME=neutron   ;;
+    *                )
+       echo -e "${OUTRED}bad PROBE=${PROBE}${OUTNOCOL}" ; exit 42 ;;
+  esac
 
   # normalize momentum is user set
   # turn most punctuation (except ".") into space
@@ -254,38 +288,22 @@ function process_args() {
     px=${PROBE_PX}
     py=${PROBE_PY}
     pz=${PROBE_PZ}
+
     # calculate momentum ... 1 digit after decimal point
-           echo "sqrt(($px*$px)+($py*$py)+($pz*$pz));scale=1"
-    export PROBEP=`echo "sqrt(($px*$px)+($py*$py)+($pz*$pz));scale=1" | bc`
+    probepcalc="sqrt(($px*$px)+($py*$py)+($pz*$pz))"
+    export PROBEP5=`echo  "scale=5; ${probepcalc}" | bc`
+    echo -e "${OUTGREEN}bc scale=5; ${probepcalc} ==> ${PROBEP5}${OUTNOCOL}"
+    # 1 digit after the decimal point
+    export PROBEP=`printf "%0.1f" ${PROBEP5}`
     echo -e "${OUTGREEN}calculated \${PROBEP}=${PROBEP} GeV${OUTNOCOL}"
     unset px py pz
   fi
 
-  export PROBENAME=XYZZY          #  e.g. piplus, piminus, proton
-  export PROBEPDG=XYZZY           #  e.g. 211,    -211,    2212
-
-  case ${PROBE} in
-      11 | eminus    ) export PROBEPDG=11   ; export PROBENAME=eminus    ;;
-     -11 | eplus     ) export PROBEPDG=-11  ; export PROBENAME=eplus     ;;
-      13 | muminus   ) export PROBEPDG=13   ; export PROBENAME=muminus   ;;
-     -13 | muplus    ) export PROBEPDG=-13  ; export PROBENAME=muplus    ;;
-     111 | pizero    ) export PROBEPDG=111  ; export PROBENAME=pizero    ;;
-     211 | piplus    ) export PROBEPDG=211  ; export PROBENAME=piplus    ;;
-    -211 | piminus   ) export PROBEPDG=-211 ; export PROBENAME=piminus   ;;
-     130 | kzerolong ) export PROBEPDG=130  ; export PROBENAME=kzerolong ;;
-     311 | kzero     ) export PROBEPDG=311  ; export PROBENAME=kzero     ;;
-     321 | kplus     ) export PROBEPDG=321  ; export PROBENAME=kplus     ;;
-    -321 | kminus    ) export PROBEPDG=-321 ; export PROBENAME=kminus    ;;
-    2212 | proton    ) export PROBEPDG=2212 ; export PROBENAME=proton    ;;
-    2112 | neutron   ) export PROBEPDG=2112 ; export PROBENAME=neutron   ;;
-    *                )
-       echo -e "{$OUTRED} bad PROBE=${PROBE}${OUTNOCOL}" ; exit 42 ;;
-  esac
-
-  # EPROBENODOT e.g. 5   6p5
+  # PROBEPNODOT e.g. 5   6p5
   # used in dossier PROLOGs, no trailing 'p0's
-  EPROBENODOT=`echo ${PROBEP} | sed -e 's/\./p/' -e 's/p0//' `
+  PROBEPNODOT=`echo ${PROBEP} | sed -e 's/\./p/' -e 's/p0//' `
 
+  echo -e "${OUTGREEN}\${PROBE}=${PROBE} normalized \${PROBENAME}=${PROBENAME} \${PROBEPDG}=${PROBEPDG}${OUTNOCOL}"
   # echo "PROBENAME=${PROBENAME} PROBE_PDG=${PROBE_PDG}"
 
   # show the defaults correctly now
@@ -318,6 +336,7 @@ function fetch_setup_tarball() {
   echo -e "${OUTGREEN}tarball:  ${TARBALL}${OUTNOCOL}"
   echo -e "${OUTGREEN}base:     ${TARBALL_BASE}${OUTNOCOL}"
 
+
   # if we can see it then use cp, otherwise "ifdh cp"
   if [ -f ${TARBALL} ]; then
     CP_CMD="cp"
@@ -339,7 +358,7 @@ function fetch_setup_tarball() {
              TAR_OPT="z" ;;
   esac
 
-  echo -e "${OUTGREEN}looking for ${BOOTSTRAP_SCRIPT}${OUTNOCOL}"
+  echo -e "${OUTCYAN}looking for ${BOOTSTRAP_SCRIPT}${OUTNOCOL}"
   # expect to find script "${BOOTSTRAP_SCRIPT}"
   bootscript=`tar t${TAR_OPT}f ${TARBALL} | grep ${BOOTSTRAP_SCRIPT} | tail -1`
   localarea=`echo ${bootscript} | cut -d'/' -f1`
@@ -347,6 +366,7 @@ function fetch_setup_tarball() {
   echo -e "${OUTGREEN}localarea=${localarea}${OUTNOCOL}"
 
   # unroll
+  echo -e "${OUTCYAN}tar x${TAR_OPT}f ${TARBALL}${OUTNOCOL}"
   tar x${TAR_OPT}f ${TARBALL}
   if [ -z "${bootscript}" -o ! -f ${bootscript} ]; then
      echo -e "${OUTRED}no file ${bootscript} (${BOOTSTRAP_SCRIPT}) in tarball ${TARBALL}${OUTNOCOL}"
@@ -373,13 +393,27 @@ function fetch_setup_tarball() {
       QUAL=`echo ${prd}%% | cut -d "%" -f3`
     fi
     if [ -n "${QUAL}" ]; then
-      echo -e "${OUTGREEN}setup ${PROD} ${VERS} -q ${QUAL}${OUTNOCOL}"
+      echo -e "${OUTCYAN}setup ${PROD} ${VERS} -q ${QUAL}${OUTNOCOL}"
       setup ${PROD} ${VERS} -q ${QUAL}
     else
-      echo -e "${OUTGREEN}setup ${PROD} ${VERS}${OUTNOCOL}"
+      echo -e "${OUTCYAN}setup ${PROD} ${VERS}${OUTNOCOL}"
       setup ${PROD} ${VERS}
     fi
   done
+
+  export MYMKDIRCMD="ifdh mkdir_p"
+  export MYCOPYCMD="ifdh cp"
+  # IFDH_CP_MAXRETRIES: maximum retries for copies on failure -- defaults to 7
+  export IFDH_CP_MAXRETRIES=1  # 7 is silly
+  # if STDOUT is a tty, then probably interactive use
+  # avoid the "ifdh" bugaboo I'm having testing interactively
+  if [ -t 1 ]; then
+    export MYMKDIRCMD="mkdir -p"
+    export MYCOPYCMD="cp"
+  fi
+  echo -e "${OUTGREEN}using \"${MYCOPYCMD}\" for copying${OUTNOCOL}"
+  echo -e "${OUTGREEN}using \"${MYMKDIRCMD}\" for mkdir${OUTNOCOL}"
+
 }
 #
 ##############################################################################
@@ -403,22 +437,26 @@ function fetch_file() {
 ##############################################################################
 function make_genana_fcl() {
 
-# make a list of configs
+echo -e "${OUTCYAN}`pwd`${OUTNOCOL}"
+echo -e "${OUTCYAN}creating ${CONFIGFCL}${OUTNOCOL}"
 
-[HARP|ITEP]_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
+export CONFIGFCL=${CONFIGBASE}.fcl
 
 # needs to loop over universes
-cat > ${CONFIG}.fcl <<EOF
-# MULTIVERSE        e.g. multiverse170208_Bertini  (fcl base)
-# G4HADRONICMODEL   e.g. Bertini
-# PROBENAME         e.g. piplus, piminus, proton
-# PROBEPDG          e.g. 211,    -211,    2212
-# EPROBE            e.g. 5.0 6.5   # (GeV)
-# EPROBENODOT       e.g. 5   6p5   # used in dossier PROLOGs, no trailing 'p0's
-# TARGETSYMBOL      e.g. Cu
-# NEVENTS           e.g. 5000
+cat > ${CONFIGFCL} <<EOF
+# this is ${CONFIGFCL}
+#
+# MULTIVERSE        e.g. multiverse170208_Bertini  (fcl base) [${MULTIVERSE}]
+# G4HADRONICMODEL   e.g. Bertini                              [${G4HADRONICMODEL}]
+# PROBENAME         e.g. piplus, piminus, proton              [${PROBENAME}]
+# PROBEPDG          e.g. 211,    -211,    2212                [${PROBEPDG}]
+# PROBEP            e.g. 5.0 6.5   # (GeV)                    [${PROBEP}]
+# PROBEPNODOT       e.g. 5   6p5   # used in dossier PROLOGs,
+#                                  # but, no trailing 'p0's   [${PROBEPNODOT}]
+# TARGET            e.g. Cu                                   [${TARGET}]
+# NEVENTS           e.g. 5000                                 [${NEVENTS}]
 
-##### this will only work for cases where both HARP & ITEP have data
+##### these are cases where both HARP & ITEP have data
 ##### otherwise we _have_ to generate fcl file based on which expt has data
 #       2 piminus_on_C_at_5GeV
 #       2 piminus_on_Cu_at_5GeV
@@ -441,7 +479,7 @@ process_name: genanaX${CONFIGBASESMALL}
 source: {
 
    module_type: EmptyEvent
-   maxEvents: ${NEVT}
+   maxEvents: ${NEVENTS}
 
 } # end of source:
 
@@ -461,12 +499,12 @@ services: {
 
    RandomNumberGenerator: {}
    TFileService: {
-      fileName: "${CONFIG}.hist.root"
+      fileName: "${CONFIGBASE}.hist.root"
    }
 
    ProcLevelSimSetup: {
       HadronicModelName:  "${G4HADRONICMODEL}"
-      TargetNucleus:  "${TARGETSYMBOL}"
+      TargetNucleus:  "${TARGET}"
       RNDMSeed:  1
    }
    # leave this on ... documentation of what was set
@@ -478,7 +516,7 @@ outputs: {
 
    outroot: {
       module_type: RootOutput
-      fileName: "${CONFIG}.artg4tk.root"
+      fileName: "${CONFIGBASE}.artg4tk.root"
    }
 
 } # end of outputs:
@@ -491,338 +529,74 @@ physics: {
          module_type: EventGenerator
          nparticles : 1
          pdgcode:  ${PROBEPDG}
-         momentum: [ 0.0, 0.0, ${EPROBE} ] // in GeV
+         momentum: [ 0.0, 0.0, ${PROBEP} ] // in GeV
       }
 
 EOF
 
-cat > ${CONFIG}.fcl <<EOF
-      BertiniDefault            : @local::BertiniDefault
-      BertiniRandom4Univ0001    : @local::BertiniRandom4Univ0001
-      BertiniRandom4Univ0002    : @local::BertiniRandom4Univ0002
-      BertiniRandom4Univ0003    : @local::BertiniRandom4Univ0003
-      BertiniRandom4Univ0004    : @local::BertiniRandom4Univ0004
-      BertiniRandom4Univ0005    : @local::BertiniRandom4Univ0005
-      BertiniRandom4Univ0006    : @local::BertiniRandom4Univ0006
-      BertiniRandom4Univ0007    : @local::BertiniRandom4Univ0007
-      BertiniRandom4Univ0008    : @local::BertiniRandom4Univ0008
-      BertiniRandom4Univ0009    : @local::BertiniRandom4Univ0009
-      BertiniRandom4Univ0010    : @local::BertiniRandom4Univ0010
+for univ in ${UNIVERSE_NAMES}; do
+   printf "      %-25s : @local::%s\n" ${univ} ${univ} >> ${CONFIGFCL}
+done
+
+cat >> ${CONFIGFCL} << EOF
 
    } # end of producers:
 
    analyzers: {
 
-     // Analyze Variants
+EOF
 
-     BertiniDefaultHARP:
+for univ in ${UNIVERSE_NAMES}; do
+  for expt in ${EXPT_MATCH}; do
+cat >> ${CONFIGFCL} << EOF
+     ${univ}${expt}:
      {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniDefault"
+        module_type: Analyzer${expt}
+        ProductLabel: "${univ}"
         IncludeExpData:
         {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
+            DBRecords:  @local::${expt}_${EXPTSETUP_BASE}
         }
      }
 
-     BertiniDefaultITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniDefault"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
+EOF
+  done
+done
 
-     BertiniRandom4Univ0001HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0001"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0001ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0001"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0002HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0002"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0002ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0002"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0003HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0003"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0003ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0003"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0004HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0004"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0004ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0004"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0005HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0005"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0005ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0005"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0006HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0006"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0006ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0006"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0007HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0007"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0007ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0007"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0008HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0008"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0008ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0008"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0009HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0009"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0009ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0009"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0010HARP:
-     {
-        module_type: AnalyzerHARP
-        ProductLabel: "BertiniRandom4Univ0010"
-        IncludeExpData:
-        {
-            DBRecords:  @local::HARP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
-     BertiniRandom4Univ0010ITEP:
-     {
-        module_type: AnalyzerITEP
-        ProductLabel: "BertiniRandom4Univ0010"
-        IncludeExpData:
-        {
-            DBRecords:  @local::ITEP_${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
-        }
-     }
-
+cat >> ${CONFIGFCL} << EOF
    } # end of analyzers:
 
    path1:     [ PrimaryGenerator
-              , BertiniDefault
-              , BertiniRandom4Univ0001
-              , BertiniRandom4Univ0002
-              , BertiniRandom4Univ0003
-              , BertiniRandom4Univ0004
-              , BertiniRandom4Univ0005
-              , BertiniRandom4Univ0006
-              , BertiniRandom4Univ0007
-              , BertiniRandom4Univ0008
-              , BertiniRandom4Univ0009
-              , BertiniRandom4Univ0010
-              ]
-
-  path2: [
-          BertiniRandom4Univ0001HARP,     BertiniRandom4Univ0001ITEP,
-          BertiniRandom4Univ0002HARP,     BertiniRandom4Univ0002ITEP,
-          BertiniRandom4Univ0003HARP,     BertiniRandom4Univ0003ITEP,
-          BertiniRandom4Univ0004HARP,     BertiniRandom4Univ0004ITEP,
-          BertiniRandom4Univ0005HARP,     BertiniRandom4Univ0005ITEP,
-          BertiniRandom4Univ0006HARP,     BertiniRandom4Univ0006ITEP,
-          BertiniRandom4Univ0007HARP,     BertiniRandom4Univ0007ITEP,
-          BertiniRandom4Univ0008HARP,     BertiniRandom4Univ0008ITEP,
-          BertiniRandom4Univ0009HARP,     BertiniRandom4Univ0009ITEP,
-          BertiniRandom4Univ0010HARP,     BertiniRandom4Univ0010ITEP
-        ]
-
-
-
-   stream1:   [ outroot ]
-   end_paths: [ path1, stream1, path2 ]
-
-} # end of physics:
-
 EOF
 
-}
+for univ in ${UNIVERSE_NAMES}; do
+   printf "              , %s\n" ${univ} >> ${CONFIGFCL}
+done
 
+cat >> ${CONFIGFCL} << EOF
+              ] // end-of path1
 
+   path2:     [
+EOF
 
-
-function fetch_multiverse() {
-# FHICL file handling is stupid and won't accept full path names for
-# files (I know why, they just won't fix it with 2 lines...), so we
-# need to make a local copy of the input file.  Also, use a couple of
-# places it might be if just the basename is given..
-#
-export MULTI_UNIVERSE_FILE=`echo ${MULTI_UNIVERSE_SPEC} | cut -d',' -f1`
-export LOCAL_MULTI_UNIVERSE_FILE=`basename ${MULTI_UNIVERSE_FILE}`
-
-export LOCAL_MULTI_UNIVERSE_FILE_BASE=`basename ${LOCAL_MULTI_UNIVERSE_FILE} .fcl`
-
-ispnfs=`echo ${MULTI_UNIVERSE_FILE} | cut -c1-5 | grep -q "/pnfs"`
-
-if [ "${MULTI_UNIVERSE_FILE}" != "${LOCAL_MULTI_UNIVERSE_FILE}" ]; then
-  # path given
-  ${MYCOPYCMD} ${MULTI_UNIVERSE_FILE} ${LOCAL_MULTI_UNIVERSE_FILE}
-fi
-if [ ! -f ${LOCAL_MULTI_UNIVERSE_FILE} ]; then
-  # drat ... try some other places (perhaps a partial sub-path)
-  for trybase in ${MULTI_UNIVERSE_FILE} ${LOCAL_MULTI_UNIVERSE_FILE} ; do
-    for trypath in ${OUTPUTTOP} ${MRB_TOP} ${MRB_TOP}/.. ; do
-      if [ -f ${LOCAL_MULTI_UNIVERSE_FILE} ]; then
-        continue
-      fi
-      echo -e "${OUTGREEN}try:  ${MYCOPYCMD} ${trypath}/${trybase} ${LOCAL_MULTI_UNIVERSE_FILE}${OUTNOCOL}"
-      ${MYCOPYCMD} ${trypath}/${trybase} ${LOCAL_MULTI_UNIVERSE_FILE}
-      FETCH_STATUS=$?
-      if [ ${FETCH_STATUS} -eq 0 ]; then
-        echo -e "${OUTGREEN}fetch returned status ${FETCH_STATUS} (good!)${OUTNOCOL}"
-      else
-        echo -e "${OUTRED}fetch returned status ${FETCH_STATUS}${OUTNOCOL}"
-      fi
-    done
+char=" "
+for univ in ${UNIVERSE_NAMES}; do
+  for expt in ${EXPT_MATCH}; do
+   printf "              %s %s\n" "$char" ${univ}${expt} >> ${CONFIGFCL}
+   char=","
   done
-fi
+done
 
-if [ ! -f ${LOCAL_MULTI_UNIVERSE_FILE} ]; then
-  # failed to find the file .. no point going on
-  echo -e "${OUTRED}===========>>> ERRROR${OUTNOCOL}"
-  echo -e "${OUTRED}failed to find ${MULTI_UNIVERSE_FILE} anywhere${OUTNOCOL}"
-  echo -e "${OUTRED}failed to find ${MULTI_UNIVERSE_FILE} anywhere${OUTNOCOL}" >&2
-  echo -e "${OUTRED}... no point in going on.  bail out.${OUTNOCOL}"
-  echo -e "${OUTRED}... no point in going on.  bail out.${OUTNOCOL}" >&2
-  exit 1
-fi
+cat >> ${CONFIGFCL} << EOF
+              ] // end-of path2
+
+   stream1:       [ outroot ]
+   trigger_paths: [ path1 ]
+   end_paths:     [ path2, stream1 ]
+
+} # end of physics:
+EOF
+
 
 }
 
@@ -835,10 +609,10 @@ if [ $NUNIV -lt 20 ]; then
   echo -e "${OUTGREEN}${UNIVERSE_NAMES}"
 else
   # need to enclose in ""'s so as to retain \n's
-  echo -e "${OUTGREEN} (first and last 10):"
-  echo "${UNIVERSE_NAMES}" | head -n 10
+  echo -e "${OUTGREEN} (first and last 5):"
+  echo "${UNIVERSE_NAMES}" | head -n 5
   echo "..."
-  echo "${UNIVERSE_NAMES}" | tail -n 10
+  echo "${UNIVERSE_NAMES}" | tail -n 5
 fi
 echo -e "${OUTNOCOL}"
 
@@ -848,7 +622,7 @@ echo -e "${OUTNOCOL}"
 ##############################################################################
 function infer_universe_names() {
 #
-# create a list of universe names based on configuratiosn in the
+# create a list of universe names based on configurations in the
 # ${MULTI_UNIVERSE_FILE}, entries in which should look like:
 #
 #   <label> : {
@@ -868,169 +642,93 @@ function infer_universe_names() {
 # and "ModelParameters" as our heuristic for label names)
 #
 
-export UNIVERSE_NAMES=`cat ${LOCAL_MULTI_UNIVERSE_FILE} | \
+# complete list
+export UNIVERSE_NAMES=`cat ${LOCAL_MULTIVERSE_FILE} | \
                        grep "{" | grep ":" | \
                        grep -v HadronicModel | \
                        grep -v ModelParameters | \
                        tr -d " :{" `
 
 export NUNIV=`echo "$UNIVERSE_NAMES" | wc -w`
+echo " "
 if [ ${VERBOSE} -gt 1 ]; then
-  echo -e "${OUTGREEN}${NUNIV} universes in ${LOCAL_MULTI_UNIVERSE_FILE}${OUTNOCOL}"
+  echo -e "${OUTGREEN}${NUNIV} universes in ${LOCAL_MULTIVERSE_FILE}${OUTNOCOL}"
   print_universe_names
 fi
-export MINU=1
-export MAXU=${NUNIV}
 
-# if user requested only a subset ... then trim this list here
-# first extract the requested range ... (1 or 2 values after commas)
-REQMINU=`echo "${MULTI_UNIVERSE_SPEC},,," | cut -d',' -f2`
-REQMAXU=`echo "${MULTI_UNIVERSE_SPEC},,," | cut -d',' -f3`
-if [ ${VERBOSE} -gt 1 ]; then
-  echo -e "initial REQ '${REQMINU}' '${REQMAXU}' of '${MINU}' '${MAXU}'"
-fi
-if [ -z "${REQMINU}" ]; then REQMINU=${MINU} ; fi
-if [ -z "${REQMAXU}" ]; then REQMAXU=${MAXU} ; fi
-if [ ${VERBOSE} -gt 1 ]; then
-  echo -e "non-blank REQ '${REQMINU}' '${REQMAXU}' of '${MINU}' '${MAXU}'"
+# 0 based counting
+MINU=0
+let MAXU=${NUNIV}-1
+export MINU
+export MAXU
+
+if [ ${VERBOSE} -gt 0 ]; then
+  echo -e "${OTUGREEN}initial REQ [${UNIV_FIRST}:${UNIV_LAST}] of [${MINU}:${MAXU}]${OUTNOCOL}"
 fi
 
-if [ ${REQMINU} -lt ${MINU} ]; then REQMINU=${MINU} ; fi
-if [ ${REQMAXU} -gt ${MAXU} ]; then REQMAXU=${MAXU} ; fi
+if [ ${UNIV_FIRST} -lt ${MINU} ]; then UNIV_FIRST=${MINU} ; fi
+if [ ${UNIV_LAST}  -gt ${MAXU} ]; then UNIV_LAST=${MAXU} ; fi
 
 if [ ${VERBOSE} -gt 1 ]; then
-  echo -e "upper/lower bounds REQ '${REQMINU}' '${REQMAXU}' of '${MINU}' '${MAXU}'"
+  echo -e "${OUTGREEN}bounded REQ [${UNIV_FIRST}:${UNIV_LAST}] of [${MINU}:${MAXU}]${OUTNOCOL}"
 fi
 
-if [[ ${REQMINU} -ne ${MINU} || ${REQMAXU} -ne ${MAXU} ]] ; then
+if [[ ${UNIV_FIRST} -ne ${MINU} || ${UNIV_LAST} -ne ${MAXU} ]] ; then
   # need to trim ...
-  let i=0
+  let i=-1 # using 0 based counting
   export UNIVERSE_NAMES_FULL=${UNIVERSE_NAMES}
   UNIVERSE_NAMES=""
   for univ in ${UNIVERSE_NAMES_FULL} ; do
     let i=${i}+1
-    if [[ ${i} -lt ${REQMINU} || ${i} -gt ${REQMAXU} ]] ; then continue; fi
-      if [ -z "${UNIVERSE_NAMES}" ]; then
-        export UNIVERSE_NAMES="${univ}"
-      else
-        export UNIVERSE_NAMES=`echo -e "${UNIVERSE_NAMES}\n${univ}"`
-      fi
+    if [ ${i} -lt ${UNIV_FIRST} ] ; then continue; fi
+    if [ ${i} -gt ${UNIV_LAST}  ] ; then break; fi
+    if [ -z "${UNIVERSE_NAMES}" ]; then
+      export UNIVERSE_NAMES="${univ}"
+    else
+      export UNIVERSE_NAMES=`echo -e "${UNIVERSE_NAMES}\n${univ}"`
+    fi
   done
 
   NUNIV=`echo "$UNIVERSE_NAMES" | wc -w`
   if [ ${VERBOSE} -gt 1 ]; then
     echo " "
-    echo -e "${OUTGREEN}trimmmed to ${NUNIV} universes [${MINU}:${MAXU}] in ${LOCAL_MULTI_UNIVERSE_FILE}${OUTNOCOL}"
+    echo -e "${OUTGREEN}trimmmed to ${NUNIV} universes [${UNIV_FIRST}:${UNIV_LAST}] in ${LOCAL_MULTIVERSE_FILE}${OUTNOCOL}"
     print_universe_names
   fi
 fi
+
 }
+
 
 #
 ##############################################################################
-function old_create_fcl() {
+# find the supplied fcl file in the usual paths
+# if found return full path as ${LOCAL_FCL_FILE}
+# if not found echo error, set $?=1
+function find_fcl_file() {
+  FCL_FILE=${1}
+  unset LOCAL_FCL_FILE
+
+  # allow for full path and local directory
+  for p in `echo "${FHICL_FILE_PATH}:.:/" | tr : "\n" ` ; do
+    if [ -f ${p}/${FCL_FILE} ]; then
+      export LOCAL_FCL_FILE=${p}/${FCL_FILE}
+      break
+    fi
+  done
+  if [[ -z "${LOCAL_FCL_FILE}" || ! -f "${LOCAL_FCL_FILE}" ]] ; then
+    echo -e "${OUTRED}failed to find ${FCL_FILE} anywhere${OUTNOCOL}"
+    echo -e "${OUTRED}failed to find ${FCL_FILE} anywhere${OUTNOCOL}" >&2
+    return 1
+  else
+    return 0
+  fi
+}
+#
+##############################################################################
 # use an https://en.wikipedia.org/wiki/Here_document#Unix_shells
 # to create file.  un-\'ed $ or back-ticks (`) will be expanded from
 # the current environment when run
-
-echo -e "${OUTGREEN}create_fcl  ${CONFIG}${OUTNOCOL}"
-
-let FIRSTRUN=${JOBID}
-let FIRSTSUBRUN=0
-let FIRSTEVENT=${JOBID}*${NEVENTS}
-
-rm -f  ${CONFIG}.fcl
-touch  ${CONFIG}.fcl
-cat >> ${CONFIG}.fcl << EOF
-
-#include "${LOCAL_MULTI_UNIVERSE_FILE}"
-
-process_name: process${ARTPNAME}
-
-source: {
-
-   module_type: EmptyEvent
-   maxEvents:   ${NEVENTS}
-   firstRun:    ${FIRSTRUN}
-   firstSubRun: ${FIRSTSUBRUN}
-   firstEvent:  ${FIRSTEVENT}
-
-} # end of source:
-
-services: {
-
-   message: {
-      debugModules : ["*"]
-      suppressInfo : []
-      destinations : {
-         LogToConsole : {
-            type : "cout"
-            threshold : "DEBUG"
-            categories : { default : { limit : 50 } }
-         } # end of LogToConsole
-      } # end of destinations:
-   } # end of message:
-
-   RandomNumberGenerator: {}
-   ProcLevelSimSetup: {
-      HadronicModelName:  "${G4HADRONICMODEL}"
-      TargetNucleus:  "${TARGETNUCLEUS}"
-      RNDMSeed:  ${RNDMSEED}
-   }
-   # leave this on ... documentation of what was set
-   PhysModelConfig: { Verbosity: true }
-
-} # end of services:
-
-outputs: {
-
-   out${ARTPNAME}: {
-      module_type: RootOutput
-      fileName: "${CONFIG}.artg4tk.root"
-   }
-
-} # end of outputs:
-
-physics: {
-
-   producers: {
-
-      PrimaryGenerator: {
-         module_type: EventGenerator
-         nparticles : 1
-         pdgcode:  ${PROBEPDG}
-         momentum: [ ${PROBE_PX}, ${PROBE_PY}, ${PROBE_PZ} ] // in GeV
-      }
-
-EOF
-
-for univ in ${UNIVERSE_NAMES}; do
-   printf "      %-25s : @local::%s\n" ${univ} ${univ} >> ${CONFIG}.fcl
-done
-
-cat >> ${CONFIG}.fcl << EOF
-
-   } # end of producers:
-
-   analyzers: {
-
-   } # end of analyzers:
-
-   path1:     [ PrimaryGenerator
-EOF
-
-for univ in ${UNIVERSE_NAMES}; do
-   printf "              , %s\n" ${univ} >> ${CONFIG}.fcl
-done
-
-cat >> ${CONFIG}.fcl << EOF
-              ]
-   stream1:   [ out${ARTPNAME} ]
-   end_paths: [ path1, stream1 ]
-
-} # end of physics:
-EOF
-} # end-of-function create_fcl
 
 #
 ##############################################################################
@@ -1069,182 +767,6 @@ function setup_colors() {
 # use as:   echo -e "${OUTRED} this is red ${OUTNOCOL}"
 }
 ##############################################################################
-
-function create_setup_everything() {
-
-return
-
-echo -e "${OUTGREEN}creating setup_everything.sh in `pwd`${OUTNOCOL}"
-echo -e "${OUTGREEN}  with ${ARTG4TK_MRB}${OUTNOCOL}"
-
-export ARTG4TK_QUAL_UNDERSCORE=`echo "${ARTG4TK_QUAL}" | tr ":" "_" `
-
-cat > setup_everything.sh <<EOF
-# this file is intended to be sourced by a bash shell
-
-# trigger automount
-cat ${EXTERNALS}/setup > /dev/null 2>&1
-# possibly give it some time
-if [ ! -f ${EXTERNALS}/setup ]; then echo "sleep 3 (a)" ; sleep 3; fi
-if [ ! -f ${EXTERNALS}/setup ]; then
-  echo -e "\${OUTRED}not finding ${EXTERNALS}/setup\${OUTNOCOL}"
-  echo -e "\${OUTRED}  ... this will probably end in tears\${OUTNOCOL}"
-  echo -e "\${OUTRED}-------------------------------------\${OUTNOCOL}"
-  df -ahT --sync
-  echo -e "\${OUTRED}-------------------------------------\${OUTNOCOL}"
-fi
-
-STARTDIR=\`pwd\`
-# bootstrap UPS
-source ${EXTERNALS}/setup
-
-# add another location so we can use the best-est "ifdhc"
-#    /grid/fermiapp/products/common/db
-COMMON_UPS=/cvmfs/fermilab.opensciencegrid.org/products/common/db
-LARSOFT_UPS=/cvmfs/fermilab.opensciencegrid.org/products/larsoft
-export PRODUCTS=\${PRODUCTS}:\${COMMON_UPS}:\${LARSOFT_UPS}
-
-# interact w/ PNFS only through ifdh cp & friends
-setup ifdhc
-
-# setup default one so we get dependent products, mrb will override
-setup artg4tk ${ARTG4TK_VERSION} -q ${ARTG4TK_QUAL}
-setup mrb     ${MRB_VERSION}
-
-# these are only need for code development, but whatever ...
-# then we can use this interactively later
-setup gitflow v1_8_0
-setup git v2_3_0
-export MRB_PROJECT=artg4tk
-
-case \${ARTG4TK_MRB} in
-   *.tar.gz  | *.tgz  ) copt="z" ;;
-   *.tar.bz2 | *.tbz2 ) copt="j" ;;
-   *.tar              ) copt=""  ;;
-   *                  ) copt="IS-A-REAL-PATH" ;;
-esac
-if [ "\${copt}" != "IS-A-REAL-PATH" ]; then
-  echo -e "\${OUTRED}input is a tarball ... try unpacking\${OUTNOCOL}"
-  export ARTG4TK_MRB_TARBALL=\${ARTG4TK_MRB}
-  export TARBALL_BASE=\`basename \${ARTG4TK_MRB_TARBALL}\`
-  ${MYCOPYCMD} \${ARTG4TK_MRB_TARBALL} \${TARBALL_BASE}
-  if [ ! -f \${TARBALL_BASE} ]; then
-     echo -e "\${OUTRED}\"${MYCOPYCMD}\" failed; try simple \"cp\" to get ${TARBALL_BASE}\${OUTNOCOL}"
-     cp \${ARTG4TK_MRB_TARBALL} \${TARBALL_BASE}
-  fi
-  if [ ! -f \${TARBALL_BASE} ]; then
-     echo -e "\${OUTRED}failed to get \${TARBALL_BASE} ... tears, there will be tears\${OUTNOCOL}"
-     exit 42
-  fi
-  if [ \${VERBOSE} -gt 1 ]; then
-    echo -e "\${OUTRED}  TARBALL_BASE=\${TARBALL_BASE}\${OUTNOCOL}"
-    echo -e "\${OUTRED}     tar tv\${copt}f \${TARBALL_BASE} | head -1 | sed -e 's%^\./%%' | cut -d'/' -f1"
-  fi
-  # don't use "v" option (otherwise prints permissione, etc)
-  TARBALL_TOP_DIR=\`tar t\${copt}f \${TARBALL_BASE} | head -1 | sed -e 's%^\./%%' | cut -d'/' -f1\`
-  if [ \${VERBOSE} -gt 1 ]; then
-    echo -e "\${OUTRED}  TARBALL_TOP_DIR=\${TARBALL_TOP_DIR}\${OUTNOCOL}"
-    echo tar x\${copt}f \${TARBALL_BASE}
-  fi
-  tar x\${copt}f \${TARBALL_BASE}
-  # make it so we can delete it all later ...
-  chmod -R +w \${TARBALL_TOP_DIR}
-  export ARTG4TK_MRB=\`pwd\`/\${TARBALL_TOP_DIR}
-  echo -e "\${OUTRED}new ARTG4TK_MRB=\${ARTG4TK_MRB}\${OUTNOCOL}"
-
-  ##### this file has hardcode ${MRB_TOP} & ${MRB_SOURCE} to where it was built
-  # find what was there ... and substitute where we've unpacked it
-  LOCALSETUPFILE="\${ARTG4TK_MRB}/localProducts_artg4tk_${ARTG4TK_VERSION}_${ARTG4TK_QUAL_UNDERSCORE}/setup"
-  # "massage" it to point where it actually _is_
-  echo -e "\${OUTPURPLE}update to current location: \${LOCALSETUPFILE} \${OUTNOCOL}"
-  MRB_TOP_OLD=\`cat \${LOCALSETUPFILE} | egrep "setenv *MRB_TOP" | tr -d '"' | tr -s ' ' | sed -e 's/^ *//g' | cut -d' ' -f3 \`
-  sed -i.orig -e "s%\${MRB_TOP_OLD}%\${ARTG4TK_MRB}%g" \${LOCALSETUPFILE}
-  if [ \${VERBOSE} -gt 1 ]; then
-    echo -e "\${OUTRED}sed -i.orig -e \"s%\${MRB_TOP_OLD}%\${ARTG4TK_MRB}%g\" \${LOCALSETUPFILE} is now: \${OUTORANGE}"
-    echo "--------------------------------------------------------------------"
-    cat \${LOCALSETUPFILE}
-    echo "--------------------------------------------------------------------"
-  fi
-
-  # end-of-tarball handling
-fi
-
-echo -e "\${OUTGREEN}cd \${ARTG4TK_MRB}\${OUTNOCOL}"
-cd \${ARTG4TK_MRB}
-
-echo -e "\${OUTGREEN}source ./localProducts_artg4tk_${ARTG4TK_VERSION}_${ARTG4TK_QUAL_UNDERSCORE}/setup \${OUTNOCOL}"
-##### this file has hardcode ${MRB_TOP} & ${MRB_SOURCE} to where it was built
-## hopefully this was dealt with above when unpackingtar ball
-source ./localProducts_artg4tk_${ARTG4TK_VERSION}_${ARTG4TK_QUAL_UNDERSCORE}/setup
-
-if [ \${VERBOSE} -gt 1 ]; then
-  echo "   LD_LIBRARY_PATH="
-  echo \${LD_LIBRARY_PATH} | tr ":" "\n" | sed -e 's/^/     /g'
-fi
-
-# mrbsetenv is an alias for the complete command below;
-# it will NOT work if issued from a script - one has to "source" it explicitly
-# and this should be done AFTER source-ing this ./localProducts...../setup thing
-# such deps on MRB are NOT super convenient, and at some point we might want
-# to explore alternatives ^_^
-#
-echo -e "\${OUTGREEN}source \${MRB_DIR}/bin/mrbSetEnv\${OUTNOCOL}"
-# supply explicit null arg ... otherwise pulls args from calling script
-source \${MRB_DIR}/bin/mrbSetEnv "" "" ""
-
-if [ \${VERBOSE} -gt 1 ]; then
-  echo "   LD_LIBRARY_PATH="
-  echo \${LD_LIBRARY_PATH} | tr ":" "\n" | sed -e 's/^/     /g'
-fi
-
-### this seems to wipe local build area from LD_LIBRARY_PATH
-### so don't use it unless the products are "installed"
-### ##echo -e "\${OUTGREEN}mrb setup_local_products\${OUTNOCOL}"
-### ###mrb setup_local_products
-### # 'mrb setup_local_products' forces me to use 'mrbslp' alias instead (WTF?)
-### echo -e "\${OUTGREEN}mrbslp\${OUTNOCOL}"
-### mrbslp
-###
-### if [ \${VERBOSE} -gt 1 ]; then
-###   echo "   LD_LIBRARY_PATH="
-###   echo \${LD_LIBRARY_PATH} | tr ":" "\n" | sed -e 's/^/     /g'
-### fi
-
-echo -e "\${OUTGREEN}cd \${ARTG4TK_MRB}/srcs/RooMUHistos\${OUTNOCOL}"
-cd \${ARTG4TK_MRB}/srcs/RooMUHistos
-source ./env_set.sh
-
-if [ \${VERBOSE} -gt 1 ]; then
-  echo "   LD_LIBRARY_PATH="
-  echo \${LD_LIBRARY_PATH} | tr ":" "\n" | sed -e 's/^/     /g'
-fi
-
-echo -e "\${OUTGREEN}cd \${ARTG4TK_MRB}\${OUTNOCOL}"
-cd \${ARTG4TK_MRB}
-
-# jumped around above ... go back to where we should be
-echo -e "\${OUTGREEN}cd \${STARTDIR}\${OUTNOCOL}"
-cd \${STARTDIR}
-
-if [ \${VERBOSE} -gt 0 ]; then
-  echo -e "\${OUTGREEN}done setup_everything.sh \${OUTNOCOL}"
-  echo -e "\${OUTGREEN}currently in \`pwd\` \${OUTNOCOL}"
-  echo -e "\${OUTGREEN}MRB_TOP=\${MRB_TOP}\${OUTNOCOL}"
-  echo -e "\${OUTGREEN}MRB_SOURCE=\${MRB_SOURCE}\${OUTNOCOL}"
-fi
-
-# end-of-script
-EOF
-
-if [ ${VERBOSE} -gt 1 ]; then
-  echo -e "${OUTGREEN}setup_everything.sh:${OUTORANGE}"
-  echo "--------------------------------------------------------------------"
-  cat setup_everything.sh
-  echo "--------------------------------------------------------------------"
-  echo -e "${OUTNOCOL}"
-  echo " "
-fi
-}
 
 #
 ##############################################################################
@@ -1327,24 +849,27 @@ function report_setup()
   echo "   using `which art`"
   echo "   using `which ifdh`"
   echo "   using \${GEANT4_DIR}=${GEANT4_DIR}"
-  echo "   using \${ARTG4TK_MRB}=${ARTG4TK_MRB}"
   echo "   \${PRODUCTS}="
   echo ${PRODUCTS} | tr ":" "\n" | sed -e 's/^/     /g'
   echo "   \${LD_LIBRARY_PATH}="
   echo ${LD_LIBRARY_PATH} | tr ":" "\n" | sed -e 's/^/     /g'
+  echo "   \${FHICL_FILE_PATH}="
+  echo ${FHICL_FILE_PATH} | tr ":" "\n" | sed -e 's/^/     /g'
   echo " "
 }
 
 function report_config_summary()
 {
-  echo -e "${b0}:${OUTBLUE} config_summary ${CONFIG}${OUTNOCOL}"
+  echo -e "${b0}:${OUTBLUE} config_summary ${CONFIGBASE}${OUTNOCOL}"
   echo "   DESTDIR        ${DESTDIR}"
+  echo "   PROCESS        ${PROCESS}"
+  echo "   JOBOFFSET      ${JOBOFFSET}"
   echo "   JOBID          ${JOBID}"
-  echo "   MULTIVERSE     ${MULTIVERSE}"
+  echo "   MULTIVERSE     ${MULTIVERSE} [${UNIV_FIRST}:${UNIV_LAST}]"
   echo "   nevents        ${NEVENTS}"
   echo "   hadronic model ${G4HADRONICMODEL}"
-  echo "   target         \"${TARGETNUCLEUS}\""
-  echo "   probe:        ${PROBENAME} (${PROBEPDG}) [ ${PROBE_PX}, ${PROBE_PY}, ${PROBE_PZ} ] GeV/c"
+  echo "   target         \"${TARGET}\""
+  echo "   probe          ${PROBENAME} (${PROBEPDG}) [ ${PROBE_PX}, ${PROBE_PY}, ${PROBE_PZ} ] GeV/c"
   echo " "
 }
 ##############################################################################
@@ -1375,31 +900,10 @@ echo -e "${OUTORANGE}JOBID=${JOBID}${OUTNOCOL}"
 
 if [ ${RNDMSEED} -eq ${RNDMSEED_SPECIAL} ]; then
   # user didn't set a seed, set it to the jobid
-  echo -e "${OUTORANGE}export RNDMSEED=${JOBID}${OUTNOCOL}"
-  export RNDMSEED=${JOBID}
+  echo -e "${OUTORANGE}export RNDMSEED=${RNDMSEED}${OUTNOCOL}"
+  #echo -e "${OUTORANGE}export RNDMSEED=${JOBID}${OUTNOCOL}"
+  # export RNDMSEED=${JOBID}
 fi
-
-exit
-return
-###
-
-  echo -e "${OUTRED}-------------------------------------${OUTNOCOL}"
-  report_config_summary
-  report_node_info
-  report_setup
-  echo -e "${OUTRED}-------------------------------------${OUTNOCOL}"
-
-export MYMKDIRCMD="ifdh mkdir_p"
-export MYCOPYCMD="ifdh cp"
-# IFDH_CP_MAXRETRIES: maximum retries for copies on failure -- defaults to 7
-export IFDH_CP_MAXRETRIES=1  # 7 is silly
-# if STDOUT is a tty, then probably interactive use
-# avoid the "ifdh" bugaboo I'm having testing interactively
-if [ -t 1 ]; then
-  export MYMKDIRCMD="mkdir -p"
-  export MYCOPYCMD="cp"
-fi
-echo -e "${OUTGREEN}using \"${MYCOPYCMD}\" for copying${OUTNOCOL}"
 
 if [ "`pwd`" != "${_CONDOR_SCRATCH_DIR}" ]; then
   echo -e "${OUTRED}about to fetch_multiverse but in `pwd`${OUTNOCOL}"
@@ -1407,63 +911,104 @@ if [ "`pwd`" != "${_CONDOR_SCRATCH_DIR}" ]; then
   cd ${_CONDOR_SCRATCH_DIR}
 fi
 
-#fetch_multiverse
-#infer_universe_names
-#if [ ${VERBOSE} -gt 1 ]; then
-#  echo -e "${OUTGREEN}post- fetch_multiverse/infer_universe_names${OUTNOCOL}"
-#  pwd
-#  ls -l
-#  if [ -d 0 ]; then
-#    echo "what is the 0 directory?"
-#    ls -l 0
-#  fi
-#fi
-
-#fetch_file ${MULTIVERSE}/${MULTIVERSE}.fcl
-#for expt in ${DOSSIER_LIST} ; do
-#  fetch_file ${expt}_dossier.fcl
-#done
-
-if [ -z "${MINU}" ]; then
-  URANGE="UALL"
-else
-  MINU4=`printf "%04d" ${MINU}`
-  MAXU4=`printf "%04d" ${MAXU}`
-  URANGE="U${MINU4}-${MAXU4}"
+echo -e "${OUTGREEN}looking for ${MULTIVERSE_FILE}${OUTNOCOL}"
+# find LOCAL_MULTIVERSE_FILE ... should be in $FHICL_FILE_PATH after setup
+find_fcl_file ${MULTIVERSE_FILE}
+if [ $? -ne 0 ]; then
+  # failed to find the file .. no point going on
+  echo -e "${OUTRED}===========>>> ERRROR${OUTNOCOL}"
+  echo -e "${OUTRED}... no point in going on.  bail out.${OUTNOCOL}"
+  echo -e "${OUTRED}... no point in going on.  bail out.${OUTNOCOL}" >&2
+  exit 3
 fi
-# output file name and directory based on universe (subset) and JOBID
-# echo -e "${OUTPURPLE}${b0}: pwd=`pwd` [${MINU}:${MAXU}] ${OUTNOCOL}"
+LOCAL_MULTIVERSE_FILE=${LOCAL_FCL_FILE}
+echo -e "${OUTGREEN}found ${LOCAL_MULTIVERSE_FILE}${OUTNOCOL}"
 
-# should include universe ranges
-export CONFIGBASE=${PROBENAME}_on_${TARGETSYMBOL}_at_${EPROBENODOT}GeV
+
+# [HARP|ITEP]_${PROBENAME}_on_${TARGET}_at_${PROBEPNODOT}GeV
+export EXPTSETUP_BASE=${PROBENAME}_on_${TARGET}_at_${PROBEPNODOT}GeV
+echo -e "${OUTCYAN}look for EXPTSETUP_BASE=${EXPTSETUP_BASE}${OUTNOCOL}"
+EXPT_MATCH=""
+FCL_MATCH=""
+
+for EXPT in `echo ${DOSSIER_LIST} | tr ",;:" " "` ; do
+  # find the fcl file
+  LOOKFOR=${EXPT}_dossier.fcl
+  #echo -e -n "${OUTGREEN}looking for ${LOOKFOR}${OUTNOCOL}"
+  LOOKFOR_RESULT=LOCAL_${EXPT}_DOSSIER_FILE
+  find_fcl_file ${LOOKFOR}
+  if [ $? -ne 0 ]; then
+    echo -e "${OUTRED}could not find ${LOOKFOR}${OUTNOCOL}"
+    exit 4
+  fi
+  export LOCAL_${EXPT}_DOSSIER_FILE=${LOCAL_FCL_FILE}
+
+  # "indirect variable reference"  val=${!vnamenam}
+  #if [ -z "${!LOOKFOR}" ]; then
+
+  n=`grep -c ${EXPTSETUP_BASE} ${!LOOKFOR_RESULT}`
+  case $n in
+    0 ) echo -e "${OUTGREEN}found NO instances in ${LOOKFOR}${OUTNOCOL}"
+        ;;
+    1 ) echo -e "${OUTGREEN}found instance in ${LOOKFOR}${OUTNOCOL}"
+        EXPT_MATCH="${EXPT_MATCH} ${EXPT}"
+        ;;
+    * ) echo -e "${OUTRED}found ${n} instances in ${LOOKFOR}${OUTNOCOL}"
+        echo -e "${OUTRED}not unique !!${OUTNOCOL}"
+        exit 5
+        ;;
+  esac
+ done
+
+if [ -z "${EXPT_MATCH}" ]; then
+  echo -e "${OUTRED}no valid experimental data${OUTNOCOL}"
+  exit 6
+fi
+
+echo -e "${OUTORANGE}EXPTSETUP valid for ${EXPT_MATCH}${OUTNOCOL}"
+
+infer_universe_names
+
+if [ ${VERBOSE} -gt 1 ]; then
+  echo -e "${OUTGREEN}post- infer_universe_names${OUTNOCOL}"
+  pwd
+  ls -l
+  if [ -d 0 ]; then
+    echo "what is the 0 directory?"
+    ls -l 0
+  fi
+fi
+
+UNIV_FIRST_4=`printf "%04d" ${UNIV_FIRST}`
+UNIV_LAST_4=`printf "%04d" ${UNIV_LAST}`
+export CONFIGBASE=${EXPTSETUP_BASE}_U${UNIV_FIRST_4}_${UNIV_LAST_4}
+if [ ${PASS} -ne 0 ]; then
+  export CONFIGBASE=${CONFIGBASE}_P${PASS}
+fi
 
 export CONFIGBASESMALL=`echo ${CONFIGBASE} | sed -e 's/_on_//' -e 's/_at_//' | tr -d '_' `
 
-
-JOBID4=`printf "%04d" ${JOBID}`
-#export CONFIGBASE=${LOCAL_MULTI_UNIVERSE_FILE_BASE}_${PROBEP}GeV_${PROBENAME}_${TARGETNUCLEUS}_${URANGE}
-export CONFIG=${CONFIGBASE}_J${JOBID4}
-export DESTDIR=${OUTPUTTOP}/${MULTIVERSE}/${CONFIGBASE}/${JOBID4}
+export DESTDIR=${OUTPUTTOP}/${MULTIVERSE}/${EXPTSETUP_BASE}
 echo -e ""
+echo -e "${OUTORANGE}CONFIGBASE=${CONFIGBASE}${OUTNOCOL}"
+echo -e "${OUTORANGE}CONFIGBASESMALL=${CONFIGBASESMALL}${OUTNOCOL}"
 
+make_genana_fcl
 
-#create_fcl
-#make_genana_fcl
-
-if [ ${VERBOSE} -gt 1 ]; then
-  echo -e "${OUTGREEN}contents of ${CONFIG} are:${OUTORANGE}"
-  echo "--------------------------------------------------------------------"
-  #cat ${CONFIG}.fcl
-  echo "--------------------------------------------------------------------"
-  echo -e "${OUTNOCOL}"
-  echo " "
-fi
-
-echo " "
+echo -e "${OUTRED}-------------------------------------${OUTNOCOL}"
 report_config_summary
 report_node_info
 report_setup
-echo " "
+echo -e "${OUTRED}-------------------------------------${OUTNOCOL}"
+
+#if [ ${VERBOSE} -gt 1 ]; then
+  echo -e "${OUTGREEN}contents of ${CONFIGBASE} are:${OUTORANGE}"
+  echo "--------------------------------------------------------------------"
+  cat ${CONFIGFCL}
+  echo "--------------------------------------------------------------------"
+  echo -e "${OUTNOCOL}"
+  echo " "
+#fi
 
 # run the job
 
@@ -1475,12 +1020,12 @@ echo -e "${OUTPURPLE}art start  ${now}"
 if [ ${RUNART} -ne 0 ]; then
   # HERE'S THE ACTUAL "ART" COMMAND
   if [ ${REDIRECT_ART} -ne 0 ]; then
-    echo "art -c ${CONFIG}.fcl 1> ${CONFIG}.out 2> ${CONFIG}.err"
-   #       art -c ${CONFIG}.fcl 1> ${CONFIG}.out 2> ${CONFIG}.err
+    echo "art -c ${CONFIGFCL} 1> ${CONFIGBASE}.out 2> ${CONFIGBASE}.err"
+   #       art -c ${CONFIGFCL} 1> ${CONFIGBASE}.out 2> ${CONFIGBASE}.err
           ART_STATUS=$?
   else
-    echo "art -c ${CONFIG}.fcl"
-    #      art -c ${CONFIG}.fcl
+    echo "art -c ${CONFIGFCL}"
+    #      art -c ${CONFIGFCL}
           ART_STATUS=$?
   fi
 else
@@ -1496,13 +1041,13 @@ fi
 echo -e "${OUTNOCOL}"
 
 if [[ ${VERBOSE} -gt 1 && ${REDIRECT_ART} -ne 0 ]] ; then
-  echo -e "${OUTGREEN}contents of ${CONFIG}.out is:${OUTORANGE}"
+  echo -e "${OUTGREEN}contents of ${CONFIGBASE}.out is:${OUTORANGE}"
   echo "--------------------------------------------------------------------"
-  #cat ${CONFIG}.out
+  cat ${CONFIGBASE}.out
   echo "--------------------------------------------------------------------"
-  echo -e "${OUTGREEN}contents of ${CONFIG}.err is:${OUTORANGE}"
+  echo -e "${OUTGREEN}contents of ${CONFIGBASE}.err is:${OUTORANGE}"
   echo "--------------------------------------------------------------------"
-  #cat ${CONFIG}.err
+  cat ${CONFIGBASE}.err
   echo "--------------------------------------------------------------------"
   echo -e "${OUTNOCOL}"
   echo " "
@@ -1524,10 +1069,10 @@ fi
 #   /usr/include/asm-generic/errno-base.h:#define EEXIST 17 /* File exists */
 # but mkdir run interactively returns 1 ...
 
-localList="${CONFIG}.artg4tk.root ${CONFIG}.hist.root ${CONFIG}.fcl ${LOCAL_MULTI_UNIVERSE_FILE}"
+localList="${CONFIGBASE}.artg4tk.root ${CONFIGBASE}.hist.root ${CONFIGFCL} ${LOCAL_MULTIVERSE_FILE}"
 localList="${localList} setup_everything.sh"
 if [ ${REDIRECT_ART} -ne 0 ]; then
-  localList="${localList} ${CONFIG}.out ${CONFIG}.err"
+  localList="${localList} ${CONFIGBASE}.out ${CONFIGBASE}.err"
 fi
 
 for inFile in ${localList} ; do
@@ -1555,5 +1100,12 @@ if [ ${USINGFAKESCRATCH} -ne 0 ]; then
 fi
 
 echo -e "${OUTBLUE}${b0}: end-of-script${OUTNOCOL}"
+
+exit
+return
+set -o xtrace
+set +o xtrace
+###
+
 
 # end-of-script
