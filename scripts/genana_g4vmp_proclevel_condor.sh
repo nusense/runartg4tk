@@ -6,10 +6,10 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-03-20
+export SCRIPT_VERSION=2018-03-21
 #
 ###
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-20.tar.bz2
+export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
 #  unrolls to  localProducts_runartg4tk_v0_03_00_e15_prof/...
 export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
 
@@ -293,18 +293,19 @@ function process_args() {
     probepcalc="sqrt(($px*$px)+($py*$py)+($pz*$pz))"
     export PROBEP5=`echo  "scale=5; ${probepcalc}" | bc`
     echo -e "${OUTGREEN}bc scale=5; ${probepcalc} ==> ${PROBEP5}${OUTNOCOL}"
-    # 1 digit after the decimal point
-    export PROBEP=`printf "%0.1f" ${PROBEP5}`
+    # 1 or 2 digits after the decimal point (printf should round for us)
+    # but strip trailing 0's, and no bare trail .'s
+    export PROBEP=`printf "%0.2f" ${PROBEP5} | sed -e 's/0*$//' -e 's/\.$//' `
     echo -e "${OUTGREEN}calculated \${PROBEP}=${PROBEP} GeV${OUTNOCOL}"
     unset px py pz
   fi
 
   # PROBEPNODOT e.g. 5   6p5
-  # used in dossier PROLOGs, no trailing 'p0's
-  PROBEPNODOT=`echo ${PROBEP} | sed -e 's/\./p/' -e 's/p0//' `
+  # used in dossier PROLOGs, should be no trailing 'p0's
+  PROBEPNODOT=`echo ${PROBEP} | sed -e 's/\./p/' `
 
-  echo -e "${OUTGREEN}\${PROBE}=${PROBE} normalized \${PROBENAME}=${PROBENAME} \${PROBEPDG}=${PROBEPDG}${OUTNOCOL}"
-  # echo "PROBENAME=${PROBENAME} PROBE_PDG=${PROBE_PDG}"
+  echo -e "${OUTGREEN}\${PROBE}=${PROBE} : normalized \${PROBENAME}=${PROBENAME} \${PROBEPDG}=${PROBEPDG}${OUTNOCOL}"
+  echo -e "${OUTGREEN}\${PROBEP}=${PROBEP} \${PROBENODOT}=${PROBEPNODOT}${OUTNOCOL}"
 
   # show the defaults correctly now
   if [ $PRINTUSAGE -gt 0 -o ${usage_exit} -ne 0 ]; then
@@ -348,8 +349,14 @@ function fetch_setup_tarball() {
     fi
     CP_CMD="ifdh cp"
   fi
+  echo ""
   echo -e "${OUTGREEN}${CP_CMD} ${TARBALL} ${TARBALL_BASE}${OUTNOCOL}"
   ${CP_CMD} ${TARBALL} ${TARBALL_BASE}
+  echo "${CP_CMD} status $?"
+  ls -l
+  if [ ! -f ${TARBALL_BASE} ]; then
+    echo -e "${OUTRED}failed to fetch:  ${TARBALL_BASE}${OUTNOCOL}"
+  fi
 
   case ${TARBALL_BASE} in
      *.gz | *.tgz ) TAR_OPT="z" ;;
@@ -360,14 +367,14 @@ function fetch_setup_tarball() {
 
   echo -e "${OUTCYAN}looking for ${BOOTSTRAP_SCRIPT}${OUTNOCOL}"
   # expect to find script "${BOOTSTRAP_SCRIPT}"
-  bootscript=`tar t${TAR_OPT}f ${TARBALL} | grep ${BOOTSTRAP_SCRIPT} | tail -1`
+  bootscript=`tar t${TAR_OPT}f ${TARBALL_BASE} | grep ${BOOTSTRAP_SCRIPT} | tail -1`
   localarea=`echo ${bootscript} | cut -d'/' -f1`
   echo -e "${OUTGREEN}bootscript=${bootscript}${OUTNOCOL}"
   echo -e "${OUTGREEN}localarea=${localarea}${OUTNOCOL}"
 
   # unroll
-  echo -e "${OUTCYAN}tar x${TAR_OPT}f ${TARBALL}${OUTNOCOL}"
-  tar x${TAR_OPT}f ${TARBALL}
+  echo -e "${OUTCYAN}tar x${TAR_OPT}f ${TARBALL_BASE}${OUTNOCOL}"
+  tar x${TAR_OPT}f ${TARBALL_BASE}
   if [ -z "${bootscript}" -o ! -f ${bootscript} ]; then
      echo -e "${OUTRED}no file ${bootscript} (${BOOTSTRAP_SCRIPT}) in tarball ${TARBALL}${OUTNOCOL}"
      exit 42
@@ -1021,11 +1028,11 @@ if [ ${RUNART} -ne 0 ]; then
   # HERE'S THE ACTUAL "ART" COMMAND
   if [ ${REDIRECT_ART} -ne 0 ]; then
     echo "art -c ${CONFIGFCL} 1> ${CONFIGBASE}.out 2> ${CONFIGBASE}.err"
-   #       art -c ${CONFIGFCL} 1> ${CONFIGBASE}.out 2> ${CONFIGBASE}.err
+          art -c ${CONFIGFCL} 1> ${CONFIGBASE}.out 2> ${CONFIGBASE}.err
           ART_STATUS=$?
   else
     echo "art -c ${CONFIGFCL}"
-    #      art -c ${CONFIGFCL}
+          art -c ${CONFIGFCL}
           ART_STATUS=$?
   fi
 else
@@ -1061,7 +1068,7 @@ echo -e "${OUTGREEN}start copy back section${OUTNOCOL}" >&2
 ${MYMKDIRCMD} ${DESTDIR}
 MKDIR_STATUS=$?
 if [ ${MKDIR_STATUS} -ne 0 ]; then
-  #echo -e "${OUTRED}${MYMKDIRCMD} ${DESTDIR} ${OUTNOCOL} returned ${MKDIR_STATUS}${OUTNOCOL}"
+  echo -e "${OUTRED}${MYMKDIRCMD} ${DESTDIR} ${OUTNOCOL} returned ${MKDIR_STATUS}${OUTNOCOL}"
 fi
 # for ifdh mkdir is there some way to distinguish between
 # "couldn't create directory" (permissions, whatever) vs. "already exists"?
@@ -1070,7 +1077,7 @@ fi
 # but mkdir run interactively returns 1 ...
 
 localList="${CONFIGBASE}.artg4tk.root ${CONFIGBASE}.hist.root ${CONFIGFCL} ${LOCAL_MULTIVERSE_FILE}"
-localList="${localList} setup_everything.sh"
+localList="${localList}"
 if [ ${REDIRECT_ART} -ne 0 ]; then
   localList="${localList} ${CONFIGBASE}.out ${CONFIGBASE}.err"
 fi
@@ -1079,7 +1086,7 @@ for inFile in ${localList} ; do
   if [ -f ${inFile} ]; then
     if [ -s ${inFile} ]; then
       echo -e "${OUTPURPLE}${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}${OUTNOCOL}"
- #     ${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}
+      ${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}
     else
       echo -e "${OUTRED}zero length ${inFile} -- skip copy back${OUTNOCOL}"
     fi
