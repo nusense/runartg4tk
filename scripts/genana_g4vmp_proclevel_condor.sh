@@ -6,7 +6,7 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-03-21
+export SCRIPT_VERSION=2018-03-26
 #
 ###
 export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
@@ -35,6 +35,7 @@ export KEEPSCRATCH=1
 export RUNART=1
 
 # base directory for returning results
+# art files with s$persistent$scratch$g
 export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
 
 # output of running art in separate .out and .err files?
@@ -411,7 +412,7 @@ function fetch_setup_tarball() {
   export MYMKDIRCMD="ifdh mkdir_p"
   export MYCOPYCMD="ifdh cp"
   # IFDH_CP_MAXRETRIES: maximum retries for copies on failure -- defaults to 7
-  export IFDH_CP_MAXRETRIES=1  # 7 is silly
+  export IFDH_CP_MAXRETRIES=2  # 7 is silly
   # if STDOUT is a tty, then probably interactive use
   # avoid the "ifdh" bugaboo I'm having testing interactively
   if [ -t 1 ]; then
@@ -869,6 +870,7 @@ function report_config_summary()
 {
   echo -e "${b0}:${OUTBLUE} config_summary ${CONFIGBASE}${OUTNOCOL}"
   echo "   DESTDIR        ${DESTDIR}"
+  echo "   DESTDIRART     ${DESTDIRART}"
   echo "   PROCESS        ${PROCESS}"
   echo "   JOBOFFSET      ${JOBOFFSET}"
   echo "   JOBID          ${JOBID}"
@@ -996,6 +998,7 @@ fi
 export CONFIGBASESMALL=`echo ${CONFIGBASE} | sed -e 's/_on_//' -e 's/_at_//' | tr -d '_' `
 
 export DESTDIR=${OUTPUTTOP}/${MULTIVERSE}/${EXPTSETUP_BASE}
+export DESTDIRART=`echo $DESTDIR | sed -e 's/persistent/scratch/g'`
 echo -e ""
 echo -e "${OUTORANGE}CONFIGBASE=${CONFIGBASE}${OUTNOCOL}"
 echo -e "${OUTORANGE}CONFIGBASESMALL=${CONFIGBASESMALL}${OUTNOCOL}"
@@ -1070,13 +1073,20 @@ MKDIR_STATUS=$?
 if [ ${MKDIR_STATUS} -ne 0 ]; then
   echo -e "${OUTRED}${MYMKDIRCMD} ${DESTDIR} ${OUTNOCOL} returned ${MKDIR_STATUS}${OUTNOCOL}"
 fi
+if [ "${DESTDIRART}" != "${DESTDIR}" ]; then
+  ${MYMKDIRCMD} ${DESTDIRART}
+  MKDIR_STATUS=$?
+  if [ ${MKDIR_STATUS} -ne 0 ]; then
+    echo -e "${OUTRED}${MYMKDIRCMD} ${DESTDIRART} ${OUTNOCOL} returned ${MKDIR_STATUS}${OUTNOCOL}"
+  fi
+fi
 # for ifdh mkdir is there some way to distinguish between
 # "couldn't create directory" (permissions, whatever) vs. "already exists"?
 # mkdir(2) says EEXIST returned for later
 #   /usr/include/asm-generic/errno-base.h:#define EEXIST 17 /* File exists */
 # but mkdir run interactively returns 1 ...
 
-localList="${CONFIGBASE}.artg4tk.root ${CONFIGBASE}.hist.root ${CONFIGFCL} ${LOCAL_MULTIVERSE_FILE}"
+localList="${CONFIGBASE}.artg4tk.root ${CONFIGBASE}.hist.root ${CONFIGFCL}"
 localList="${localList}"
 if [ ${REDIRECT_ART} -ne 0 ]; then
   localList="${localList} ${CONFIGBASE}.out ${CONFIGBASE}.err"
@@ -1084,9 +1094,13 @@ fi
 
 for inFile in ${localList} ; do
   if [ -f ${inFile} ]; then
+    DESTDIR1=${DESTDIR}
+    if [[ "${inFile}" =~ .*artg4tk.root ]]; then
+      DESTDIR1=${DESTDIRART}
+    fi
     if [ -s ${inFile} ]; then
-      echo -e "${OUTPURPLE}${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}${OUTNOCOL}"
-      ${MYCOPYCMD} ${inFile} ${DESTDIR}/${inFile}
+      echo -e "${OUTPURPLE}${MYCOPYCMD} ${inFile} ${DESTDIR1}/${inFile}${OUTNOCOL}"
+      ${MYCOPYCMD} ${inFile} ${DESTDIR1}/${inFile}
     else
       echo -e "${OUTRED}zero length ${inFile} -- skip copy back${OUTNOCOL}"
     fi
