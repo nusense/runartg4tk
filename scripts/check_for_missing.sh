@@ -3,12 +3,14 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-03-29
+export SCRIPT_VERSION=2018-04-10
+
+export CLEAR_COMPLETE=0  # start fresh w/ ${GOODLIST}?
 
 export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
 export MULTIVERSE=multiverse170208_Bertini
 export USTART=0
-export USTRIDE=10
+export USTRIDE=10 # stride used for ${SUBMITLIST}
 export EXPECTED_UNIV=1000
 export FORM="%04d"
 
@@ -18,18 +20,23 @@ export SHOWOK=1
 
 export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-03-05/srcs
 export SCRIPT=${MRB_SOURCE}/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
+export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
 
 export MULTIVERSE=multiverse170208_Bertini        # e.g. (fcl base)
 export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,10"
 
-export GOODLIST=complete_exptsetup.txt
+export GOODLIST=${MULTIVERSE}_complete_exptsetup.txt
 export SUBMITLIST=jobs_to_submit.sh
 
 nsets_to_submit=0
 
-rm -f ${GOODLIST} ${SUBMITLIST}
-touch ${GOODLIST} ${SUBMITLIST}
+if [ ${CLEAR_COMPLETE} -ne 0 ]; then
+  rm -f ${GOODLIST}
+fi
+if [ ! -f ${GOODLIST} ]; then touch ${GOODLIST} ; fi
+
+rm -f ${SUBMITLIST}
+touch ${SUBMITLIST}
 
 cat > ${SUBMITLIST} <<EOF
 #! /usr/bin/env bash
@@ -47,10 +54,10 @@ export GROUP=dune
 export JOBSUB_GROUP=dune  # this one I think
 
 export SCRIPT=/geant4/app/rhatcher/mrb_work_area-2018-03-05/srcs/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
+export TARBALL=${TARBALL}
 
 export SLEEPTIME=15
-export LOGFILE=submit_all.jobsub.log
+export LOGFILE=jobs_to_submit.jobsub.log
 
 function now ()
 {
@@ -85,10 +92,12 @@ function gen_submit() {
   UARG1="--universes ${MULTIVERSE},${blk_start},${blk_stride}"
   CMD1="jobsub_submit -g -N ${blk_sets} file://${SCRIPT} ${ARGS} ${UARG1} --tarball=${TARBALL}"
 
-  echo "echo \`now\` ${exptsetup} -N ${blk_sets} ${UARG1}" >> ${SUBMITLIST}
-  echo "echo \`now\` ${exptsetup} -N ${blk_sets} ${UARG1} >> \${LOGFILE}" >> ${SUBMITLIST}
-  echo "${CMD1} >> \${LOGFILE} 2>&1"   >> ${SUBMITLIST}
-  echo "sleep \${SLEEPTIME}" >> ${SUBMITLIST}
+  if [ ${blk_sets} -gt 0 ]; then
+    echo "echo \`now\` ${exptsetup} -N ${blk_sets} ${UARG1}" >> ${SUBMITLIST}
+    echo "echo \`now\` ${exptsetup} -N ${blk_sets} ${UARG1} >> \${LOGFILE}" >> ${SUBMITLIST}
+    echo "${CMD1} >> \${LOGFILE} 2>&1"   >> ${SUBMITLIST}
+    echo "sleep \${SLEEPTIME}" >> ${SUBMITLIST}
+  fi
   let nsets_to_submit=${nsets_to_submit}+${blk_sets}
 
   if [ ${blk_mod} -gt 0 ]; then
@@ -113,13 +122,28 @@ function gen_submit() {
 DESTDIRTOP=${OUTPUTTOP}/${MULTIVERSE}
 for d in ${DESTDIRTOP}/* ; do
 #for d in ${DESTDIRTOP}/piminus_on_Pb_at_12GeV ${DESTDIRTOP}/piplus_on_C_at_5GeV ; do
-#for d in ${DESTDIRTOP}/piplus_on_C_at_5GeV ${DESTDIRTOP}/piplus_on_Be_at_5GeV ; do
+#for d in ${DESTDIRTOP}/piplus_on_C_at_5GeV ${DESTDIRTOP}/piplus_on_Be_at_5GeV ${DESTDIRTOP}/proton_on_U_at_8p5GeV ; do
+#  mkdir -p $d
+
   if [ ! -d ${d} ]; then continue; fi
   exptsetup=`basename ${d}`
   # skip funky directories
   if [[ "${d}" =~ .*_save ]]; then continue ; fi
   if [[ "${d}" =~ .*_nohist ]]; then continue ; fi
   if [[ "${d}" =~ .*_bleck ]]; then continue ; fi
+
+  # is it in our ${GOODLIST} already?
+  isgood=`grep -c ${exptsetup} ${GOODLIST}`
+  # echo ==== grep -c ${exptsetup} ${GOODLIST}
+  # echo ==== ${isgood}
+  if [ ${isgood} -gt 0 ]; then
+    if [ ${isgood} -eq 1 ]; then
+      echo -e "${OUTGREEN}${exptsetup} in ${GOODLIST}${OUTNOCOL}"
+    else
+      echo -e "${OUTGREEN}${exptsetup} in ${GOODLIST}${OUTORANGE} ${isgood} times${OUTNOCOL}"
+    fi
+    continue;
+  fi
 
   # echo -e "${OUTGREEN}${exptsetup}${OUTNOCOL}"
   flist=`ls -1 ${d}/*.hist.root 2>/dev/null | sort`
