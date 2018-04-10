@@ -6,10 +6,11 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-03-26
+export SCRIPT_VERSION=2018-04-05
 #
 ###
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
+#export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
+export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
 #  unrolls to  localProducts_runartg4tk_v0_03_00_e15_prof/...
 export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
 
