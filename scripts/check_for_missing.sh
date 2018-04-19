@@ -10,7 +10,7 @@ export CLEAR_COMPLETE=0  # start fresh w/ ${GOODLIST}?
 export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
 export MULTIVERSE=multiverse170208_Bertini
 export USTART=0
-export USTRIDE=10 # stride used for ${SUBMITLIST}
+export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
 export EXPECTED_UNIV=1000
 export FORM="%04d"
 

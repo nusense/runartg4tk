@@ -1123,7 +1123,7 @@ fi
 
 echo -e "${OUTBLUE}${b0}: end-of-script${OUTNOCOL}"
 
-exit
+exit ${ART_STATUS}
 return
 set -o xtrace
 set +o xtrace

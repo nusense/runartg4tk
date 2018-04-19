@@ -21,6 +21,12 @@ export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-03-05/srcs
 export SCRIPT=${MRB_SOURCE}/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
 export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
 
+HERENOW=`pwd`
+# need this for ROOT
+source /geant4/app/rhatcher/setup_everything_std-2018-03-05.sh > /dev/null 2>&1
+cd ${HERENOW}
+
+
 export MULTIVERSE=multiverse170208_Bertini        # e.g. (fcl base)
 export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,10"
 
@@ -34,9 +40,11 @@ if [ ! -f ${GOODLIST} ]; then
   ${QUITCMD} 42
 fi
 
-if [  ! -d ${STAGING_DIR}/split ]; then
-  mkdir -p ${STAGING_DIR}/split
+if [  ! -d ${STAGING_DIR}/extracted ]; then
+  mkdir -p ${STAGING_DIR}/extracted
 fi
+echo PWD=`pwd`
+echo into ${STAGING_DIR}
 
 DESTDIRTOP=${OUTPUTTOP}/${MULTIVERSE}
 for d in ${DESTDIRTOP}/* ; do
@@ -65,7 +73,15 @@ for d in ${DESTDIRTOP}/* ; do
     hadd -f6 -n 1002 ${SUMFILE} ${d}/*.hist.root
   fi
 
+  #
+  echo -e "${OUTORANGE} ... extract_universe ${exptsetup}${OUTNOCOL}"
+
+  SCRIPT="${MRB_SOURCE}/runartg4tk/scripts/extract_universes.C"
+  root -b -q ${SCRIPT}\(\"${SUMFILE}\",\"${STAGING_DIR}/extracted\"\) \
+      > ${STAGING_DIR}/${exptsetup}.split.log 2>&1
+
 done
 
+# ${MRB_SOURCE}/runartg4tk/scripts/extract_params.sh
 
 # end-of-script

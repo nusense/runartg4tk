@@ -1,8 +1,16 @@
 #! /usr/bin/env bash
 
+
 PHYPROC="Bertini"
 FCLIN=multiverse170208_Bertini.fcl
+
+export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
+export MULTIVERSE=multiverse170208_Bertini
+
+FCLINFULL=${OUTPUTTOP}/${MULTIVERSE}/${MULTIVERSE}.fcl
+
 OUTPATH=./extracted/Bertini/scan
+if [ ! -d ${OUTPATH} ]; then mkdir -p ${OUTPATH}/0000 ; fi
 
 # special case for Default
 # https://cdcvs.fnal.gov/redmine/projects/g4mps/wiki/Mar_2017_ha_Bertini_stat_analysis
@@ -22,8 +30,6 @@ EOF
 echo "0000 = Default in ${OUTPATH}/0000/params.dat"
 cat ${OUTPATH}/0000/params.dat
 
-exit
-
 
 UNIV=""
 
@@ -41,9 +47,10 @@ do
    fi
    if [ ! -d ${OUTPATH}/${UNIV} ]; then
       # no place to put it
-      echo "skip UNIV=${UNIV}"
-      UNIV=""
-      continue
+#      echo "skip UNIV=${UNIV}"
+#      UNIV=""
+#      continue
+      mkdir -p ${OUTPATH}/${UNIV}
    fi
    if [[ -n "${UNIV}" && "$line" =~ ModelParameters: ]]; then
       OUTFILE=${OUTPATH}/${UNIV}/params.dat
@@ -59,7 +66,7 @@ do
       echo "$p4" | sed -e 's/^ *//g' | tr ':' ' ' >>  ${OUTFILE}
       echo "start UNIV=${UNIV} ${OUTFILE}"
    fi
-done < ${FCLIN}
+done < ${FCLINFULL}
 unset IFS
 
 
