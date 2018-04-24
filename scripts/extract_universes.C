@@ -21,7 +21,7 @@ using namespace std;  // I'm lazy
 bool gVerbose = true;
 
 // forward declarations
-void         extract_universes(std::string infiles="./*.hist.root",
+void         extract_universes(std::string infiles="./summed/piplus_on_C_at_1GeV*.hist.root",
                                std::string outpath="./extracted");
 std::set<std::string>  fetch_file_list(std::string infiles);
 std::set<std::string>  fetch_directory_list(TFile* f, bool verbose = true);
@@ -49,9 +49,11 @@ std::vector<TH1D*>     fetch_hists(TFile* f, std::string dirname,
   //               "ExpDataRXXXX" title "Production of pi+ in pi- on Cu interactions at 5GeV/c, 0.15<theta<0.2 [rad]"
 TFile*      get_output_file(const std::string& outpath,
                             const std::string& physmodel,
+                            const std::string& subdir,
                             const std::string& scanid,
                             const std::string& exptname,
-                            const std::string& exptsetup);
+                            const std::string& exptsetup,
+                            const std::string& fbasename);
 
 
 // rename data histograms
@@ -147,16 +149,31 @@ void extract_universes(std::string infiles, std::string outpath) {
       // make the directories (& root files + subdir) if they don't yet exist
       // cd into the appropriate in-file subdir
 
-      cout << "=== process ExpData histograms" << endl;
+      cout << "=== process ExpData histograms exptname "
+           << exptname << " exptsetup " << exptsetup << endl;
       // process data histograms
-      TFile* filedata = get_output_file(outpath,"data",scanid,
-                                        exptname,exptsetup);
+      TFile* filedata = get_output_file(outpath,"data","scan",scanid,
+                                        exptname,exptsetup,exptsetup);
+      TDirectory* filedataDir = gDirectory;
+
+      TFile* filemasterdata = get_output_file(outpath,"data","","",
+                                              exptname,exptsetup,exptsetup);
+      TDirectory* filemasterdataDir = gDirectory;
 
       // here we make copies w/ new names (but leave titles)
       for (size_t ih=0; ih<vhed.size(); ++ih) {
         TH1D* hedold = vhed[ih];
         TH1D* hednew = regularize_data_hist(hedold);
+        filedataDir->cd();
         hednew->Write();
+        filemasterdataDir->cd();
+        TH1F *h = (TH1F*)filemasterdata->GetList()->FindObject(hednew->GetName());
+        if ( ! h ) {
+          // don't (re)write with same name (overwrite any existing)
+          // so we don't pile up cycles of them
+          hednew->Write("",TObject::kOverwrite);
+        }
+
         delete hednew;
       }
       // done w/ data output file/subdir
@@ -164,12 +181,34 @@ void extract_universes(std::string infiles, std::string outpath) {
       filedata->Close();
       delete filedata;
       filedata = 0;
+      // done w/ data output file/subdir
+      filemasterdata->Write();
+      filemasterdata->Close();
+      delete filemasterdata;
+      filemasterdata = 0;
 
+
+      /*
+      // here we make copies w/ new names (but leave titles)
+      cout << "master copy size " << vhed.size() << endl;
+      for (size_t ih=0; ih<vhed.size(); ++ih) {
+        TH1D* hedold = vhed[ih];
+        TH1D* hednew = regularize_data_hist(hedold);
+
+        TH1F *h = (TH1F*)filemasterdata->GetList()->FindObject(hednew->GetName());
+        if ( ! h ) {
+          // don't (re)write with same name (overwrite any existing)
+          // so we don't pile up cycles of them
+          hednew->Write("",TObject::kOverwrite);
+        }
+        delete hednew;
+      }
+      */
 
       cout << "=== process MC histograms" << endl;
       // process MC histograms
-      TFile* filemc   = get_output_file(outpath,physmodel,scanid,
-                                        exptname,exptsetup);
+      TFile* filemc   = get_output_file(outpath,physmodel,"scan",scanid,
+                                        exptname,exptsetup,exptsetup);
       // here we make copies w/ new names, titles, binning (to match data)
       size_t nmc_written = 0;
       for (size_t ih=0; ih<vhmc.size(); ++ih) {
@@ -206,6 +245,10 @@ void extract_universes(std::string infiles, std::string outpath) {
       for (size_t ih=0; ih<vhed.size(); ++ih) { delete vhed[ih]; vhed[ih]=0; }
 
       cout << "...done with directory " << dirname << endl;
+
+      //static int count_down = 20;
+      //if ( --count_down == 0 ) exit(1);
+
     }
     dir_list.clear();
     tfile->Close();
@@ -259,7 +302,7 @@ std::set<std::string> fetch_directory_list(TFile* f, bool verbose) {
 std::vector<TH1D*> fetch_hists(TFile* f, std::string dirname, std::string sub) {
 
   std::vector<TH1D*> list;
-  bool verbose = true;
+  int verbose = 1;
 
   string infolder = dirname;
   if ( sub != "" ) infolder += ( std::string("/") + sub );
@@ -287,8 +330,8 @@ std::vector<TH1D*> fetch_hists(TFile* f, std::string dirname, std::string sub) {
     }
   }
 
-  if (verbose) {
-    cout << "   " << list.size() << " histograms" << endl;
+  if (verbose) cout << "   " << list.size() << " histograms" << endl;
+  if (verbose > 1) {
     std::vector<TH1D*>::const_iterator uitr = list.begin();
     for ( ; uitr != list.end(); ++uitr ) {
       TH1D* h1 = *uitr;
@@ -484,9 +527,11 @@ std::string dossier_to_exptsetup(const vector<TH1D*>& vhdata) {
 
 TFile* get_output_file(const std::string& outpath,
                        const std::string& physmodel,
+                       const std::string& subdir,
                        const std::string& scanid,
                        const std::string& exptname,
-                       const std::string& exptsetup) {
+                       const std::string& exptsetup,
+                       const std::string& fbasename) {
 
   //  [outpath]/Bertini/scan/0000/thin_target_hist.root
   //  [outpath]/data/scan/0000/thin_target_hist.root
@@ -496,7 +541,7 @@ TFile* get_output_file(const std::string& outpath,
   //               TH1D name  harp_piplus_5p0GeV_on_C_to_piplus_<anglerange>
   //                    title piplus_<anglerange>
 
-  std::string path   = outpath + "/" + physmodel + "/scan/" + scanid;
+  std::string path   = outpath + "/" + physmodel + "/" + subdir + "/" + scanid + "/";
 
   // make the filesystem path
   // note bizarre return value convention: FALSE if one _can_ access file
@@ -509,7 +554,9 @@ TFile* get_output_file(const std::string& outpath,
   //     UPDATE    - open existing, if no file created
   //     READ      - only read access
   const char* opt = "UPDATE";
-  path   += "/thin_target_hist.root";
+  path   += fbasename;
+  if ( path.find(".root") != (path.size()-5) ) path += ".hist.root";
+  //path   += "/thin_target_hist.root";
   if ( gSystem->AccessPathName(path.c_str(),kWritePermission) == true )
     opt = "NEW";  // not strictly necessary, could use UPDATE
 
