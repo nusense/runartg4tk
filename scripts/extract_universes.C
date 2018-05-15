@@ -1,11 +1,99 @@
+/*
+
+Loop over _summed_ files (all universes for one exptsetup)
+  For each _summed_ file looks like:
+
+     file:  summed/piplus_on_C_at_5GeV.sum.hist.root
+     /
+     //BertiniDefaultHARP
+        NSec | Number of secondary per inelastic interaction ;1 [TH1D]
+        piminus_FW_0 | 0.05<theta<0.1 [rad] ;1 [TH1D]
+        piminus_FW_1 | 0.1<theta<0.15 [rad] ;1 [TH1D]
+        piminus_FW_2 | 0.15<theta<0.2 [rad] ;1 [TH1D]
+        ...
+     //BertiniDefaultHARP/ExpData
+        ExpDataR9901 | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.05<theta<0.1 [rad] ;1 [TH1D]
+        ExpDataR9902 | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.1<theta<0.15 [rad] ;1 [TH1D]
+        ExpDataR9903 | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.15<theta<0.2 [rad] ;1 [TH1D]
+        ...
+     //BertiniDefaultHARP/Plots
+     //BertiniDefaultITEP
+        NSec | Number of secondary per inelastic interaction ;1 [TH1D]
+        neutron_at_0.00011GeV | EKin=0.00011GeV ;1 [TH1D]
+        neutron_at_0.00013GeV | EKin=0.00013GeV ;1 [TH1D]
+        neutron_at_0.00015GeV | EKin=0.00015GeV ;1 [TH1D]
+        ...
+     //BertiniDefaultITEP/ExpData
+        ExpDataR2192 | Production of proton in pi+ on C interactions at 5GeV/c, theta=59.1 [deg] ;1 [TH1D]
+        ExpDataR2193 | Production of proton in pi+ on C interactions at 5GeV/c, theta=89.0 [deg] ;1 [TH1D]
+        ExpDataR2194 | Production of proton in pi+ on C interactions at 5GeV/c, theta=119.0 [deg] ;1 [TH1D]
+        ExpDataR2195 | Production of proton in pi+ on C interactions at 5GeV/c, theta=159.6 [deg] ;1 [TH1D]
+        ExpDataR2201 | Production of neutron in pi+ on C interactions at 5GeV/c, theta=119.0 [deg] ;1 [TH1D]
+        ...
+     //BertiniDefaultITEP/Plots
+     //BertiniRandomUniv0001HARP
+        NSec | Number of secondary per inelastic interaction ;1 [TH1D]
+        piminus_FW_0 | 0.05<theta<0.1 [rad] ;1 [TH1D]
+        piminus_FW_1 | 0.1<theta<0.15 [rad] ;1 [TH1D]
+        ...
+
+   we want (individual data or universe) output files that look like:
+
+     //HARP
+     //HARP/piplus_on_C_at_5GeV
+     //HARP/piplus_on_C_at_5GeV/piminus
+        piminus_0p05_theta_0p1_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.05<theta<0.1 [rad] ;1 [TH1D]
+        piminus_0p15_theta_0p2_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.15<theta<0.2 [rad] ;1 [TH1D]
+        piminus_0p1_theta_0p15_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.1<theta<0.15 [rad] ;1 [TH1D]
+        piminus_0p2_theta_0p25_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.2<theta<0.25 [rad] ;1 [TH1D]
+        piminus_0p35_theta_0p55_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.35<theta<0.55 [rad] ;1 [TH1D]
+        piminus_0p55_theta_0p75_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.55<theta<0.75 [rad] ;1 [TH1D]
+        piminus_0p75_theta_0p95_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.75<theta<0.95 [rad] ;1 [TH1D]
+        piminus_0p95_theta_1p15_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 0.95<theta<1.15 [rad] ;1 [TH1D]
+        piminus_1p15_theta_1p35_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 1.15<theta<1.35 [rad] ;1 [TH1D]
+        piminus_1p35_theta_1p55_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 1.35<theta<1.55 [rad] ;1 [TH1D]
+        piminus_1p55_theta_1p75_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 1.55<theta<1.75 [rad] ;1 [TH1D]
+        piminus_1p75_theta_1p95_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 1.75<theta<1.95 [rad] ;1 [TH1D]
+        piminus_1p95_theta_2p15_rad | Production of pi- in pi+ on C interactions at 5GeV/c, 1.95<theta<2.15 [rad] ;1 [TH1D]
+     //HARP/piplus_on_C_at_5GeV/piplus
+        piplus_0p05_theta_0p1_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.05<theta<0.1 [rad] ;1 [TH1D]
+        piplus_0p15_theta_0p2_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.15<theta<0.2 [rad] ;1 [TH1D]
+        piplus_0p1_theta_0p15_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.1<theta<0.15 [rad] ;1 [TH1D]
+        piplus_0p2_theta_0p25_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.2<theta<0.25 [rad] ;1 [TH1D]
+        piplus_0p35_theta_0p55_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.35<theta<0.55 [rad] ;1 [TH1D]
+        piplus_0p55_theta_0p75_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.55<theta<0.75 [rad] ;1 [TH1D]
+        piplus_0p75_theta_0p95_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.75<theta<0.95 [rad] ;1 [TH1D]
+        piplus_0p95_theta_1p15_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 0.95<theta<1.15 [rad] ;1 [TH1D]
+        piplus_1p15_theta_1p35_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 1.15<theta<1.35 [rad] ;1 [TH1D]
+        piplus_1p35_theta_1p55_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 1.35<theta<1.55 [rad] ;1 [TH1D]
+        piplus_1p55_theta_1p75_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 1.55<theta<1.75 [rad] ;1 [TH1D]
+        piplus_1p75_theta_1p95_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 1.75<theta<1.95 [rad] ;1 [TH1D]
+        piplus_1p95_theta_2p15_rad | Production of pi+ in pi+ on C interactions at 5GeV/c, 1.95<theta<2.15 [rad] ;1 [TH1D]
+     //ITEP
+     //ITEP/piplus_on_C_at_5GeV
+     //ITEP/piplus_on_C_at_5GeV/neutron
+        neutron_theta_119p0_deg | Production of neutron in pi+ on C interactions at 5GeV/c, theta=119.0 [deg] ;1 [TH1D]
+     //ITEP/piplus_on_C_at_5GeV/proton
+        proton_theta_119p0_deg | Production of proton in pi+ on C interactions at 5GeV/c, theta=119.0 [deg] ;1 [TH1D]
+        proton_theta_159p6_deg | Production of proton in pi+ on C interactions at 5GeV/c, theta=159.6 [deg] ;1 [TH1D]
+        proton_theta_59p1_deg | Production of proton in pi+ on C interactions at 5GeV/c, theta=59.1 [deg] ;1 [TH1D]
+        proton_theta_89p0_deg | Production of proton in pi+ on C interactions at 5GeV/c, theta=89.0 [deg] ;1 [TH1D]
+
+ */
+
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
+#include <algorithm>
+#include <sstream>
 using namespace std;  // I'm lazy
 
 #include <glob.h>
+#include <math.h>
+#include <cstdlib>  // [un]setenv
 
 #include "TROOT.h"
 #include "TKey.h"
@@ -21,7 +109,7 @@ using namespace std;  // I'm lazy
 bool gVerbose = true;
 
 // forward declarations
-void         extract_universes(std::string infiles="./*.hist.root",
+void         extract_universes(std::string infiles="./summed/*_on_*_at_*.hist.root",
                                std::string outpath="./extracted");
 std::set<std::string>  fetch_file_list(std::string infiles);
 std::set<std::string>  fetch_directory_list(TFile* f, bool verbose = true);
@@ -29,10 +117,13 @@ std::string            directory_to_physmodel(const std::string& dirname);
 std::string            directory_to_scanid(const std::string& dirname);
 std::string            directory_to_exptname(const std::string& filename);
 std::string            filename_to_exptsetup(const std::string& filename);
-std::string            dossier_to_exptsetup(const vector<TH1D*>& vhdata);
+std::string            dossier_to_newrootpath(const std::string& exptname,
+                                              const std::string& exptsetup,
+                                              const TH1D* vhdata);
 
 std::vector<TH1D*>     fetch_hists(TFile* f, std::string dirname,
-                                   std::string sub="");
+                                   std::string sub="",
+                                   int verbose=1);
 
   // e.g. scan/0000 (also make scan/0000/data) with Default ==> 0000
 
@@ -47,12 +138,18 @@ std::vector<TH1D*>     fetch_hists(TFile* f, std::string dirname,
 
   // existing name "piminus_FW_0" title "0.05<theta<0.1 [rad]"
   //               "ExpDataRXXXX" title "Production of pi+ in pi- on Cu interactions at 5GeV/c, 0.15<theta<0.2 [rad]"
-TFile*      get_output_file(const std::string& outpath,
-                            const std::string& physmodel,
-                            const std::string& scanid,
-                            const std::string& exptname,
-                            const std::string& exptsetup);
+void get_output_file_and_path(TFile*& outfile,                  // in: current file,  out: new file
+                              const std::string& outpath,      // "./extracted"
+                              const std::string& filepath,     // "Bertini/scan/0009" or "data" (or "dossier")
+                              const std::string& newrootpath,  // "/HARP/piplus_on_C_at_1GeV/piminus/
+                              const std::string& exptsetup,    //       "piplus_on_C_at_1GeV"
+                              int verbose=0);
 
+
+// if "useGlobalName" is set, then use this file name
+// otherwise base it off of "exptsetup"
+bool useGlobalName=false;
+std::string globalFileName = "thin_target.hist.root";
 
 // rename data histograms
 // re-name, re-title, re-bin MC histograms
@@ -60,6 +157,10 @@ TFile*      get_output_file(const std::string& outpath,
 TH1D* regularize_data_hist(const TH1D* hedold);
 TH1D* find_data_match(const std::vector<TH1D*>& vhed,const TH1D* hmc);
 TH1D* regularize_mc_hist(const TH1D* hmc,const TH1D* hdata);
+
+// utility function
+std::vector<std::string> tokenizeString(std::string values,
+                                        std::string sepchar);
 
 
 //--------------------------------------------------------------
@@ -71,148 +172,213 @@ void extract_universes(std::string infiles, std::string outpath) {
   std::string infilesExpanded = gSystem->ExpandPathName(infiles.c_str());
   std::set<std::string> filenames = fetch_file_list(infilesExpanded);
 
-  std::set<std::string>::const_iterator fitr = filenames.begin();
-  for ( ; fitr != filenames.end(); ++fitr ) {
-    std::string filename = *fitr;
-    TFile* tfile = TFile::Open( filename.c_str(), "READONLY");
-    if ( tfile->IsZombie() ) {
-      cerr << "...... " << *fitr << " is a zombie" << endl;
-      continue;
-    }
-    cout << "start processing file " << filename << endl;
+  // two passes ... once to process "data" the other for the "mc"
 
-    std::set<std::string> dir_list = fetch_directory_list(tfile);
-    cout << "processing: " << setw(4) << dir_list.size() << " univ+expt in "
-         << *fitr << endl;
-    int idir = 0;
-    std::set<std::string>::const_iterator ditr = dir_list.begin();
-    for ( ; ditr != dir_list.end(); ++ditr ) {
-      std::string dirname   = *ditr;
-      cout << "[" << setw(3) << idir++ << "] " << dirname << endl;
-      std::string scanid    = directory_to_scanid(dirname);    // "0000" ..
-      std::string exptname  = directory_to_exptname(dirname);  // "HARP" "ITEP"
-      std::string exptsetup = filename_to_exptsetup(filename); // piplus_5p0Gev_on_C
-      std::string physmodel = directory_to_physmodel(dirname);
+  // pass 0:  collect a full set of "ExptData" histograms
+  //     "ExptDataRXXX" = histogram name (XXXX=dossier record #)
+  //     mapped to where it was found:   <file>:<dirname>:<newpath>:<nbins>:<nentries>:
+  //        e.g. <file>://BertiniDefaultITEP/ExpData:ITEP/piplus_on_C_at_5GeV/piminus:<nbins>:<nentries>
+  std::map<std::string,std::string> dossier2path;
+  std::map<std::string,TH1D*>       dossier2th1d;
 
-      vector<TH1D*> vhed = fetch_hists(tfile,dirname,"ExpData");
-      if ( vhed.size() == 0 ) {
-        // we NEED this ExptData histograms to know binning
-        // each universe's subdir should have the same ...
-        // so try a different subdir
-        std::set<std::string>::const_iterator ditr2 = dir_list.begin();
-        for ( ; ditr2 != dir_list.end(); ++ditr2 ) {
-          std::string dirname2   = *ditr2;
-          vector<TH1D*> vhed = fetch_hists(tfile,dirname2,"ExpData");
-          if ( vhed.size() != 0 ) {
-            cout << "...could not find ExpData in " << dirname
-                 << " so using histograms from " << dirname2 << endl;
-            break;  // found one, so we can move on
+  // ITEP/piplux_on_C_at_5GeV :  all the data hists independent of result product
+  std::map<std::string,std::vector<TH1D*> > exptinfo2datahists;
+
+  TFile* tfdossier = 0;
+  TFile* tfdata    = 0;
+  TFile* tfmc      = 0;
+
+  for (int domc = 0; domc <= 1; ++domc ) {
+
+    cout << "start domc=" << domc << endl << flush;
+
+    std::set<std::string>::const_iterator fitr = filenames.begin();
+    for ( ; fitr != filenames.end(); ++fitr ) {
+      std::string filename = *fitr;
+      TFile* tfile = TFile::Open( filename.c_str(), "READONLY");
+      if ( tfile->IsZombie() ) {
+        cerr << "...... " << *fitr << " is a zombie" << endl;
+        continue;
+      }
+      cout << endl << "start processing file " << filename << endl << flush;
+
+      std::set<std::string> dir_list = fetch_directory_list(tfile,false);
+      cout << "processing: " << setw(4) << dir_list.size() << " univ+expt in "
+           << filename << endl << flush;
+
+      int idir = 0;
+      std::string scanid    = ""; // "0000" ..
+      std::string exptname  = ""; // "HARP" "ITEP"
+      std::string exptsetup = ""; // piplus_5p0Gev_on_C
+      std::string physmodel = ""; // Bertini
+      std::string product   = ""; // Production of [piminus|piplus|proton|neutron]
+      std::string exptinfo  = ""; //  "<exptname>/<exptsetup>"
+
+      exptsetup = filename_to_exptsetup(filename);
+      cout << "  guessed exptsetup: " << exptsetup << endl << flush;
+
+      idir = 0;
+      std::set<std::string>::const_iterator ditr1 = dir_list.begin();
+      for ( ; ditr1 != dir_list.end(); ++ditr1 ) {
+        std::string dirname   = *ditr1;
+
+        cout << "[" << setw(4) << idir++ << "] " << dirname << flush;
+        scanid    = directory_to_scanid(dirname);
+        exptname  = directory_to_exptname(dirname);
+        physmodel = directory_to_physmodel(dirname);
+
+        exptinfo  = exptname + "/" + exptsetup;
+
+        //==============================================================
+        // pass 0 ... handle data
+        //==============================================================
+        if ( domc == 0 ) {
+          vector<TH1D*> vhed = fetch_hists(tfile,dirname,"ExpData",0);
+
+          cout << dirname << " had "
+               << vhed.size() << " data histograms" << '\r' << flush;
+
+          for (size_t ih=0; ih<vhed.size(); ++ih) {
+            std::ostringstream datainfo_oss;
+            TH1D* hedold = vhed[ih];
+            std::string hname = hedold->GetName();
+            std::string newrootpath = dossier_to_newrootpath(exptname,exptsetup,hedold);
+            datainfo_oss << filename << ":" << dirname
+                         << std::string(":\n  :")
+                         << newrootpath
+                         << std::string(":\n    :")
+                         << std::string(hedold->GetTitle())
+                         << std::string(":\n     xbins xmin xmax entries:")
+                         << hedold->GetNbinsX()
+                         << ":" << hedold->GetXaxis()->GetXmin()
+                         << ":" << hedold->GetXaxis()->GetXmax()
+                         << ":" << hedold->GetEntries();
+            std::string datainfo = datainfo_oss.str();
+            std::string currEntry = dossier2path[hname];
+            if ( currEntry == "" ) {
+              // not yet seen
+              std::cout << endl << "adding " << hname << ":: " << datainfo << std::endl;
+              dossier2path[hname] = datainfo;
+
+              // write this unmolested version into "dossier" file
+              get_output_file_and_path(tfdossier,outpath,"dossier",newrootpath,exptsetup,0);
+              hedold->Write();
+              hedold->SetDirectory(0); // now disconnect from file
+              dossier2th1d[hname] = hedold; // save a copy w/ this lookup
+              exptinfo2datahists[exptinfo].push_back(hedold); // and another
+
+              // write a regularized version into "data" file
+              get_output_file_and_path(tfdata,outpath,"data",newrootpath,exptsetup,0);
+
+              TH1D* hednew = regularize_data_hist(hedold);
+              hednew->Write();
+              hednew->SetDirectory(0); // now disconnect hist from file
+
+            } else {
+              // entry exists ... isn't going to match because of <dirname>
+              // and possibly <file>
+              // remove 1st & 2nd field
+              std::vector<std::string> currEntryFields = tokenizeString(currEntry,":");
+              std::vector<std::string> datainfoFields  = tokenizeString(datainfo,":");
+              bool same = true;
+              size_t n = min(currEntryFields.size(),datainfoFields.size());
+              for (size_t i = 2; i < n; ++i) {
+                if ( currEntryFields[i] != datainfoFields[i] ) same = false;
+              }
+              if ( ! same ) {
+                // there but mismatch
+                // code needed here to decide which one to use ...
+                std::cout << endl << "CONFLICT for " << hname << std::endl
+                          << currEntry << std::endl
+                          << datainfo  << std::endl;
+              } // ! same
+            } // already entry in dossier2path
+          } // loop over data histograms in the rootdirectory
+        } // domc == 0
+
+        //==============================================================
+        // pass 1 ... handle mc
+        //==============================================================
+        if ( domc == 1 ) {
+          cout << "=== process mc histograms exptinfo "
+               << exptinfo << " scanid " << scanid << flush;
+
+          vector<TH1D*> vhmc = fetch_hists(tfile,dirname,"",0);
+
+          // find all the relevant data histograms
+          std::vector<TH1D*> vhed = exptinfo2datahists[exptinfo];
+
+          std::string filepath = physmodel + "/scan/" + scanid;
+
+          // here we make copies w/ new names, titles, binning (to match data)
+          size_t nmc_written = 0;
+          for (size_t ih=0; ih<vhmc.size(); ++ih) {
+            TH1D* hmcold   = vhmc[ih];
+            // skip MC only histograms
+            std::string mcname = hmcold->GetName();
+            if ( mcname.find("NSec") != std::string::npos ) continue;
+            if ( mcname.find("GeV")  != std::string::npos ) continue;
+
+            TH1D* hedmatch = find_data_match(vhed,hmcold);
+
+            // not all MC hist have actual data ...
+            if ( hedmatch != 0 ) {
+
+              std::string newrootpath = dossier_to_newrootpath(exptname,exptsetup,hedmatch);
+
+              get_output_file_and_path(tfmc,outpath,filepath,newrootpath,exptsetup,0);
+
+              TH1D* hmcnew   = regularize_mc_hist(hmcold,hedmatch);
+              hmcnew->Write();
+              delete hmcnew;
+              ++nmc_written;
+
+            } // hedmatch
+          } // loop of mc histograms
+
+          // clean up
+          for (size_t ih=0; ih<vhmc.size(); ++ih) { delete vhmc[ih]; vhmc[ih]=0; }
+
+          cout << "... wrote " << setw(3) << nmc_written << " mc histograms" << '\r' << flush;
+          if ( vhed.size() != nmc_written ) {
+            cerr << endl << "ERROR ...THIS DIDN'T MATCH " << vhed.size() << " vs. "
+                 << nmc_written << "' <================RWH " << endl;
           }
-        }
-        // if we fall through with nothing ...
-        if ( vhed.size() == 0 ) {
-          cerr << "...Failed to get ExpData for any subdir in this file"
-               << endl;
-          continue; // nada, move to next file
-        }
+
+        } // domc == 1
+
+      // for (size_t ih=0; ih<vhed_union.size(); ++ih) { delete vhed_union[ih]; vhed_union[ih]=0; }
+
+      //cout << "...done with directory " << dirname << endl;
+      //static int count_down = 20;
+      //if ( --count_down == 0 ) exit(1);
+
+      } // loop over directories
+
+      std::cout << endl << "..clear dir_list for " << filename << '\r' << flush;
+      dir_list.clear();
+      std::cout << "..close file         " << filename << '\r' << flush;
+      tfile->Close();  // this seems particularly slow for some reason
+      delete tfile;
+      tfile = 0;
+
+      std::cout << "...... done with file " << filename << std::endl << flush;
+      if ( domc == 0 ) {
+        std::cout << "dossier2path has "
+                  << dossier2path.size() << " entries" << std::endl << flush;
       }
-      vector<TH1D*> vhmc = fetch_hists(tfile,dirname);
+    } // loop over files
 
-      cout << dirname << " had " << vhmc.size() << " mc and "
-           << vhed.size() << " data histograms" << endl;
+    cout << "done domc=" << domc << endl;
 
-      std::string exptsetup_alt = dossier_to_exptsetup(vhed);
-      cout << "   scanid " << scanid << " exptname " << exptname
-           << " exptsetup " << exptsetup
-           << " alt exptsetup " << exptsetup_alt << endl;
-      if ( exptsetup != exptsetup_alt ) {
-        cerr << "exptsetup mismatch '" << exptsetup << "' '"
-             << exptsetup_alt << "' <================RWH " << endl;
-        bool bad_dossier = ( exptsetup_alt.find("bad_dossier_name")   != std::string::npos );
-        bool no_dossier  = ( exptsetup_alt.find("no_dossier_info")    != std::string::npos );
-        bool bad_fname   = ( exptsetup.find("bad_filename_exptsetup") != std::string::npos );
-        if ( bad_fname ) {
-          // filename didn't work ...
-          if ( bad_dossier || no_dossier ) {
-            cout << "...bailing out of directory " << dirname << endl;
-            continue; // exit this loop's iteration ... go on to next directory
-            // TODO:  really should clean up vhmc & vhed
-          }
-          // use what we found in dossier
-          exptsetup = exptsetup_alt;
-        }
-      }
+  } // loop "data" or "mc"
 
-      // !!!! finally do something ...
-      // make the directories (& root files + subdir) if they don't yet exist
-      // cd into the appropriate in-file subdir
+  // clean up
+  get_output_file_and_path(tfdossier,"close","close","","",1);
+  get_output_file_and_path(tfdata,"close","close","","",1);
+  get_output_file_and_path(tfmc,"close","close","","",1);
 
-      cout << "=== process ExpData histograms" << endl;
-      // process data histograms
-      TFile* filedata = get_output_file(outpath,"data",scanid,
-                                        exptname,exptsetup);
-
-      // here we make copies w/ new names (but leave titles)
-      for (size_t ih=0; ih<vhed.size(); ++ih) {
-        TH1D* hedold = vhed[ih];
-        TH1D* hednew = regularize_data_hist(hedold);
-        hednew->Write();
-        delete hednew;
-      }
-      // done w/ data output file/subdir
-      filedata->Write();
-      filedata->Close();
-      delete filedata;
-      filedata = 0;
-
-
-      cout << "=== process MC histograms" << endl;
-      // process MC histograms
-      TFile* filemc   = get_output_file(outpath,physmodel,scanid,
-                                        exptname,exptsetup);
-      // here we make copies w/ new names, titles, binning (to match data)
-      size_t nmc_written = 0;
-      for (size_t ih=0; ih<vhmc.size(); ++ih) {
-        TH1D* hmcold   = vhmc[ih];
-        // skip MC only histograms
-        std::string mcname = hmcold->GetName();
-        if ( mcname.find("NSec") != std::string::npos ) continue;
-        if ( mcname.find("GeV")  != std::string::npos ) continue;
-
-        TH1D* hedmatch = find_data_match(vhed,hmcold);
-
-        // not all MC hist have actual data ...
-        if ( hedmatch != 0 ) {
-          TH1D* hmcnew   = regularize_mc_hist(hmcold,hedmatch);
-          hmcnew->Write();
-          delete hmcnew;
-          ++nmc_written;
-        }
-      }
-      cout << "... wrote " << vhed.size() << " data and "
-           << nmc_written << " mc histograms" << endl;
-      if ( vhed.size() != nmc_written ) {
-        cerr << "...THIS DIDN'T MATCH "
-             << "' <================RWH " << endl;
-      }
-      // done w/ MC output file/subdir
-      filemc->Write();
-      filemc->Close();
-      delete filemc;
-      filemc   = 0;
-
-      // clean up
-      for (size_t ih=0; ih<vhmc.size(); ++ih) { delete vhmc[ih]; vhmc[ih]=0; }
-      for (size_t ih=0; ih<vhed.size(); ++ih) { delete vhed[ih]; vhed[ih]=0; }
-
-      cout << "...done with directory " << dirname << endl;
-    }
-    dir_list.clear();
-    tfile->Close();
-    tfile = 0;
-    cout << "...... done with file " << filename << endl;
-  }
-}
+} // extract_universe()
 
 std::set<std::string> fetch_file_list(std::string infiles) {
   std::set<std::string> list;
@@ -256,10 +422,10 @@ std::set<std::string> fetch_directory_list(TFile* f, bool verbose) {
    return list;
 }
 
-std::vector<TH1D*> fetch_hists(TFile* f, std::string dirname, std::string sub) {
+std::vector<TH1D*> fetch_hists(TFile* f, std::string dirname,
+                               std::string sub, int verbose) {
 
   std::vector<TH1D*> list;
-  bool verbose = true;
 
   string infolder = dirname;
   if ( sub != "" ) infolder += ( std::string("/") + sub );
@@ -269,7 +435,14 @@ std::vector<TH1D*> fetch_hists(TFile* f, std::string dirname, std::string sub) {
     cout << "looking in " << infolder << endl;
   }
   if ( ! d ) {
-    cout << "   no such directory!" << endl;
+    std::cout << endl << "   " << infolder << " no such directory!";
+    if ( sub != "" ) {
+      TDirectory *dup = f->GetDirectory(dirname.c_str());
+      if ( dup ) {
+        std::cout << " BUT " << dirname << " does exist";
+      }
+    }
+    std::cout << endl;
     return list;
   }
 
@@ -287,8 +460,8 @@ std::vector<TH1D*> fetch_hists(TFile* f, std::string dirname, std::string sub) {
     }
   }
 
-  if (verbose) {
-    cout << "   " << list.size() << " histograms" << endl;
+  if (verbose) cout << "   " << list.size() << " histograms" << endl;
+  if (verbose > 1) {
     std::vector<TH1D*>::const_iterator uitr = list.begin();
     for ( ; uitr != list.end(); ++uitr ) {
       TH1D* h1 = *uitr;
@@ -341,7 +514,6 @@ void test_find_nth() {
   cout << "testof find_nth " << 2 << " pos " << find_nth(haystack,7,"_",2) << endl;
   cout << "testof find_nth " << 3 << " pos " << find_nth(haystack,7,"_",3) << endl;
   cout << "testof find_nth " << 4 << " pos " << find_nth(haystack,7,"_",4) << endl;
-  
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -408,6 +580,7 @@ std::string directory_to_physmodel(const std::string& dirname) {
   exit(42);
   return "no_physmodel";
 }
+
 std::string directory_to_scanid(const std::string& dirname) {
   // assume form XXXXUniv{1234}{EXPT}
   if ( dirname.find("Default") != std::string::npos ) {
@@ -433,7 +606,7 @@ std::string directory_to_exptname(const std::string& dirname) {
 }
 std::string filename_to_exptsetup(const std::string& filename) {
   // assume form:
-  // /path/piminus_on_Cu_at_5GeV_Bertini_analysis_U0001-U0010.hist.root
+  // /path/piminus_on_Cu_at_5GeV_*.hist.root
   std::string ftmp = filename;
   size_t pslash = ftmp.find_last_of('/');
   if ( pslash != std::string::npos ) {
@@ -441,40 +614,78 @@ std::string filename_to_exptsetup(const std::string& filename) {
   }
   size_t p4 = find_nth(ftmp,0,"_",4);
   if ( p4 != std::string::npos ) return ftmp.substr(0,p4);  // start,n
-  else return "bad_filename_exptsetup";
+  else {
+    // perhaps its' only
+    // /path/piminus_on_Cu_at_5GeV.*.root
+    size_t pdot = ftmp.find_first_of(".",0);
+    if ( pdot != std::string::npos ) return ftmp.substr(0,pdot);
+    else {
+      cout << "filename_to_exptsetup fail: "
+           << "'" << filename << "'" << endl
+           << "pslash=" << pslash << endl
+           << "'" << ftmp << "' p4=" << p4 << endl;
+      exit(43);
+    }
+    return "bad_filename_exptsetup";
+  }
 }
-std::string dossier_to_exptsetup(const vector<TH1D*>& vhdata) {
+
+
+
+std::string dossier_to_newrootpath(const std::string& exptname,
+                                   const std::string& exptsetup,
+                                   const TH1D* hdata) {
   // do transformations to bring in alignment with
-  //    piminus_on_Cu_at_5GeV
+  //    HARP/piminus_on_Cu_at_5GeV/piminus
   // examples are:
   //   Production of pi- in pi- on Cu interactions at 5GeV/c, theta range
   //   Production of pi- in proton-Cu interactions at 5GeV/c
+
   std::string result = "no_dossier_info";
-  if ( vhdata.empty() ) return result;
-
   // remove any leading trailing whitespace
-  std::string trial = trim((vhdata[0])->GetTitle());
-  // trim off theta range bit
-  size_t poscomma = trial.find_first_of(',');
-  if ( poscomma != std::string::npos ) {
-    trial.erase(poscomma,std::string::npos);
-  }
-  replace_all(trial,"pi-","piminus");
-  replace_all(trial,"pi+","piplus");
-  replace_all(trial,"proton-","proton on ");
-  replace_all(trial,"Production of ","");
-  replace_all(trial,"interactions ","");
-  replace_all(trial,"GeV/c","GeV");
+  std::string trial = trim(hdata->GetTitle());
+  if ( exptname == "HARP" || exptname == "ITEP" ) {
+    // trim off theta range bit
+    size_t poscomma = trial.find_first_of(',');
+    if ( poscomma != std::string::npos ) {
+      trial.erase(poscomma,std::string::npos);
+    }
+    replace_all(trial,"pi-","piminus");
+    replace_all(trial,"pi+","piplus");
+    replace_all(trial,"proton-","proton on ");
+    replace_all(trial,"Production of ","");
+    replace_all(trial,"interactions ","");
+    replace_all(trial,"GeV/c","GeV");
 
-  // cout << "trial is \"" << trial << "\"" << endl;
-  // now it should look like "piminus in piminus on Cu at 5GeV"
-  replace_all(trial," ","_");
-  size_t pos = find_nth(trial,0,"_",1);
-  //cout << "trial is \"" << trial << "\"  pos = " << pos << endl;
-  if ( pos == std::string::npos ) {
-    return std::string("bad_dossier_name_") + trial;
-  }
-  result = trial.substr(pos+1,std::string::npos);
+    // cout << "trial is \"" << trial << "\"" << endl;
+    // now it should look like "piminus in piminus on Cu at 5GeV"
+    replace_all(trial," ","_");
+
+    // find 1st (as in 0,1...so really 2nd) "_" starting at 0th char
+    // now it should look like "piminus_in_piminus_on_Cu_at_5GeV"
+    //                              0th^  ^1th
+
+    size_t pos_setup = find_nth(trial,0,"_",1);
+    //cout << "trial is \"" << trial << "\"  pos = " << pos << endl;
+    if ( pos_setup == std::string::npos ) {
+      return std::string("bad_dossier_name_") + trial;
+    }
+    std::string exptsetup_alt =
+      trial.substr(pos_setup+1,std::string::npos);
+    // 1.4GeV -> 1p4GeV
+    replace_all(exptsetup_alt,".","p");
+    if ( exptsetup != exptsetup_alt ) {
+      cerr << "ERROR: dossier_to_newrootpath passed '"
+           << exptsetup << "' but extracted '"
+           << exptsetup_alt << "'" << endl;
+      exit(44);
+    }
+    result = exptname + "/" + exptsetup;
+
+    // find "product"
+    size_t pos_ = trial.find_first_of("_",0);
+    result = result + "/" + trial.substr(0,pos_);
+  } // HARP || ITEP
 
   return result;
 }
@@ -482,26 +693,38 @@ std::string dossier_to_exptsetup(const vector<TH1D*>& vhdata) {
 
 //////////////////////////////////////////////////////////////////////////
 
-TFile* get_output_file(const std::string& outpath,
-                       const std::string& physmodel,
-                       const std::string& scanid,
-                       const std::string& exptname,
-                       const std::string& exptsetup) {
+void get_output_file_and_path(TFile*& outfile,
+                              const std::string& outpath,
+                              const std::string& filepath,
+                              const std::string& newrootpath,
+                              const std::string& exptsetup,
+                              int verbose) {
+
+  if (outpath == "close" && filepath == "close") {
+    if ( outfile ) {
+      // close current open file
+      outfile->Write();
+      outfile->Close();
+      delete outfile;
+      outfile = 0;
+    }
+    return;
+  }
+
 
   //  [outpath]/Bertini/scan/0000/thin_target_hist.root
-  //  [outpath]/data/scan/0000/thin_target_hist.root
+  //  [outpath]/data/thin_target_hist.root
 
   //     in thin_target_hist.root
   //         HARP/piplus_on_Cu_at_5GeV/
   //               TH1D name  harp_piplus_5p0GeV_on_C_to_piplus_<anglerange>
   //                    title piplus_<anglerange>
 
-  std::string path   = outpath + "/" + physmodel + "/scan/" + scanid;
-
+  std::string newPath   = outpath + "/" + filepath + "/";
   // make the filesystem path
   // note bizarre return value convention: FALSE if one _can_ access file
-  if ( gSystem->AccessPathName(path.c_str(),kWritePermission) == true )
-       gSystem->mkdir(path.c_str(),true);
+  if ( gSystem->AccessPathName(newPath.c_str(),kWritePermission) == true )
+       gSystem->mkdir(newPath.c_str(),true);
 
   // make the ROOT file
   //     NEW or CREATE - new for writing, fail if exists
@@ -509,47 +732,67 @@ TFile* get_output_file(const std::string& outpath,
   //     UPDATE    - open existing, if no file created
   //     READ      - only read access
   const char* opt = "UPDATE";
-  path   += "/thin_target_hist.root";
-  if ( gSystem->AccessPathName(path.c_str(),kWritePermission) == true )
+  if (useGlobalName) newPath += globalFileName;
+  else               newPath += exptsetup;
+
+  if ( newPath.find(".root") != (newPath.size()-5) ) newPath += ".hist.root";
+
+  if ( gSystem->AccessPathName(newPath.c_str(),kWritePermission) == true )
     opt = "NEW";  // not strictly necessary, could use UPDATE
 
-  if (gVerbose)
-    cout << "   get_output_file TFile::Open(" << path << "," << opt << ")" << endl;
-
-  TFile* outfile = TFile::Open(path.c_str(),opt);
-  if ( ! outfile || outfile->IsZombie() ) {
-    cerr << "problem openning " << opt << " file " << path << endl;
-    return 0;
+  std::string currPath = "";
+  if ( outfile ) currPath = outfile->GetName();
+  // same file ?
+  if ( currPath == newPath ) {
+    // same path
+    if (verbose>1)
+      cout << "   get_output_file already open: " << newPath << "," << opt << ")" << endl;
+  } else {
+    if ( outfile ) {
+      // close current open file
+      outfile->Write();
+      outfile->Close();
+      delete outfile;
+      outfile = 0;
+    }
+    if (verbose>1)
+      cout << "   get_output_file TFile::Open(" << newPath << "," << opt << ")" << endl;
+    outfile = TFile::Open(newPath.c_str(),opt);
+    if ( ! outfile || outfile->IsZombie() ) {
+      cerr << "problem openning " << opt << " file " << newPath << endl;
+      outfile = 0;
+      return;
+    }
   }
 
   // make the appropriate subdirectory _in_ the file
   outfile->cd();
-  if (gVerbose)
+  if (verbose>1)
     cout << "   // outfile = " << outfile->GetName() << endl;
 
   // check if <exptname>/<exptsetup> directory exists w/ GetDirectory()
-  std::string infilepath = exptname + "/" + exptsetup;
-  TDirectory* adir   = outfile->GetDirectory(infilepath.c_str());
+
+  TDirectory* adir   = outfile->GetDirectory(newrootpath.c_str());
   // create if necessary, but move to that directory
   if ( ! adir ) {
-    adir   = outfile->mkdir(infilepath.c_str());
-    if (gVerbose)
-      cout << "   outfile->mkdir(" << infilepath << ")" << endl;
+    adir   = outfile->mkdir(newrootpath.c_str());
+    if (verbose>0)
+      cout << "   outfile->mkdir(" << newrootpath << ")" << endl;
   }
-  bool okay = outfile->cd(infilepath.c_str());
-  if (gVerbose)
-    cout << "   outfile->cd(" << infilepath << "); // returned " << (okay?"okay":"not-okay") << endl;
+  bool okay = outfile->cd(newrootpath.c_str());
+  if ( verbose>1 || !okay )
+    cout << "   outfile->cd(" << newrootpath << "); // returned " << (okay?"okay":"not-okay") << endl;
 
   if ( ! okay ) {
-    cerr << " ... failed to cd() into subdir '" << infilepath << "' of "
-         << path << endl << std::flush;
+    cerr << "ERROR ... failed to cd() into subdir '" << newrootpath << "' of "
+         << currPath << endl << std::flush;
     exit(42);
   }
 
-  if (gVerbose)
+  if (verbose>1)
     cout << "   gDirectory->GetName() // = " << (gDirectory)->GetName() << endl;
 
-  return outfile;
+  return;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -723,7 +966,7 @@ TH1D* regularize_mc_hist(const TH1D* hmcold, const TH1D* hdata) {
     if ( fabs(bin_center_old   - bin_center   ) > eps ||
          fabs(bin_low_edge_old - bin_low_edge ) > eps ||
          fabs(bin_width_old    - bin_width    ) > eps    ) {
-      cout << newname << " bin " << ibin << "/" << ibin_old
+      cout << endl << "ERROR: " << newname << " bin " << ibin << "/" << ibin_old
            << " mismatch " << endl
            << "   center   " << bin_center   << " " << bin_center_old << endl
            << "   low edge " << bin_low_edge << " " << bin_low_edge_old << endl
@@ -738,6 +981,21 @@ TH1D* regularize_mc_hist(const TH1D* hmcold, const TH1D* hdata) {
   }
   return hmc;
 }
+
+void addUnique(std::vector<std::string>& vstrings, std::string value)
+{
+  // Add "value" to "vstrings" if it isn't already there.
+  // We're not using std::set because we want to preserve any order
+  bool found = false;
+  for (unsigned int i = 0; i < vstrings.size(); ++i) {
+    if ( vstrings[i] == value ) {
+      found = true;
+      break;
+    }
+  }
+  if ( ! found ) vstrings.push_back(value);
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 
