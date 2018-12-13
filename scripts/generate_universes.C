@@ -99,7 +99,7 @@ std::ostream& ModelParam::WriteConfig(std::ostream& s)
   if ( fdistrib != "flat" && fdistrib != "binary" ) {
     s << " (params " << fdv1 << "," << fdv2 << ")";
   }
-  s << " [" << std::setw(12) << fvdflt << "] ";
+  s << " [" << std::setw(12) << fvdflt << "]";
   s << std::endl;
   return s;
 }
@@ -261,8 +261,8 @@ std::ostream& UnivGenerator::WriteNewUniverse(std::ostream& s,
   if ( isProcLevel ) {
     size_t nparams = fvparams.size();
 
-    s << fmodel << label << " : { " << std::endl
-      << "    module_type:  ProcLevelMPVaryProducer " << std::endl
+    s << fmodel << label << " : {" << std::endl
+      << "    module_type:  ProcLevelMPVaryProducer" << std::endl
       << "    Verbosity: 0" << std::endl
       << "    HadronicModel: {" << std::endl
       << "        DefaultPhysics: "
@@ -296,7 +296,7 @@ std::ostream& UnivGenerator::WriteRandomUniverses(std::ostream& s,
                                                   size_t nuniv,
                                                   bool isProcLevel)
 {
-  std::string baseLabel = "Random4Univ";
+  std::string baseLabel = "RandomUniv";
   std::string uniqLabel;
   for (size_t iu=1; iu<(nuniv+1); ++iu) {
     uniqLabel = makeUniqueLabel(baseLabel,iu);
