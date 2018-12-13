@@ -17,9 +17,11 @@ std::string makeUniqueLabel(std::string baseLabel, size_t i);
 class ModelParam {
 public:
   ModelParam() { } // need default constructor
-  ModelParam(std::string name, std::string model, double vmin, double vmax)
-    : fname(name), fmodel(model), fvmin(vmin), fvmax(vmax),
-      fdistrib("flat"), fdv1(0), fdv2(0), fenabled(false) { ; }
+  ModelParam(std::string name, std::string model,
+             double vmin, double vmax, double vdflt)
+             : fname(name), fmodel(model)
+             , fvmin(vmin), fvmax(vmax), fvdflt(vdflt)
+             , fdistrib("flat"), fdv1(0), fdv2(0), fenabled(false) { ; }
   std::string   GetName()        const { return fname; }
   std::string   GetModel()       const { return fmodel; }
   double        GetVMin()        const { return fvmin; }
@@ -37,6 +39,7 @@ private:
   std::string   fmodel;     // physic model associated with
   double        fvmin;      // min allowed value
   double        fvmax;      // max allowed value
+  double        fvdflt;     // (expected default value)
   std::string   fdistrib;   // for now only "flat","binary" distributions
                             // "step" for non-random
   double        fdv1, fdv2; // parameters for distributions (guass, etc)
@@ -96,6 +99,7 @@ std::ostream& ModelParam::WriteConfig(std::ostream& s)
   if ( fdistrib != "flat" && fdistrib != "binary" ) {
     s << " (params " << fdv1 << "," << fdv2 << ")";
   }
+  s << " [" << std::setw(12) << fvdflt << "] ";
   s << std::endl;
   return s;
 }
@@ -148,12 +152,48 @@ Julia suggests:
 
 // here's a choice of Bertini model parameters with "sensible" ranges
 
-ModelParam    bertiniRadiusScale("RadiusScale",   "Bertini", 1.0, 3.5 );
-ModelParam      bertiniXSecScale("XSecScale",     "Bertini", 0.1, 3.0 );
-ModelParam     bertiniFermiScale("FermiScale",    "Bertini", 0.5, 1.0 );
-ModelParam bertiniTrailingRadius("TrailingRadius","Bertini", 0.0, 5.0 );
+/*
+// pass 1
+ModelParam    bertiniRadiusScale("RadiusScale",   "Bertini", 1.0, 3.5, -999 );
+ModelParam      bertiniXSecScale("XSecScale",     "Bertini", 0.1, 3.0, -999 );
+ModelParam     bertiniFermiScale("FermiScale",    "Bertini", 0.5, 1.0, -999 );
+ModelParam bertiniTrailingRadius("TrailingRadius","Bertini", 0.0, 5.0, -999 );
+*/
 
-ModelParam blah("xyz","no-such-hadron-model", 0.0, 999.9 );
+///////////////////////////////////////////////////////////////////////////////////////
+// pass 2
+//
+// artg4tk toolkit model paramter names:
+//    https://cdcvs.fnal.gov/redmine/projects/g4mps/wiki/List_of_G4_model_parameters
+// Bertini code
+//     http://www-geant4.kek.jp/lxr/source/processes/hadronic/models/cascade/cascade/src/G4CascadeParameters.cc
+
+const double OLD_RADIUS_UNITS=(3.3836/1.2);
+const double BERT_FERMI_SCALE=1.932/OLD_RADIUS_UNITS;
+const double eps=0.00001;  // absolutely keep things in range
+
+const double fslo=(BERT_FERMI_SCALE/2.0)+eps;
+const double fshi=(BERT_FERMI_SCALE*2.0)-eps;
+
+const double rslo=(OLD_RADIUS_UNITS/2.0)+eps;
+const double rshi=(OLD_RADIUS_UNITS*2.0)-eps;
+
+ModelParam       bertiniFermiScale("FermiScale",       "Bertini", fslo,  fshi,  BERT_FERMI_SCALE);
+ModelParam      bertiniRadiusScale("RadiusScale",      "Bertini", rslo,  rshi,  OLD_RADIUS_UNITS);
+ModelParam   bertiniTrailingRadius("TrailingRadius",   "Bertini", 0.0,   2.0,   0.0             ); //         5->2
+ModelParam        bertiniXSecScale("XSecScale",        "Bertini", 0.5,   2.0,   1.0             ); // .1->.5, 3->2
+
+ModelParam    bertiniPiNAbsorption("piNAbsorption",    "Bertini", 0.0,   1.0,   0.0             );
+ModelParam    bertiniCluster2DPmax("Cluster2DPmax",    "Bertini", 0.045, 0.180, 0.090           );
+ModelParam    bertiniCluster3DPmax("Cluster3DPmax",    "Bertini", 0.054, 0.216, 0.108           );
+ModelParam    bertiniCluster4DPmax("Cluster4DPmax",    "Bertini", 0.0575,0.230, 0.115           );
+
+// for now don't vary these
+ModelParam   bertiniSmallNucRadius("SmallNucScale",    "Bertini", 0.996, 2.984, 1.992 ); // or 8/oldrad*radscl
+ModelParam bertiniAlphaRadiusScale("AlphaRadiusScale", "Bertini", 0.42,  1.680, 0.84  ); // or 0.70
+ModelParam     bertiniGammaQDScale("GammaQDScale",     "Bertini", 0.5,   2.0,   1.0   );
+
+//ModelParam blah("xyz","no-such-hadron-model", 0.0, 999.9 );
 
 //-----------------------------------------------------------------------
 class UnivGenerator {
@@ -332,8 +372,8 @@ std::string makeUniqueLabel(std::string baseLabel, size_t i)
 //-----------------------------------------------------------------------
 // main routine
 //-----------------------------------------------------------------------
-void generate_universes(std::string basename = "paramstep",  // output file basename
-                        signed long int nunivIn = -100,  // # of universes to gen
+void generate_universes(std::string basename = "multiverse181212",  // output file basename
+                        signed long int nunivIn = +1000,  // # of universes to gen
                                                    // beyond the default
                         // +N = random, -N = steps each param
                         std::string hadronModel = "Bertini",
@@ -374,6 +414,29 @@ void generate_universes(std::string basename = "paramstep",  // output file base
 
     bertiniTrailingRadius.SetEnabled(true);
     multi4Univ.Add(&bertiniTrailingRadius);
+
+    // new for pass 2
+    bertiniPiNAbsorption.SetEnabled(true);
+    multi4Univ.Add(&bertiniPiNAbsorption);
+
+    bertiniCluster2DPmax.SetEnabled(true);
+    multi4Univ.Add(&bertiniCluster2DPmax);
+    bertiniCluster3DPmax.SetEnabled(true);
+    multi4Univ.Add(&bertiniCluster3DPmax);
+    bertiniCluster4DPmax.SetEnabled(true);
+    multi4Univ.Add(&bertiniCluster4DPmax);
+
+    // but not these
+    /*
+    bertiniSmallNucRadius.SetEnabled(true);
+    multi4Univ.Add(&bertiniSmallNucRadius);
+
+    bertiniAlphaRadiusScale.SetEnabled(true);
+    multi4Univ.Add(&bertiniAlphaRadiusScale);
+
+    bertiniGammaQDScale.SetEnabled(true);
+    multi4Univ.Add(&bertiniGammaQDScale);
+    */
   }
 
   // test user silliness ... cross check
