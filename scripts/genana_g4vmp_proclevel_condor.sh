@@ -6,11 +6,12 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-04-05
+export SCRIPT_VERSION=2018-12-12
 #
 ###
 #export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
+#export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
+export TARBALL=localProducts_runartg4tk_v0_04_00_e17_prof_2018-12-18.tar.bz2
 #  unrolls to  localProducts_runartg4tk_v0_03_00_e15_prof/...
 export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
 
@@ -46,16 +47,16 @@ export UPS_OVERRIDE="-H Linux64bit+2.6-2.12"
 
 #### a particular choice for defaults
 
-export MULTIVERSE=multiverse170208_Bertini        # e.g. (fcl base)
+export MULTIVERSE=multiverse181212_Bertini        # e.g. (fcl base)
 export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,10"   # each job (process) in cluster does 10 universes, start 0
 export G4HADRONICMODEL=Bertini  #  e.g. Bertini
 export UBASE=0                  #  0=Default, others are RandomUniv[xxxx]
-export USTRIDE=10               #  how many to do in this $PROCESS unit
+export USTRIDE=1                #  how many to do in this $PROCESS unit, 10
 export PROBE=piminus            #  allow either name or pdg
 export P3=0,0,5.0               #  GeV
 #export PROBEP=5.0              #   e.g. 5.0 6.5  # (GeV)
 export TARGET=Cu                #  e.g. Cu
-export NEVENTS=500000           #  e.g. 500,000
+export NEVENTS=5000000          #  e.g. 500,000, 500000 -> 5000000
 export JOBOFFSET=0              #  offset PROCESS # by this
 
 # not yet supported ...
@@ -455,7 +456,7 @@ export CONFIGFCL=${CONFIGBASE}.fcl
 cat > ${CONFIGFCL} <<EOF
 # this is ${CONFIGFCL}
 #
-# MULTIVERSE        e.g. multiverse170208_Bertini  (fcl base) [${MULTIVERSE}]
+# MULTIVERSE        e.g. multiverse181212_Bertini  (fcl base) [${MULTIVERSE}]
 # G4HADRONICMODEL   e.g. Bertini                              [${G4HADRONICMODEL}]
 # PROBENAME         e.g. piplus, piminus, proton              [${PROBENAME}]
 # PROBEPDG          e.g. 211,    -211,    2212                [${PROBEPDG}]
