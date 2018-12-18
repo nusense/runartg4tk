@@ -2,10 +2,10 @@
 
 
 PHYPROC="Bertini"
-FCLIN=multiverse170208_Bertini.fcl
-
 export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
-export MULTIVERSE=multiverse170208_Bertini
+export MULTIVERSE=multiverse181212_Bertini
+
+FCLIN=${MULTIVERSE}.fcl
 
 FCLINFULL=${OUTPUTTOP}/${MULTIVERSE}/${MULTIVERSE}.fcl
 

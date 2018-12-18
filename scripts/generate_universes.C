@@ -383,7 +383,7 @@ void generate_universes(std::string basename = "multiverse181212",  // output fi
 
   gRandom = new TRandom3(seed);
 
-  std::string filename = basename;   // eg. multiverse170208
+  std::string filename = basename;   // eg. multiverse181212
   filename += "_";
   filename += hadronModel;
   filename += ".fcl";

@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 export OUTPUTTOP=/pnfs/geant4/persistent/rhatcher/genana_g4vmp
-export MULTIVERSE=multiverse170208_Bertini
+export MULTIVERSE=multiverse181212_Bertini
 
 export DESTDIR=${OUTPUTTOP}/${MULTIVERSE}
 

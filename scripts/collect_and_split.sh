@@ -3,7 +3,7 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-04-05
+export SCRIPT_VERSION=2018-12-12
 
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]] ; then
   echo "script ${BASH_SOURCE[0]} is being sourced ..."
@@ -15,19 +15,18 @@ fi
 
 
 export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
-export MULTIVERSE=multiverse170208_Bertini
+export MULTIVERSE=multiverse181212_Bertini        # e.g. (fcl base)
 
-export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-03-05/srcs
+export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-12-12/srcs
 export SCRIPT=${MRB_SOURCE}/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
+export TARBALL=localProducts_runartg4tk_v0_04_00_e17_prof_2018-12-18.tar.bz2
 
 HERENOW=`pwd`
 # need this for ROOT
-source /geant4/app/rhatcher/setup_everything_std-2018-03-05.sh > /dev/null 2>&1
+source /geant4/app/rhatcher/setup_everything_std-2018-12-12.sh > /dev/null 2>&1
 cd ${HERENOW}
 
 
-export MULTIVERSE=multiverse170208_Bertini        # e.g. (fcl base)
 export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,10"
 
 export GOODLIST=${MULTIVERSE}_complete_exptsetup.txt

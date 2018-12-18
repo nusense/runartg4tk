@@ -3,12 +3,12 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-04-10
+export SCRIPT_VERSION=2018-12-12
 
 export CLEAR_COMPLETE=0  # start fresh w/ ${GOODLIST}?
 
 export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
-export MULTIVERSE=multiverse170208_Bertini
+export MULTIVERSE=multiverse181212_Bertini
 export USTART=0
 export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
 export EXPECTED_UNIV=1000
@@ -22,7 +22,6 @@ export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-03-05/srcs
 export SCRIPT=${MRB_SOURCE}/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
 export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
 
-export MULTIVERSE=multiverse170208_Bertini        # e.g. (fcl base)
 export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,10"
 
 export GOODLIST=${MULTIVERSE}_complete_exptsetup.txt
