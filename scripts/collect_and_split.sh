@@ -19,7 +19,7 @@ export MULTIVERSE=multiverse181212_Bertini        # e.g. (fcl base)
 
 export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-12-12/srcs
 export SCRIPT=${MRB_SOURCE}/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
-export TARBALL=localProducts_runartg4tk_v0_04_00_e17_prof_2018-12-18.tar.bz2
+export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-03.tar.bz2
 
 HERENOW=`pwd`
 # need this for ROOT

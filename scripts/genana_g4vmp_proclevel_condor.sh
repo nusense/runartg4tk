@@ -6,12 +6,12 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-12-12
+export SCRIPT_VERSION=2019-01-03
 #
 ###
 #export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
 #export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
-export TARBALL=localProducts_runartg4tk_v0_04_00_e17_prof_2018-12-18.tar.bz2
+export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-03.tar.bz2
 #  unrolls to  localProducts_runartg4tk_v0_03_00_e15_prof/...
 export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
 
@@ -21,7 +21,7 @@ export BOOTSTRAP_SCRIPT="bootstrap_ups.sh"
 #   BASE=from tarball name
 #   product%version%qualifiers
 export SETUP_PRODUCTS="BASE;ifdhc%%"
-# not necessary:   export SETUP_PRODUCTS="artg4tk%v5_00_00%e15:prof;BASE;ifdhc%%"
+# not necessary:   export SETUP_PRODUCTS="artg4tk%v09_00_00%e17:prof;BASE;ifdhc%%"
 
 # how verbose this script should be
 export VERBOSE=0

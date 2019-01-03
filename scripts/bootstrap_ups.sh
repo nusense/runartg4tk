@@ -23,16 +23,16 @@ SETUPBASE=   # base products (geant4, art)
 SETUPLOCAL=  # mrb localproducts_ result area (possibly a unrolled tarball)
              # related to "BOOTSTRAP_HERE"
 
-export EXX=e15
+export EXX=e17
 export QOPT=prof
 
-VER_CMAKE="cmake       v3_10_1"
-VER_MRB="mrb           v1_13_02"
-VER_CET="cetbuildtools v7_00_03"
+VER_CMAKE="cmake       v3_12_1"
+VER_MRB="mrb           v2_00_01"
+VER_CET="cetbuildtools v7_06_04"
 
-VER_GEANT4="geant4     v4_10_4    -q +${EXX}:+${QOPT}:+cl23"
-VER_ART="art           v2_10_02   -q +${EXX}:+${QOPT}"
-VER_ARTG4TK="artg4tk   v5_00_00   -q +${EXX}:+${QOPT}"
+VER_GEANT4="geant4     v4_10_4_p02a  -q +${EXX}:+${QOPT}:+cl23"
+VER_ART="art           v2_11_03      -q +${EXX}:+${QOPT}"
+VER_ARTG4TK="artg4tk   v09_00_00     -q +${EXX}:+${QOPT}"
 
 for arg in ${@} ; do
   case $arg in
