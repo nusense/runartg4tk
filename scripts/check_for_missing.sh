@@ -3,26 +3,68 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2018-12-12
+export SCRIPT_VERSION=2019-01-08
+
+export SUBSET=$1
 
 export CLEAR_COMPLETE=0  # start fresh w/ ${GOODLIST}?
 
 export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
+export OUTPUTTOPSCR="/pnfs/geant4/scratch/rhatcher/genana_g4vmp"
 export MULTIVERSE=multiverse181212_Bertini
 export USTART=0
 export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
+export USTRIDE_TA=1
+export USTRIDE_PB=1
+export USTRIDE_U=1
 export EXPECTED_UNIV=1000
 export FORM="%04d"
+
+###  --expected-lifetime='short'|'medium'|'long'|NUMBER[UNITS]
+#                         '3h' , '8h' , '85200s' (23.66hr ~2.958xmedium)
+# default 8hr
+UTIME="--expected-lifetime=medium"
+UTIME_TA="--expected-lifetime=long"
+UTIME_PB="--expected-lifetime=long"
+UTIME_U="--expected-lifetime=long"
+
+# stragglers
+UTIME="--expected-lifetime=long"
+UTIME_TA="--expected-lifetime=28h"
+UTIME_PB="--expected-lifetime=28h"
+UTIME_U="--expected-lifetime=28h"
+
+# for defaults
+export USTART=0
+export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
+export EXPECTED_UNIV=1
+
+# for universes 0001 to 0099
+export USTART=1
+export USTART=0
+export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
+export EXPECTED_UNIV=100
+
+# for universes 0100 to 0499
+#export USTART=100
+#export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
+#export EXPECTED_UNIV=400
+
+export EXPECTED_UNIV=500
+
+let BOOKEND_UNIV=${USTART}+${EXPECTED_UNIV}
+export BOOKEND_UNIV
+export BOOKEND_UNIV_4DIGITS=`printf "%0d" $BOOKEND_UNIV`
 
 # since make-up files might use a different stride we can't count files
 #export NHIST_SHORTCUT=99999
 export SHOWOK=1
 
-export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-03-05/srcs
+export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-12-12/srcs
 export SCRIPT=${MRB_SOURCE}/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
-export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
+export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-10.tar.bz2
 
-export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,10"
+export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,1"  # "0,10"
 
 export GOODLIST=${MULTIVERSE}_complete_exptsetup.txt
 export SUBMITLIST=jobs_to_submit.sh
@@ -52,10 +94,10 @@ setup jobsub_client
 export GROUP=dune
 export JOBSUB_GROUP=dune  # this one I think
 
-export SCRIPT=/geant4/app/rhatcher/mrb_work_area-2018-03-05/srcs/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
+export SCRIPT=${SCRIPT}
 export TARBALL=${TARBALL}
 
-export SLEEPTIME=15
+export SLEEPTIME=1.5s  # linux-only non-integer time
 export LOGFILE=jobs_to_submit.jobsub.log
 
 function now ()
@@ -70,6 +112,7 @@ function gen_submit() {
   blk_start=$1
   blk_last=$2
   blk_stride=$3
+  blk_time=$4
 
   let blk_n=${blk_last}-${blk_start}+1
   let blk_sets=${blk_n}/${blk_stride}
@@ -89,7 +132,7 @@ function gen_submit() {
   ARGS="--probe=${PROBE} --target=${TARGET} --pz=${PZ}"
 
   UARG1="--universes ${MULTIVERSE},${blk_start},${blk_stride}"
-  CMD1="jobsub_submit -g -N ${blk_sets} file://${SCRIPT} ${ARGS} ${UARG1} --tarball=${TARBALL}"
+  CMD1="jobsub_submit -g -N ${blk_sets} ${blk_time} file://\${SCRIPT} ${ARGS} ${UARG1} --tarball=${TARBALL}"
 
   if [ ${blk_sets} -gt 0 ]; then
     echo "echo \`now\` ${exptsetup} -N ${blk_sets} ${UARG1}" >> ${SUBMITLIST}
@@ -102,7 +145,7 @@ function gen_submit() {
   if [ ${blk_mod} -gt 0 ]; then
 
     UARG2="--universes ${MULTIVERSE},${blk_start2},${blk_mod}"
-    CMD2="jobsub_submit -g -N 1 file://${SCRIPT} ${ARGS} ${UARG2} --tarball=${TARBALL}"
+    CMD2="jobsub_submit -g -N 1 file://\${SCRIPT} ${ARGS} ${UARG2} --tarball=${TARBALL}"
 
     echo "echo \`now\` ${exptsetup} -N 1 ${UARG2}" >> ${SUBMITLIST}
     echo "echo \`now\` ${exptsetup} -N 1 ${UARG2} >> \${LOGFILE}" >> ${SUBMITLIST}
@@ -117,12 +160,28 @@ function gen_submit() {
 
 }
 
-
 DESTDIRTOP=${OUTPUTTOP}/${MULTIVERSE}
-for d in ${DESTDIRTOP}/* ; do
-#for d in ${DESTDIRTOP}/piminus_on_Pb_at_12GeV ${DESTDIRTOP}/piplus_on_C_at_5GeV ; do
-#for d in ${DESTDIRTOP}/piplus_on_C_at_5GeV ${DESTDIRTOP}/piplus_on_Be_at_5GeV ${DESTDIRTOP}/proton_on_U_at_8p5GeV ; do
-#  mkdir -p $d
+DESTDIRSCRTOP=${OUTPUTTOPSCR}/${MULTIVERSE}
+
+grep -h : ${DESTDIRTOP}/*.fcl | cut -d: -f1 | cut -d_ -f2- | \
+      tr -d ' \t' | sort -u > conditions.list
+
+while read line ; do
+  # echo "$line"   # use quotes to keep internal spacing
+  if [ ! -d ${DESTDIRTOP}/${line} ]; then
+    echo -e "${OUTRED}create output persistent subdir ${line}${OUTNOCOL}"
+    mkdir -p ${DESTDIRTOP}/${line}
+  fi
+  if [ ! -d ${DESTDIRSCRTOP}/${line} ]; then
+    echo -e "${OUTRED}create output scratch subdir ${line}${OUTNOCOL}"
+    mkdir -p ${DESTDIRSCRTOP}/${line}
+  fi
+done < conditions.list
+
+
+for d in ${DESTDIRTOP}/*${SUBSET}* ; do
+#for d in ${DESTDIRTOP}/piplus_on_U_at_6GeV ; do
+  #echo -e "${OUTORANGE}looking for $d ${OUTNOCOL}"
 
   if [ ! -d ${d} ]; then continue; fi
   exptsetup=`basename ${d}`
@@ -171,12 +230,13 @@ for d in ${DESTDIRTOP}/* ; do
 
   thissetfirst=999999
   thissetlast=0
-  thissetrunning=-1
+#  thissetrunning=-1
+  let thissetrunning=${USTART}-1
   thissetnext=0
   thissetmissing=""
   nthisset_univ=0
 
-  fbookend=${d}/${exptsetup}_U1000_9999.hist.root
+  fbookend=${d}/${exptsetup}_U${BOOKEND_UNIV_4DIGITS}_9999.hist.root
 
   for f in $flist ${fbookend} ; do
     fbase=`basename $f .hist.root `
@@ -191,16 +251,62 @@ for d in ${DESTDIRTOP}/* ; do
 
     fpairlo=`echo ${fpair} | cut -d' ' -f1`
     fpairhi=`echo ${fpair} | cut -d' ' -f2`
+    if [ "${f}" != "${fbookend}" ]; then
+      if [ ${fpairhi} -lt ${USTART} ]; then
+        #echo -e "${OUTORANGE}skip ${fpair} too low${OUTNOCOL}"
+        continue
+      fi
+      if [ ${fpairlo} -ge ${BOOKEND_UNIV} ]; then
+        #echo -e "${OUTORANGE}skip ${fpair} too high${OUTNOCOL}"
+        continue
+      fi
+    fi
 
-    if [ ${fpairlo} -lt ${thissetfirst} ]; then thissetfirst=${fpairlo} ; fi
-    if [ ${fpairhi} -ge ${thissetlast}  ]; then thissetlast=${fpairhi}  ; fi
+    if [ ${fpairlo} -lt ${thissetfirst} ]; then
+        thissetfirst=${fpairlo}
+        if [ ${thissetfirst} -lt ${USTART} ]; then
+            thissetfirst=${USTART}
+        fi
+    fi
+    if [ ${fpairhi} -ge ${thissetlast}  ]; then
+        thissetlast=${fpairhi}
+        if [ ${thissetlast} -ge ${BOOKEND_UNIV} ]; then
+             thissetlast=${BOOKEND_UNIV}
+        fi
+    fi
 
     let thissetnext=${thissetrunning}+1
     if [ ${fpairlo} -ne ${thissetnext} ]; then
        let missinghi=${fpairlo}-1
        thissetmissing="${thissetmissing} [${thissetnext}:${missinghi}]"
 
-       gen_submit ${thissetnext} ${missinghi} ${USTRIDE}
+       THIS_USTRIDE=${USTRIDE}
+       THIS_TIME=${UTIME}
+       TGT=`echo ${exptsetup} | cut -d_ -f3`
+       PZ=`echo ${exptsetup}  | cut -d_ -f5 | sed -e 's/GeV//g' | tr p "."`
+       LOWPZ=0
+       case ${PZ} in
+        1 | 1.4 | 2 | 3 ) LOWPZ=1 ;;
+        *               ) LOWPZ=0 ;;
+       esac
+       # special stride & times
+       case ${TGT} in
+         U ) THIS_USTRIDE=${USTRIDE_U}
+             if [ ${LOWPZ} -eq 0 ] ; then
+                 THIS_TIME=${UTIME_U}
+             fi
+             ;;
+        Pb ) THIS_USTRIDE=${USTRIDE_PB}
+             if [ ${LOWPZ} -eq 0 ] ; then THIS_TIME=${UTIME_PB} ; fi
+             ;;
+        Ta ) THIS_USTRIDE=${USTRIDE_TA}
+             if [ ${LOWPZ} -eq 0 ] ; then THIS_TIME=${UTIME_PB} ; fi
+             ;;
+         * ) echo "normal" > /dev/null
+             ;;
+       esac
+#echo -e "${OUTORANGE}THIS_TIME ${THIS_TIME} ${PZ} ${LOWPZ} ${TGT} ${OUTNOCOL}"
+       gen_submit ${thissetnext} ${missinghi} ${THIS_USTRIDE} ${THIS_TIME}
 
     fi
     if [ "${f}" == "${fbookend}" ]; then break ; fi
