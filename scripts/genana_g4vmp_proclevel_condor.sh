@@ -6,14 +6,21 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2019-01-03
+export SCRIPT_VERSION=2019-01-10
 #
+export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
 ###
 #export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
 #export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
-export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-03.tar.bz2
-#  unrolls to  localProducts_runartg4tk_v0_03_00_e15_prof/...
-export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
+#export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-04.tar.bz2
+export  TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-10.tar.bz2
+#    unrolls to localProducts_runartg4tk_v9_00_00_e17_prof/...
+
+export  TARBALL_DOSSIER=dossier_files.2018-12-13.tar.gz
+# 0 = use dossier directly
+# 1 = try to get tarball, unroll locally (fallback to 2)
+# 2 = use home.fnal.gov/~rhatcher
+export UNROLLED_DOSSIER=1
 
 # these need process_args opts
 export BOOTSTRAP_SCRIPT="bootstrap_ups.sh"
@@ -340,7 +347,6 @@ function fetch_setup_tarball() {
   echo -e "${OUTGREEN}tarball:  ${TARBALL}${OUTNOCOL}"
   echo -e "${OUTGREEN}base:     ${TARBALL_BASE}${OUTNOCOL}"
 
-
   # if we can see it then use cp, otherwise "ifdh cp"
   if [ -f ${TARBALL} ]; then
     CP_CMD="cp"
@@ -353,6 +359,40 @@ function fetch_setup_tarball() {
     CP_CMD="ifdh cp"
   fi
   echo ""
+
+  # local dossier is "optional"
+  if [ ${UNROLLED_DOSSIER} -eq 1 ]; then
+
+    # full path given ??
+    c1=`echo ${TARBALL_DOSSIER} | cut -c1`
+    if [ "$c1" != "/" ]; then TARBALL_DOSSIER=${TARBALL_DEFAULT_DIR}/${TARBALL_DOSSIER} ; fi
+    TARBALL_DOSSIER_BASE=`basename ${TARBALL_DOSSIER}`
+    echo -e "${OUTGREEN}tarball:  ${TARBALL_DOSSIER}${OUTNOCOL}"
+    echo -e "${OUTGREEN}base:     ${TARBALL_DOSSIER_BASE}${OUTNOCOL}"
+
+    echo -e "${OUTGREEN}${CP_CMD} ${TARBALL_DOSSIER} ${TARBALL_DOSSIER_BASE}${OUTNOCOL}"
+    ${CP_CMD} ${TARBALL_DOSSIER} ${TARBALL_DOSSIER_BASE}
+    echo "${CP_CMD} status $?"
+    if [ ! -f ${TARBALL_DOSSIER_BASE} ]; then
+      echo -e "${OUTRED}failed to fetch:  ${TARBALL_DOSSIER_BASE}${OUTNOCOL}"
+    else
+      case ${TARBALL_DOSSIER_BASE} in
+         *.gz | *.tgz ) TAR_OPT="z" ;;
+         *.bz2        ) TAR_OPT="j" ;;
+         *     ) echo -e "${OUTRED}neither .gz nor .bz2 file extension: ${TARBALL_DOSSIER_BASE}${OUTNOCOL}"
+                 TAR_OPT="z" ;;
+      esac
+      # unroll
+      echo -e "${OUTCYAN}tar x${TAR_OPT}f ${TARBALL_DOSSIER_BASE}${OUTNOCOL}"
+      tar x${TAR_OPT}f ${TARBALL_DOSSIER_BASE}
+      if [ $? -ne 0 ]; then
+        # failed to unroll, use fallback approach
+        export UNROLLED_DOSSIER=2
+      fi
+    fi
+  fi
+
+  # now the real important tarball w/ UPS product
   echo -e "${OUTGREEN}${CP_CMD} ${TARBALL} ${TARBALL_BASE}${OUTNOCOL}"
   ${CP_CMD} ${TARBALL} ${TARBALL_BASE}
   echo "${CP_CMD} status $?"
@@ -566,6 +606,24 @@ cat >> ${CONFIGFCL} << EOF
         IncludeExpData:
         {
             DBRecords:  @local::${expt}_${EXPTSETUP_BASE}
+EOF
+   if [ ${UNROLLED_DOSSIER} -eq 1 ]; then
+cat >> ${CONFIGFCL} << EOF
+            # local dossier files
+            BaseURL:   "./dossier_files"
+            DictQuery: "/dictionary/dictionary_%s.json"
+            RecQuery:  "/records/rec_%06d.json"
+EOF
+   fi
+   if [ ${UNROLLED_DOSSIER} -eq 2 ]; then
+cat >> ${CONFIGFCL} << EOF
+            # local dossier files
+            BaseURL:   "http://home.fnal.gov/~rhatcher/dossier_files"
+            DictQuery: "/dictionary/dictionary_%s.json"
+            RecQuery:  "/records/rec_%06d.json"
+EOF
+   fi
+cat >> ${CONFIGFCL} << EOF
         }
      }
 
