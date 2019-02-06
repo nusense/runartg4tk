@@ -3,7 +3,7 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2019-01-08
+export SCRIPT_VERSION=2019-02-05
 
 export SUBSET=$1
 
@@ -13,7 +13,8 @@ export OUTPUTTOP="/pnfs/geant4/persistent/rhatcher/genana_g4vmp"
 export OUTPUTTOPSCR="/pnfs/geant4/scratch/rhatcher/genana_g4vmp"
 export MULTIVERSE=multiverse181212_Bertini
 export USTART=0
-export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
+export USTRIDE=1 # was 10 # stride used for ${SUBMITLIST}
+export USTRIDE_SN=1
 export USTRIDE_TA=1
 export USTRIDE_PB=1
 export USTRIDE_U=1
@@ -24,23 +25,18 @@ export FORM="%04d"
 #                         '3h' , '8h' , '85200s' (23.66hr ~2.958xmedium)
 # default 8hr
 UTIME="--expected-lifetime=medium"
+UTIME_SN="--expected-lifetime=long"
 UTIME_TA="--expected-lifetime=long"
 UTIME_PB="--expected-lifetime=long"
 UTIME_U="--expected-lifetime=long"
 
 # stragglers
-UTIME="--expected-lifetime=long"
-UTIME_TA="--expected-lifetime=28h"
-UTIME_PB="--expected-lifetime=28h"
-UTIME_U="--expected-lifetime=28h"
+#UTIME="--expected-lifetime=long"
+#UTIME_TA="--expected-lifetime=28h"
+#UTIME_PB="--expected-lifetime=28h"
+#UTIME_U="--expected-lifetime=28h"
 
-# for defaults
-export USTART=0
-export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
-export EXPECTED_UNIV=1
-
-# for universes 0001 to 0099
-export USTART=1
+# for defaults + 99 universes
 export USTART=0
 export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
 export EXPECTED_UNIV=100
@@ -50,7 +46,7 @@ export EXPECTED_UNIV=100
 #export USTRIDE=1 # 10 # stride used for ${SUBMITLIST}
 #export EXPECTED_UNIV=400
 
-export EXPECTED_UNIV=500
+##export EXPECTED_UNIV=500
 
 let BOOKEND_UNIV=${USTART}+${EXPECTED_UNIV}
 export BOOKEND_UNIV
@@ -62,7 +58,11 @@ export SHOWOK=1
 
 export MRB_SOURCE=/geant4/app/rhatcher/mrb_work_area-2018-12-12/srcs
 export SCRIPT=${MRB_SOURCE}/runartg4tk/scripts/genana_g4vmp_proclevel_condor.sh
-export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-10.tar.bz2
+#export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-10.tar.bz2
+
+#export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher
+export TARBALL_DEFAULT_DIR=/pnfs/geant4/resilient/rhatcher
+export TARBALL=`ls -tr ${TARBALL_DEFAULT_DIR}/localProducts_runartg4tk* | tail -1`
 
 export MULTI_UNIVERSE_SPEC="${MULTIVERSE},0,1"  # "0,10"
 
@@ -104,6 +104,17 @@ function now ()
 {
     date "+%Y-%m-%d %H:%M:%S"
 }
+
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]] ; then
+  echo "script ${BASH_SOURCE[0]} is being sourced ..."
+  QUITCMD="return"
+else
+  echo "script is being run ..."
+  QUITCMD="exit"
+fi
+#echo "about to \"${QUITCMD}\""
+#${QUITCMD} 42
+#echo "this should not be seen"
 
 EOF
 chmod +x ${SUBMITLIST}
@@ -165,6 +176,11 @@ DESTDIRSCRTOP=${OUTPUTTOPSCR}/${MULTIVERSE}
 
 grep -h : ${DESTDIRTOP}/*.fcl | cut -d: -f1 | cut -d_ -f2- | \
       tr -d ' \t' | sort -u > conditions.list
+nc=`wc -l conditions.list | cut -d' ' -f1`
+if [ $nc -eq 0 ]; then
+  echo -e "${OUTRED}... ah, missing ${DESTDIRTOP} fcl files???${OUTNOCOL}"
+fi
+
 
 while read line ; do
   # echo "$line"   # use quotes to keep internal spacing
@@ -189,6 +205,7 @@ for d in ${DESTDIRTOP}/*${SUBSET}* ; do
   if [[ "${d}" =~ .*_save ]]; then continue ; fi
   if [[ "${d}" =~ .*_nohist ]]; then continue ; fi
   if [[ "${d}" =~ .*_bleck ]]; then continue ; fi
+  if [[ "${d}" =~ .*_bork.* ]]; then continue ; fi
 
   # is it in our ${GOODLIST} already?
   isgood=`grep -c ${exptsetup} ${GOODLIST}`
@@ -300,7 +317,10 @@ for d in ${DESTDIRTOP}/*${SUBSET}* ; do
              if [ ${LOWPZ} -eq 0 ] ; then THIS_TIME=${UTIME_PB} ; fi
              ;;
         Ta ) THIS_USTRIDE=${USTRIDE_TA}
-             if [ ${LOWPZ} -eq 0 ] ; then THIS_TIME=${UTIME_PB} ; fi
+             if [ ${LOWPZ} -eq 0 ] ; then THIS_TIME=${UTIME_TA} ; fi
+             ;;
+        Sn ) THIS_USTRIDE=${USTRIDE_SN}
+             if [ ${LOWPZ} -eq 0 ] ; then THIS_TIME=${UTIME_SN} ; fi
              ;;
          * ) echo "normal" > /dev/null
              ;;
