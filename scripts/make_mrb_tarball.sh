@@ -9,7 +9,8 @@ if [[ "${BASH_SOURCE[0]}" != "${0}" ]] ; then
   return
 fi
 
-export TARBALL_OUTDIR=/pnfs/geant4/persistent/${USER}/
+#export TARBALL_OUTDIR=/pnfs/geant4/persistent/${USER}/
+export TARBALL_OUTDIR=/pnfs/geant4/resilient/${USER}/
 
 export TARBALL_STEM=`basename ${MRB_INSTALL}`
 cd ${MRB_TOP}
