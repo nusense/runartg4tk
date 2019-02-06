@@ -6,14 +6,17 @@
 ##############################################################################
 export THISFILE="$0"
 export b0=`basename $0`
-export SCRIPT_VERSION=2019-01-10
+export SCRIPT_VERSION=2019-02-05
+echo "script version ${SCRIPT_VERSION} ${THISFILE}"
 #
-export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher/
+#export TARBALL_DEFAULT_DIR=/pnfs/geant4/persistent/rhatcher
+export TARBALL_DEFAULT_DIR=/pnfs/geant4/resilient/rhatcher
 ###
 #export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-03-21.tar.bz2
 #export TARBALL=localProducts_runartg4tk_v0_03_00_e15_prof_2018-04-05.tar.bz2
 #export TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-04.tar.bz2
-export  TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-10.tar.bz2
+#export  TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-01-10.tar.bz2
+export  TARBALL=localProducts_runartg4tk_v09_00_00_e17_prof_2019-02-05.tar.bz2
 #    unrolls to localProducts_runartg4tk_v9_00_00_e17_prof/...
 
 export  TARBALL_DOSSIER=dossier_files.2018-12-13.tar.gz
@@ -339,13 +342,11 @@ function process_args() {
 function fetch_setup_tarball() {
   # fetch the tarball, use it to setup environment including its own products
 
-  echo -e "${OUTGREEN}in as:    ${TARBALL}${OUTNOCOL}"
   # full path given ??
-  c1=`echo ${TARBALL} | cut -c1`
-  if [ "$c1" != "/" ]; then TARBALL=${TARBALL_DEFAULT_DIR}/${TARBALL} ; fi
+  export TARBALL_IN=${TARBALL}
+  c1=`echo ${TARBALL_IN} | cut -c1`
+  if [ "$c1" != "/" ]; then TARBALL=${TARBALL_DEFAULT_DIR}/${TARBALL_IN} ; fi
   TARBALL_BASE=`basename ${TARBALL}`
-  echo -e "${OUTGREEN}tarball:  ${TARBALL}${OUTNOCOL}"
-  echo -e "${OUTGREEN}base:     ${TARBALL_BASE}${OUTNOCOL}"
 
   # if we can see it then use cp, otherwise "ifdh cp"
   if [ -f ${TARBALL} ]; then
@@ -357,6 +358,7 @@ function fetch_setup_tarball() {
       setup ifdhc
     fi
     CP_CMD="ifdh cp"
+    export IFDH_CP_MAXRETRIES=1  # 8 is crazytown w/ exponential backoff
   fi
   echo ""
 
@@ -393,6 +395,10 @@ function fetch_setup_tarball() {
   fi
 
   # now the real important tarball w/ UPS product
+  echo -e "${OUTGREEN}in as:    ${TARBALL_IN}${OUTNOCOL}"
+  echo -e "${OUTGREEN}tarball:  ${TARBALL}${OUTNOCOL}"
+  echo -e "${OUTGREEN}base:     ${TARBALL_BASE}${OUTNOCOL}"
+
   echo -e "${OUTGREEN}${CP_CMD} ${TARBALL} ${TARBALL_BASE}${OUTNOCOL}"
   ${CP_CMD} ${TARBALL} ${TARBALL_BASE}
   echo "${CP_CMD} status $?"
