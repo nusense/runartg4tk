@@ -5,6 +5,44 @@
 #include "TH1.h"
 #include "TH2.h"
 
+bool verbose = true;
+
+void list_one_th1(std::string& indent, TKey* key) {
+  TH1 *h = (TH1*)key->ReadObj();
+  std::string currName  = h->GetName();
+  std::string currTitle = h->GetTitle();
+  std::string className = key->GetClassName();
+  int         currCycle = key->GetCycle();
+
+  //if ( currTitle != prevTitle ) {
+  std::cout << indent << "  [" << className
+            << ";" << std::setw(2) << currCycle << "] "
+            << currName << " | " << currTitle;
+  if ( verbose ) {
+    std::cout << std::endl << indent << "  " << "    binning: ";
+    int nb = h->GetNbinsX();
+    const TArrayD& bx = *(h->GetXaxis()->GetXbins());
+    int nbx = bx.GetSize();
+    char sep = '{';
+    cout << " nb=" << nb << " ";
+    if ( nbx == 0 ) {
+      std::cout << "{ uniform "
+                << h->GetXaxis()->GetXmin() << ":"
+                << h->GetXaxis()->GetXmax() << " ";
+    } else {
+      // irregular bins
+      for (int i=0; i<nbx; ++i) {
+        std::cout << sep << bx[i];
+        sep = ',';
+      }
+    }
+    std::cout << "}";
+  } // verbose = print bin limits
+  std::cout << std::endl;
+  //}
+  //prevTitle = currTitle;
+}
+
 void list_sub(TFile* f1, std::string path, int level) {
   ++level;
   std::string indent = "  ";
@@ -13,26 +51,44 @@ void list_sub(TFile* f1, std::string path, int level) {
 
   f1->cd(path.c_str());
   TList* listOfKeys = gDirectory->GetListOfKeys();
-  listOfKeys->Sort(); // ! don't depend on returned order
+  // naturally comes out ordered decreasing cycle #
+  ///  listOfKeys->Sort(); // ! don't depend on returned order
   TKey *key;
 
   // process histograms at this level
   TIter keyHistItr(listOfKeys);
+  std::string prevName = "";
+  std::string currName = "";
+  int         prevCycle = 0;
+  int         currCycle = 0;
   std::string prevTitle = "";
+  std::map<std::string,int> typecount;
   while ((key = (TKey*)keyHistItr())) {
     TClass *cl = gROOT->GetClass(key->GetClassName());
-    if ( ! cl->InheritsFrom("TH1") ) continue;
-    TH1 *h = (TH1*)key->ReadObj();
-    std::string currName  = h->GetName();
-    std::string currTitle = h->GetTitle();
-    if ( currTitle != prevTitle ) {
-      std::cout << indent << "  " << currName << " | " << currTitle
-        << " ;" << key->GetCycle()
-                << " [" << key->GetClassName() << "]"
-                << std::endl;
+
+    prevName  = currName;
+    prevCycle = currCycle;
+    currName  = key->GetName();
+    currCycle = key->GetCycle();
+    std::string className = key->GetClassName();
+
+    /*
+    std::cout << " currName " << currName << ";" << currCycle
+              << " prevName " << prevName << ";" << prevCycle << std::endl;
+    */
+    if ( currName == prevName ) continue;
+    ++typecount[className];
+
+    if ( cl->InheritsFrom("TH1") ) {
+      list_one_th1(indent,key);
     }
-    prevTitle = currTitle;
   }
+  std::cout << indent << "  Summary of directory: ";
+  std::map<std::string,int>::const_iterator mitr = typecount.begin();
+  for ( ; mitr != typecount.end(); ++mitr ) {
+    std::cout << mitr->first << "[" << mitr->second << "] ";
+  }
+  std::cout << std::endl;
 
   TIter keyDirItr(listOfKeys);
   while ((key = (TKey*)keyDirItr())) {
